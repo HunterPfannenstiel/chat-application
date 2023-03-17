@@ -1,7 +1,8 @@
-import { Verification } from "@_types/api/verify";
+import { SigningChallenge } from "@_types/api/verify";
 import { useAddress, useNetwork } from "components/hooks/Web3/utils/exports";
 import { useWeb3 } from "components/providers/Web3/Web3";
 import type { NextPage } from "next";
+import { signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 
@@ -17,17 +18,23 @@ const Home: NextPage = () => {
     if (accounts) {
       const res = await fetch("/api/verify");
       if (res.ok) {
-        const verifcation = (await res.json()) as Verification;
+        const verifcation = (await res.json()) as SigningChallenge;
         const account = accounts[0];
         const signedData = await ethereum?.request({
           method: "personal_sign",
           params: [verifcation.message, account, verifcation.id],
         });
-        await fetch("/api/verify", {
-          method: "POST",
-          body: JSON.stringify({ address: account, signature: signedData }),
-          headers: { "Content-Type": "application/json" },
+        // await fetch("/api/verify", {
+        //   method: "POST",
+        //   body: JSON.stringify({ address: account, signature: signedData }),
+        //   headers: { "Content-Type": "application/json" },
+        // });
+        const result = await signIn("credentials", {
+          redirect: false,
+          signature: signedData,
+          address: account,
         });
+        console.log("RESULT", result);
       }
     }
   };
