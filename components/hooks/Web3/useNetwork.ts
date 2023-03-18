@@ -17,7 +17,7 @@ const useNetwork: NetworkHookFactory =
       provider
         ?.getNetwork()
         .then((netw) => setNetwork(ethers.getNumber(netw.chainId).toString()));
-    }, []);
+    }, [provider]);
     return { network };
   };
 

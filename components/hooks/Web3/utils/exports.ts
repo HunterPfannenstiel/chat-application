@@ -9,3 +9,8 @@ export const useNetwork = () => {
   const { useNetwork } = useHooks();
   return useNetwork();
 };
+
+export const useSIWE = () => {
+  const { useSIWE } = useHooks();
+  return useSIWE();
+};
