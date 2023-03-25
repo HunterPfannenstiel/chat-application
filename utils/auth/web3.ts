@@ -23,7 +23,7 @@ export const signMessage = async (
       //   headers: { "Content-Type": "application/json" },
       // });
       const result = await signIn("credentials", {
-        redirect: false,
+        redirect: true,
         signature: signedData,
         address: account,
       });

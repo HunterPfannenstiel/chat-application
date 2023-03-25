@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import { NextApiRequest, NextApiResponse } from "next";
 import { verifySignature } from "../utils";
 import jwt from "jsonwebtoken";
@@ -56,6 +57,17 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         throw new Error("No Signing Challenge Provided");
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
+    }),
   ];
 
   return NextAuth(req, res, {
@@ -63,12 +75,24 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     session: {
       strategy: "jwt",
     },
-    secret: process.env.NEXTAUTH_URL,
+    secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
       async session({ session, token }: { session: any; token: any }) {
         session.user.name = token.sub;
+        console.log("Session callback", { session, token });
         return session;
       },
+      async signIn({ account, profile }) {
+        if (account?.provider === "google") {
+          console.log({ account, profile });
+        }
+        return true;
+      },
+    },
+    pages: {
+      signIn: "/auth/signin",
     },
   });
 }
+
+export const authOptions = {};

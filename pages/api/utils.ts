@@ -94,12 +94,10 @@ export const verifySignature = async (
     const addrBuffer = util.publicToAddress(pubKey);
     const addr = util.bufferToHex(addrBuffer);
 
-    console.log(addr);
-    console.log("Nonce", nonce);
     if (addr === address) {
       return address;
     } else {
-      console.log("Address do not match");
+      console.log("User does not own the address provided!");
       return null;
     }
   } else {
