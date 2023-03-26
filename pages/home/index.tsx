@@ -23,7 +23,14 @@ const Home: FunctionComponent<HomeProps> = () => {
       });
   }, []);
   if (posts) {
-    return <h1>{posts[0].content}</h1>;
+    return (
+      <div>
+        <h1>{posts[0].content}</h1>
+        <p>{posts[0].userName}</p>
+        <p>{`Likes: ${posts[0].likeCount}`}</p>
+        <p>{`Comments: ${posts[0].commentCount}`}</p>
+      </div>
+    );
   }
   return <h1>LOADING...</h1>;
 };

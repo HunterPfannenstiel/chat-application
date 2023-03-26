@@ -3,10 +3,12 @@ import type { FeedPost } from "../types/post/feed-post";
 export const mockFeedPosts: FeedPost[] = [
   {
     postId: "123",
-    userId: "1234",
+    userHandle: "SHOES",
+    userImage: "/Images/SHOES.png",
+    userName: "OhShews",
     content: "This is the first test post!",
-    imageUrls: null,
-    postTags: [
+    imageUrls: [],
+    tags: [
       {
         tagId: "1",
         name: "First Post",
@@ -15,14 +17,17 @@ export const mockFeedPosts: FeedPost[] = [
       },
     ],
     createdOn: new Date(),
-    replyToPostId: null,
+    commentCount: 16,
+    likeCount: 32,
   },
   {
     postId: "124",
-    userId: "1235",
+    userHandle: "SHOES",
+    userImage: "/Images/SHOES.png",
+    userName: "OhShews",
     content: "This is the second test post!",
-    imageUrls: null,
-    postTags: [
+    imageUrls: [],
+    tags: [
       {
         tagId: "2",
         name: "Education",
@@ -31,13 +36,16 @@ export const mockFeedPosts: FeedPost[] = [
       },
     ],
     createdOn: new Date(),
-    replyToPostId: null,
+    commentCount: 22,
+    likeCount: 120,
   },
   {
     postId: "125",
-    userId: "1234",
+    userHandle: "Stars",
+    userImage: "/Images/JoshuaStars.png",
+    userName: "Joshua",
     content: "This is the third test post!",
-    postTags: [
+    tags: [
       {
         tagId: "3",
         name: "Entertainment",
@@ -45,8 +53,9 @@ export const mockFeedPosts: FeedPost[] = [
         color: "red",
       },
     ],
-    imageUrls: null,
+    imageUrls: [],
     createdOn: new Date(),
-    replyToPostId: null,
+    commentCount: 1000,
+    likeCount: 22092,
   },
 ];
