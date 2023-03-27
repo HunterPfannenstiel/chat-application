@@ -1,11 +1,26 @@
+import { UserInfo } from "@_types/user";
 import type { FeedPost } from "../types/post/feed-post";
 
-export const mockFeedPosts: FeedPost[] = [
+const happi: UserInfo = {
+  userHandle: "happi",
+  userName: "HappiTheMonkey",
+  userImage: "/Images/happi.png",
+};
+const shoes: UserInfo = {
+  userHandle: "ohShews",
+  userName: "SHOES",
+  userImage: "/Images/SHOES.png",
+};
+const joshua: UserInfo = {
+  userHandle: "Stars",
+  userName: "Joshua",
+  userImage: "/Images/JoshuaStars.png",
+};
+
+export var mockFeedPosts: FeedPost[] = [
   {
     postId: "123",
-    userHandle: "SHOES",
-    userImage: "/Images/SHOES.png",
-    userName: "OhShews",
+    ...shoes,
     content: "This is the first test post!",
     imageUrls: [],
     tags: [
@@ -22,9 +37,7 @@ export const mockFeedPosts: FeedPost[] = [
   },
   {
     postId: "124",
-    userHandle: "SHOES",
-    userImage: "/Images/SHOES.png",
-    userName: "OhShews",
+    ...happi,
     content: "This is the second test post!",
     imageUrls: [],
     tags: [
@@ -41,9 +54,7 @@ export const mockFeedPosts: FeedPost[] = [
   },
   {
     postId: "125",
-    userHandle: "Stars",
-    userImage: "/Images/JoshuaStars.png",
-    userName: "Joshua",
+    ...joshua,
     content: "This is the third test post!",
     tags: [
       {

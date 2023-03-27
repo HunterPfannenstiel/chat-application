@@ -105,3 +105,10 @@ export const verifySignature = async (
     return null;
   }
 };
+
+type SignInError = Error & { statusCode: number | undefined };
+export const createError = (message: string, statusCode: number) => {
+  const error = new Error(message) as SignInError;
+  error.statusCode = statusCode;
+  return error;
+};

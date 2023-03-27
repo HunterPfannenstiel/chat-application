@@ -1,4 +1,4 @@
-import { ViewPost } from "@_types/post";
+import { FeedPost } from "models/FeedPost";
 import { UserInfo } from ".";
 
 export type UserProfile = {
@@ -8,5 +8,5 @@ export type UserProfile = {
   followerCount: number;
   followingCount: number;
   communityCount: number;
-  posts: ViewPost[];
+  posts: FeedPost[];
 } & UserInfo;

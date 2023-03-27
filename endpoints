@@ -1,0 +1,23 @@
+Posts:
+Fetch user feed - GET /api/feed (Retrieves the necessary userId from session cookie, returns {posts: FeedPost[]})
+
+Fetch post comments -  GET /api/post/[postId] (returns {post: FeedPost[]} (the first post will be fetched post followed by the comments))
+
+Create post - POST /api/post (body needs to be of type 'Post')
+
+Update post - PUT /api/post (body needs to be of type 'UpdatePost')
+
+Delete post - DELETE /api/post (body needs to include {postId}. The necessary userId will be retrieved from session cookie)
+
+Fetch Likes - GET /api/post/likes/[postId] (returns {likes: UserInfo[]})
+
+User:
+Fetch profile - GET /api/user/[userId] (returns {user: UserProfile})
+
+Fetch followers - GET /api/user/followers/[userId] (returns {followers: UserInfo[]})
+
+Fetch following - GET /api/user/following/[userId] (returns {following: UserInfo[]})
+
+Create user - POST /api/user (body needs to be of type 'User')
+
+Update user - PUT /api/user (body needs to be of type 'UpdateUser')

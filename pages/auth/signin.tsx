@@ -3,7 +3,7 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import { useSIWE } from "components/hooks/Web3/utils/exports";
-import { getProviders, signIn } from "next-auth/react";
+import { getProviders } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]";
 
