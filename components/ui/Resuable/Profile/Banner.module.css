@@ -1,0 +1,23 @@
+.banner {
+    width: 100%;
+    padding-bottom: 33.3333%;
+    background-color: #045de9;
+    background-image: linear-gradient(315deg, #045de9 0%, #09c6f9 74%);
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.image {
+    position: absolute;
+    top: 100%;
+    left: 5%;
+    transform: translateY(-50%);
+    border: 1px solid black;
+}
+
+@media (min-width: 40em) {
+    .banner {
+        height: 200px;
+        padding: 0;
+    }
+}
