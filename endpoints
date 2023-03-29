@@ -14,7 +14,7 @@ Fetch Likes - GET /api/post/likes/[postId] (returns {likes: UserInfo[]})
 User:
 Fetch profile - GET /api/user/[userId] (returns {user: UserProfile})
 
-Fetch followers - GET /api/user/followers/[userId] (returns {followers: UserInfo[]})
+Fetch followers - GET /api/user/followers/[userId] (returns {followers: FollowerDetails[]})
 
 Fetch following - GET /api/user/following/[userId] (returns {following: UserInfo[]})
 

@@ -1,6 +1,11 @@
-import { UserInfo, User as UserT, UpdateUser } from "@_types/user";
+import {
+  UserInfo,
+  User as UserT,
+  UpdateUser,
+  FollowerDetails,
+} from "@_types/user";
 import { UserProfile } from "@_types/user/profile";
-import { mockProfiles } from "mock-data/profiles";
+import { mockFollowers, mockProfiles } from "mock-data/profiles";
 
 export class User {
   static fetchProfile(userId: string): Promise<UserProfile> {
@@ -10,8 +15,10 @@ export class User {
     });
   }
 
-  static fetchFollowers(userId: string): Promise<UserInfo[]> {
-    throw new Error("Method not implemented.");
+  static fetchFollowers(userId: string): Promise<FollowerDetails[]> {
+    return new Promise((resolve) => {
+      resolve(mockFollowers);
+    });
   }
 
   static fetchFollowing(userId: string): Promise<UserInfo[]> {

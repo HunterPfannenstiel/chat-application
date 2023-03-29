@@ -18,3 +18,7 @@ export type UpdateUser = {
   email?: string;
   ethereumAddress?: string;
 };
+
+export type FollowerDetails = {
+  bio: string;
+} & UserInfo;

@@ -1,4 +1,4 @@
-import { UserInfo } from "@_types/user";
+import { FollowerDetails, UserInfo } from "@_types/user";
 import type { UserProfile } from "@_types/user/profile";
 import { mockFeedPosts } from "./posts";
 
@@ -60,4 +60,10 @@ export const mockProfiles: UserProfile[] = [
     communityCount: 0,
     posts: [],
   },
+];
+
+export const mockFollowers: FollowerDetails[] = [
+  { ...happi, bio: "I am Happi, the happy monkey" },
+  { ...shoes, bio: "donut smol" },
+  { ...algonquin, bio: "big hedfones" },
 ];

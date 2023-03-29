@@ -30,10 +30,3 @@ export type UpdatePost = {
   content?: string;
   imageUrls?: string[];
 };
-
-// export abstract class IPost {
-//   fetchFeed(id: string): Promise<ViewPost[]>;
-//   createPost(contents: Post): Promise<void>;
-//   updatedPost(postId: string, updates: UpdatePost): Promise<void>;
-//   deletePost(postId: string, userId: string): Promise<void>;
-// }
