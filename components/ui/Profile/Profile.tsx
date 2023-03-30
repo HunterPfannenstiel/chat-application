@@ -4,7 +4,7 @@ import { FunctionComponent } from "react";
 import ProfileNav from "./ProfileNav";
 import FollowLink from "./UserDetails/FollowLink";
 import Links from "./UserDetails/Links";
-import type FeedPost from "models/FeedPost";
+import FeedPost from "../Resuable/FeedPost/FeedPost";
 
 interface ProfilePageProps {
   profile: UserProfile;
@@ -36,11 +36,14 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({ profile }) => {
         }
       />
       <ProfileNav />
-      <div>
-        <p>{profile.posts[0].content}</p>
-        <p>{profile.posts[0].likeCount}</p>
-        <p>{profile.posts[0].commentCount}</p>
-      </div>
+      <FeedPost
+        userHandle={profile.userHandle}
+        userImage={profile.userImage}
+        username={profile.userName}
+        postContent={profile.posts[0].content}
+        likes={profile.posts[0].likeCount}
+        comments={profile.posts[0].commentCount}
+      />
     </>
   );
 };
