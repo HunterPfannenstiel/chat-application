@@ -15,7 +15,7 @@ const ProfileImage: FunctionComponent<ProfileImageProps> = ({
 }) => {
   return (
     <div className={classes.image_container + " " + className}>
-      <Image src={src} alt={alt || "cosmetic"} width={100} height={200} />
+      <Image src={src} alt={alt || "cosmetic"} width={100} height={100} />
     </div>
   );
 };
