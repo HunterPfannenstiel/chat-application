@@ -25,9 +25,13 @@ const FeedPost: FunctionComponent<FeedPostProps> = ({
 }) => {
   return (
     <div className={classes.feed_post}>
-      <UserDetails imageUrl={userImage} name={username} handle={userHandle} />
-      <Contents text={postContent} imageUrls={postImages} />
-      <Engagement likeCount={likes} commentCount={comments} />
+      <div className={classes.user_details}>
+        <UserDetails imageUrl={userImage} name={username} handle={userHandle} />
+      </div>
+      <div className={classes.content}>
+        <Contents text={postContent} imageUrls={postImages} />
+        <Engagement likeCount={likes} commentCount={comments} />
+      </div>
     </div>
   );
 };

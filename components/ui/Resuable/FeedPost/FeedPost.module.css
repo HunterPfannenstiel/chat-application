@@ -1,3 +1,16 @@
 .feed_post {
     padding: 0.5rem;
 }
+
+.user_details {
+    padding: 0.25rem;
+    /* border: 2px solid black; */
+    border-top-right-radius: 16px;
+    border-top-left-radius: 16px;
+    background-color: aliceblue;
+}
+
+.content {
+    padding: 0.25rem;
+    background-color: aliceblue;
+}

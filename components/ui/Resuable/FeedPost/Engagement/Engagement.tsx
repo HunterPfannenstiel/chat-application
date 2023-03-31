@@ -19,22 +19,20 @@ const Engagement: FunctionComponent<EngagementProps> = ({
       <EComponent
         count={likeCount}
         action={() => {
-          let like;
+          let like = false;
           setLiked((prevState) => {
             like = !prevState;
             return like;
           });
           handleLike(like, "123");
         }}
-        color={"red"}
         icon={<LikeIcon fillColor={liked ? "red" : "gray"} />}
       />
       <EComponent
         count={commentCount}
         action={() => {
-          console.log("click c");
+          console.log("IMPLMENT: BRING UP CREATE COMMENT PAGE");
         }}
-        color={"gray"}
         icon={<CommentIcon fillColor="" />}
       />
     </div>
@@ -43,6 +41,7 @@ const Engagement: FunctionComponent<EngagementProps> = ({
 
 const handleLike = (isLiked: boolean, postId: string) => {
   //send request to like/unlike post
+  console.log("IMPLEMENT: POST LIKE TO DB");
 };
 
 export default Engagement;
