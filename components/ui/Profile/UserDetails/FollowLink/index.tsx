@@ -3,23 +3,21 @@ import { FunctionComponent } from "react";
 import classes from "./index.module.css";
 
 interface FollowLinkProps {
-  userName: string;
-  param: "followers" | "following";
+  href: string;
   count: number;
-  text: string;
+  label: string;
 }
 
 const FollowLink: FunctionComponent<FollowLinkProps> = ({
-  userName,
-  param,
+  href,
   count,
-  text,
+  label,
 }) => {
   return (
-    <Link href={`/${userName}/${param}`} className={classes.link}>
+    <Link href={href} className={classes.link}>
       <p className={classes.text}>
         {count}
-        <span>{text}</span>
+        <span>{label}</span>
       </p>
     </Link>
   );

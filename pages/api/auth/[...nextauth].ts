@@ -79,7 +79,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     callbacks: {
       async session({ session, token }: { session: any; token: any }) {
         session.user.name = token.sub;
-        session.user.userId = token.userid;
+        session.user.userId = token.userId;
         console.log("SESSION", session);
         return session;
       },

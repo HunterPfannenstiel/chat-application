@@ -1,7 +1,6 @@
-import UserDetails from "@ui/Profile/UserDetails";
 import { FunctionComponent, ReactNode } from "react";
 import Banner from "./Banner";
-import classes from "./Profile.module.css";
+import classes from "./index.module.css";
 
 interface ProfileProps {
   userImage: string;
@@ -23,15 +22,15 @@ const Profile: FunctionComponent<ProfileProps> = ({
   return (
     <section>
       <Banner imageUrl={userImage} />
-      <UserDetails>
+      <div className={classes.user_details}>
         <div>
-          <h2>{userName}</h2>
-          <p>{`@${userHandle}`}</p>
+          <h2 className="username">{userName}</h2>
+          <p className="handle">{`@${userHandle}`}</p>
         </div>
         {dateDisplay}
         {bio}
         {aggregateData}
-      </UserDetails>
+      </div>
     </section>
   );
 };

@@ -1,0 +1,13 @@
+.links {
+    display: flex;
+    gap: 1rem;
+    padding-block: 0.5rem;
+}
+
+.links li:first-child{
+    margin-left: auto;
+}
+
+.links li:last-child{
+    margin-right: auto;
+}

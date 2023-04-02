@@ -1,5 +1,5 @@
 Posts:
-Fetch user feed - GET /api/feed (Retrieves the necessary userId from session cookie, returns {posts: FeedPost[]})
+Fetch user feed - GET /api/feed (Retrieves the necessary userId from session cookie, returns {user: UserFeed})
 
 Fetch post comments -  GET /api/post/[postId] (returns {post: FeedPost[]} (the first post will be fetched post followed by the comments))
 

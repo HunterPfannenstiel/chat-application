@@ -1,8 +1,19 @@
+import { FeedPost } from "@_types/post/feed-post";
+
 export type UserInfo = {
   userImage: string;
   userName: string;
   userHandle: string;
 };
+
+export type UserDetails = {
+  followingCount: number;
+  followerCount: number;
+} & UserInfo;
+
+export type UserFeed = {
+  posts: FeedPost[];
+} & UserDetails;
 
 export type User = {
   bio: string;

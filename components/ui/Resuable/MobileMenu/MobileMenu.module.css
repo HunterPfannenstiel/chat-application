@@ -1,0 +1,44 @@
+.menu {
+    --animationTime: 300ms;
+    width: 65%;
+    transform: translateX(-100%);
+    position: fixed;
+    top: 0;
+    height: 100%;
+    overflow-y: scroll;
+    transition: all var(--animationTime) ease;
+    padding: 0.5rem;
+}
+
+.open {
+    animation: animateIn var(--animationTime) ease forwards;
+}
+
+.close {
+    animation: animateOut var(--animationTime) ease forwards;
+}
+
+.title {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+@keyframes animateIn {
+    0%{
+        transform: translatex(-100%);
+    }
+    100%{
+        transform: translateX(0%);
+    }
+}
+
+@keyframes animateOut {
+    0%{
+        transform: translateX(0%);
+    }
+    100%{
+        transform: translatex(-100%);
+    }
+}

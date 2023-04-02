@@ -2,7 +2,6 @@ import Profile from "@ui/Resuable/Profile";
 import { UserProfile } from "@_types/user/profile";
 import { FunctionComponent } from "react";
 import ProfileNav from "./ProfileNav";
-import FollowLink from "./UserDetails/FollowLink";
 import Links from "./UserDetails/Links";
 import FeedPostList from "@ui/Resuable/FeedPost/FeedPostList";
 
@@ -19,20 +18,20 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({ profile }) => {
         userName={profile.userName}
         bio={<p>{profile.bio}</p>}
         aggregateData={
-          <Links>
-            <FollowLink
-              userName={profile.userName}
-              param={"following"}
-              count={profile.followingCount}
-              text={"Following"}
-            />
-            <FollowLink
-              userName={profile.userName}
-              param={"followers"}
-              count={profile.followerCount}
-              text={"Followers"}
-            />
-          </Links>
+          <Links
+            linkInfo={[
+              {
+                href: `/${profile.userName}/following`,
+                count: profile.followingCount,
+                label: "Following",
+              },
+              {
+                href: `/${profile.userName}/followers`,
+                count: profile.followerCount,
+                label: "Followers",
+              },
+            ]}
+          ></Links>
         }
       />
       <ProfileNav />

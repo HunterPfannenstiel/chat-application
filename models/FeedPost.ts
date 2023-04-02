@@ -2,6 +2,8 @@ import { UpdatePost, PostLike } from "@_types/post";
 import { FeedPost as FP } from "@_types/post/feed-post";
 import { Post } from "@_types/post";
 import { mockFeedPosts } from "mock-data/posts";
+import { mockProfiles } from "../mock-data/profiles";
+import { UserFeed } from "@_types/user";
 
 export class FeedPost {
   static fetch(postId: string): Promise<FP[]> {
@@ -13,14 +15,17 @@ export class FeedPost {
     });
   }
 
-  static fetchFeed(userId: string): Promise<FP[]> {
+  static fetchFeed(userId: string): Promise<UserFeed> {
     //*'userId' will be a valid userId*
     //Get all of 'id's' followers and join their posts
     //Sort by 'createdOn'
     //Fetch first x amount of rows
     //Return posts
     return new Promise((resolve) => {
-      resolve(mockFeedPosts);
+      resolve({
+        ...mockProfiles[1],
+        posts: [...mockFeedPosts, ...mockFeedPosts, ...mockFeedPosts],
+      });
     });
   }
 
