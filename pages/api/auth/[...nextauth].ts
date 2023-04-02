@@ -80,6 +80,11 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       async session({ session, token }: { session: any; token: any }) {
         session.user.name = token.sub;
         session.user.userId = token.userId;
+        if (!token.userId) {
+          session.user.isNew = true;
+        } else {
+          session.user.isNew = false;
+        }
         console.log("SESSION", session);
         return session;
       },
@@ -90,20 +95,16 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         return true;
       },
       jwt: async ({ token, account, isNewUser, profile }) => {
-        if (account)
-          if (account) {
-            //Only defined when JWT is created
-            if (account.provider === "credentials") {
-              token.isWeb3 = true;
-              token.userId = await fetchUserId(
-                account.providerAccountId,
-                false
-              );
-            } else if (profile && profile.email) {
-              token.isWeb3 = false;
-              token.userId = await fetchUserId(profile.email, false);
-            }
+        if (account) {
+          //Only defined when JWT is created
+          if (account.provider === "credentials") {
+            token.isWeb3 = true;
+            token.userId = await fetchUserId(account.providerAccountId, true);
+          } else if (profile && profile.email) {
+            token.isWeb3 = false;
+            token.userId = await fetchUserId(profile.email, false);
           }
+        }
         return token;
       },
     },
@@ -120,7 +121,7 @@ const fetchUserId = async (id: string, isWeb3: boolean) => {
   } else {
     //id fetch with 'id' being email
   }
-  return "123TEST";
+  return "";
 };
 
 export const authOptions = {};

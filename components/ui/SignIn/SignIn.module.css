@@ -1,0 +1,17 @@
+.sign_in {
+    text-align: center;
+    margin-top: auto;
+}
+
+.title {
+    margin-block: 1rem;
+}
+
+.button {
+    padding: 0.5em 1.5em;
+    background: #D9D9D9;
+    border-radius: 9px;
+    border: none;
+    font-size: 1rem;
+    margin-block: 0.5rem;
+}

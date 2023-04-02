@@ -31,6 +31,12 @@ ul {
   padding: 0;
 }
 
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
 .username {
   color: black;
   font-weight: bold;
