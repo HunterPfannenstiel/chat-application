@@ -1,13 +1,13 @@
 import { NextApiHandler } from "next";
 import multer from "multer";
-import { sendErrorResponse } from "../utils";
+import { createError, sendErrorResponse } from "../utils";
 import { User } from "models/User";
 import { getSession } from "next-auth/react";
 import { SessionToken } from "@_types/auth";
+import { uploadFile } from "utils/cloudinary";
 
 let imageParser = multer({
   fileFilter: (req, file, cb) => {
-    console.log("Mime called");
     if (file.mimetype.startsWith("image/")) {
       cb(null, true);
     } else {
@@ -28,25 +28,45 @@ const handler: NextApiHandler = (req, res) => {
         if (!err) {
           const session = (await getSession({ req })) as SessionToken | null;
           if (!session) {
-            throw new Error("Please sign-in before creating an account!");
+            const error = createError(
+              "Please sign-in before creating an account!",
+              400
+            );
+            throw error;
           }
           if (!session.user.isNew) {
-            throw new Error("Account already exists!");
+            const error = createError("Account already exists!", 400);
+            throw error;
+          }
+          const fileReq = req as any;
+          if (!fileReq.file) {
+            const error = createError("Please add an image", 400);
+            throw error;
           }
           const { name, handle, bio } = req.body;
-          console.log("INFO", { name, handle, bio });
-          console.log("FILE", req.file);
-          const userId = await User.create({
-            userHandle: handle,
-            userImage: "test",
-            userName: name,
-            bio,
-            email: !session.user.isWeb3 ? session.user.name : undefined,
-            ethereumAddress: session.user.isWeb3
-              ? session.user.name
-              : undefined,
+          uploadFile(fileReq.file.buffer, async (imageUrl, publicId) => {
+            console.log(imageUrl);
+            if (!imageUrl) {
+              const error = createError("Image url not returned", 500);
+              throw error;
+            }
+            if (!publicId) {
+              const error = createError("No publicId", 500);
+              throw error;
+            }
+            const userId = await User.create({
+              userHandle: handle,
+              userImage: imageUrl,
+              userName: name,
+              bio,
+              publicId,
+              email: !session.user.isWeb3 ? session.user.name : undefined,
+              ethereumAddress: session.user.isWeb3
+                ? session.user.name
+                : undefined,
+            });
+            res.status(200).json({ message: "uploaded user", id: userId });
           });
-          res.status(200).json({ message: "uploaded user", id: userId });
         }
       });
     } catch (error) {

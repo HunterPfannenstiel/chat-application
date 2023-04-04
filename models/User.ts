@@ -1,8 +1,8 @@
 import {
   UserInfo,
-  User as UserT,
   UpdateUser,
   FollowerDetails,
+  CreateUser,
 } from "@_types/user";
 import { UserProfile } from "@_types/user/profile";
 import { mockFollowers, mockProfiles } from "mock-data/profiles";
@@ -25,7 +25,7 @@ export class User {
     throw new Error("Method not implemented.");
   }
 
-  static create(profile: UserT): Promise<number> {
+  static create(profile: CreateUser): Promise<number> {
     throw new Error("Method not implemented.");
   }
 

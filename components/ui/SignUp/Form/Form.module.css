@@ -19,6 +19,8 @@
     background-color: var(--input-color);
     border: none;
     border-radius: 9px;
+    padding-inline: 8px;
+    font-family: inherit;
 }
 
 .create_account {

@@ -21,6 +21,10 @@ export type User = {
   ethereumAddress?: string;
 } & UserInfo;
 
+export type CreateUser = {
+  publicId: string;
+} & User;
+
 export type UpdateUser = {
   userImage?: string;
   userName?: string;

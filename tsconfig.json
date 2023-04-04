@@ -23,6 +23,6 @@
       "@hooks/*" : ["components/hooks/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "utils/db/connect.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "utils/auth/db/connect.js", "utils/cloudinary.ts"],
   "exclude": ["node_modules"]
 }

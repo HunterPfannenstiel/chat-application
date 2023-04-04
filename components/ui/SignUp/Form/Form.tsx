@@ -32,7 +32,6 @@ const Form: FunctionComponent<FormProps> = () => {
           console.log("ERROR SUBMITTING USER");
         }
       }
-      console.log({ name, handle, bio, image });
     }
     console.log("Submitted");
   };
@@ -43,9 +42,16 @@ const Form: FunctionComponent<FormProps> = () => {
           id="name"
           type="text"
           label="Choose a display name"
+          placeholder="user123"
           required
         />
-        <Fieldset id="handle" type="text" label="Choose a handle" required />
+        <Fieldset
+          id="handle"
+          type="text"
+          label="Choose a handle"
+          placeholder="@123user"
+          required
+        />
         <ImageInput onImageSelected={setImage} />
         <fieldset>
           <label htmlFor="description">Describe Yourself</label>
