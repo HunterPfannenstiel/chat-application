@@ -1,5 +1,8 @@
-import { FunctionComponent } from "react";
+import { ChangeEvent, FormEvent, FunctionComponent, useState } from "react";
 import classes from "./SignUp.module.css";
+import PlusIcon from "@ui/Resuable/Icons/PlusIcon";
+import Image from "next/image";
+import Form from "./Form/Form";
 
 interface SignUpProps {}
 
@@ -7,24 +10,15 @@ const SignUp: FunctionComponent<SignUpProps> = () => {
   return (
     <section className={classes.sign_up}>
       <h1>PROFILE</h1>
-      <form className={classes.form}>
-        <fieldset>
-          <label htmlFor="name">Choose a display name</label>
-          <input type="text" id="name" />
-        </fieldset>
-        <fieldset>
-          <label htmlFor="handle">Choose a handle</label>
-          <input type="text" id="handle" />
-        </fieldset>
-        <fieldset className={classes.image_select}>
-          <label htmlFor="image">Choose a profile picture</label>
-          <div className={classes.image_selector}>
-            <input type="file" id="image" />
-          </div>
-        </fieldset>
-      </form>
+      <Form />
     </section>
   );
 };
+
+//Form handler
+//Client side verification (all fields are present, handle is available)
+//send POST request
+//If !res.ok, get fields that are invalid and display message/highlight
+//If res.ok, update token and send user to home page
 
 export default SignUp;

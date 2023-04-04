@@ -7,7 +7,7 @@ const handler: NextApiHandler = async (req, res) => {
     if (params) {
       try {
         if (params?.length === 1) {
-          const user = await User.fetchProfile("123");
+          const user = await User.fetchProfile(params[0]);
           return res.status(200).json({ user });
         } else if (params?.length === 2) {
           const detail = params[0];
@@ -28,7 +28,7 @@ const handler: NextApiHandler = async (req, res) => {
       }
     }
   } else {
-    return res.status(400).end();
+    return res.status(400).json({ message: "Invalid method" });
   }
 };
 export default handler;

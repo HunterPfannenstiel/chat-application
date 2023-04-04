@@ -1,38 +1,5 @@
 .sign_up {
     text-align: center;
-    padding: 1rem;
+    --input-color: #D9D9D9
 }
 
-.form fieldset {
-    display: flex;
-    flex-direction: column;
-    width: 75%;
-    margin-inline: auto;
-    padding-block: 0.5rem;
-}
-
-.form label {
-    text-align: left;
-}
-
-.form input {
-    padding: 0.5em 0.5em;
-    border-radius: 9px;
-    background-color: #D9D9D9;
-    border: none;
-    font-size: 1rem;
-}
-
-.image_select label{
-    text-align: center;
-    padding-bottom: 1rem;
-}
-
-.image_selector {
-    width: 100px;
-    height: 100px;
-    background-color: #D9D9D9;
-    border-radius: 9px;
-    margin-inline: auto;
-    overflow: hidden;
-}

@@ -25,7 +25,7 @@ export class User {
     throw new Error("Method not implemented.");
   }
 
-  static create(profile: UserT): Promise<void> {
+  static create(profile: UserT): Promise<number> {
     throw new Error("Method not implemented.");
   }
 

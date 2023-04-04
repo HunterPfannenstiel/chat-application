@@ -80,6 +80,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       async session({ session, token }: { session: any; token: any }) {
         session.user.name = token.sub;
         session.user.userId = token.userId;
+        session.user.isWeb3 = token.isWeb3;
         if (!token.userId) {
           session.user.isNew = true;
         } else {

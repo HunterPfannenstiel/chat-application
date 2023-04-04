@@ -1,0 +1,33 @@
+.form fieldset {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    margin-inline: auto;
+    padding-block: 0.5rem;
+}
+
+.form label {
+    text-align: left;
+}
+
+.form_content {
+    padding: 1rem;
+}
+
+.description {
+    resize: none;
+    background-color: var(--input-color);
+    border: none;
+    border-radius: 9px;
+}
+
+.create_account {
+    padding-block: 1.5rem;
+}
+
+.create_account button{
+    padding: 1em 5em;
+    border: none;
+    border-radius: 9px;
+    font-size: 1rem;
+}

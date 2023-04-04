@@ -12,6 +12,7 @@ interface HomeFeedProps {
 
 const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user }) => {
   const { toggleModal, showModal, playAnimation } = useAnimateModal(300);
+  console.log("Width", screen.width);
   return (
     <>
       <FeedNav toggleModal={toggleModal} userImage={user.userImage} />

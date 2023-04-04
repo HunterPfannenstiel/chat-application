@@ -112,3 +112,8 @@ export const createError = (message: string, statusCode: number) => {
   error.statusCode = statusCode;
   return error;
 };
+
+export const sendErrorResponse = (error: any, res: NextApiResponse) => {
+  if (!error.statusCode) error.statusCode = 500;
+  return res.status(error.statusCode).json({ message: error.message });
+};
