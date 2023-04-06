@@ -1,0 +1,27 @@
+.modal {
+    width: 95%;
+    z-index: 1;
+}
+
+.content {
+    text-align: center;
+    background-color: #1DA1F2;
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.content h1 {
+    margin-bottom: 0.5rem;
+}
+
+.content textarea {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.button {
+    background-color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5em 2em;
+}

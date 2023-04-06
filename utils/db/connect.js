@@ -1,14 +1,20 @@
-const sql = require("msnodesqlv8");
+const sql = require("mssql/msnodesqlv8");
 
-const connnection =
-  "Server=(localdb)\\MSSQLLocalDb;Database=ChatApplication;Trusted_Connection=Yes;Driver={MS Access Database}";
+const sqlConfig = {
+  connectionString:
+    "Driver={ODBC Driver 18 for SQL Server};Server=(localdb)\\MSSQLLocalDb;Database=ChatApplication;Trusted_Connection=yes;",
+};
 
 const query = "SELECT ethereumAddress FROM Chat.[User]";
 
-sql.query(connnection, query, (err, rows) => {
-  if (err) {
-    console.log("err", err);
-  } else {
-    console.log("Rows", rows);
+const db = async () => {
+  try {
+    await sql.connect(sqlConfig);
+    const res = await sql.query(query);
+    console.log("Result", res);
+  } catch (error) {
+    console.log("error", error);
   }
-});
+};
+
+db();

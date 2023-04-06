@@ -30,7 +30,11 @@ const MobileMenu: FunctionComponent<MobileMenuProps> = ({
   if (showModal) {
     return (
       <>
-        <Background toggle={toggleModal} color="rgba(0, 0, 0, 0.3)" />
+        <Background
+          toggle={toggleModal}
+          animateOut={playAnimation}
+          animationTime={animationTime}
+        />
         <section
           className={className}
           style={

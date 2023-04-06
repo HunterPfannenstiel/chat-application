@@ -1,15 +1,13 @@
-.background {
+.modal {
     --animationTime: 300ms;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     animation: fade_in var(--animationTime) ease-in-out;
 }
 
-.animate_out {
+.animate {
     animation: fade_out var(--animationTime) ease-in-out;
 }
 

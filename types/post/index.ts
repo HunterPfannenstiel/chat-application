@@ -19,13 +19,16 @@ export type ViewPost = {
   replyToPostId?: string;
 } & UserInfo;
 
-export type Post = {
-  userId: string;
+export type ClientPost = {
   content: string;
   replyToPostId?: string;
   communityId?: string;
   imageUrls?: string[];
 };
+
+export type Post = {
+  userId: string;
+} & ClientPost;
 
 export type UpdatePost = {
   content?: string;
