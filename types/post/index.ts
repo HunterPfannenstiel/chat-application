@@ -26,9 +26,19 @@ export type ClientPost = {
   imageUrls?: string[];
 };
 
-export type Post = {
+export type CreatePost = {
   userId: string;
-} & ClientPost;
+  content: string;
+  replyToPostId?: string;
+  communityId?: string;
+  images: ImageUpload[];
+};
+
+export type ImageUpload = {
+  publicId: string;
+  imageUrl: string;
+  aspectRatio: number;
+};
 
 export type UpdatePost = {
   content?: string;

@@ -1,5 +1,5 @@
 import { SessionToken } from "@_types/auth";
-import { ClientPost, Post, UpdatePost } from "@_types/post";
+import { ClientPost, CreatePost, UpdatePost } from "@_types/post";
 import FeedPost from "models/FeedPost";
 import { NextApiHandler } from "next";
 import { getSession } from "next-auth/react";
@@ -15,9 +15,17 @@ const handler: NextApiHandler = async (req, res) => {
       }
 
       //GET USERID FROM SESSION
+      //UPLOAD IMAGES AND GET PUBLIC ID's
       console.log("Backend post", post);
-      await FeedPost.create({ ...post, userId: "123" });
-      return res.status(201).json({ message: "NOT IMPLEMENTED" });
+      const mockPost = {
+        ...post,
+        userId: "1",
+        images: [
+          { imageUrl: "test.com", publicId: "public123", aspectRatio: 1.77 },
+        ],
+      };
+      const postId = await FeedPost.create(mockPost);
+      return res.status(201).json({ message: "Success!", postId });
     } else if (req.method === "PUT") {
       const updates = req.body.updates as UpdatePost;
       const { postId } = req.body;

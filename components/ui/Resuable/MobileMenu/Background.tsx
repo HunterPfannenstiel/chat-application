@@ -19,7 +19,6 @@ const Background: FunctionComponent<BackgroundProps> = ({
   if (animateOut) {
     className += ` ${classes.animate_out}`;
   }
-
   return (
     <div
       className={classes.background + " " + className}

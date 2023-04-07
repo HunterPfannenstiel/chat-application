@@ -1,9 +1,11 @@
 import { UpdatePost, PostLike } from "@_types/post";
 import { FeedPost as FP } from "@_types/post/feed-post";
-import { Post } from "@_types/post";
+import { CreatePost } from "@_types/post";
 import { mockFeedPosts } from "mock-data/posts";
 import { mockProfiles } from "../mock-data/profiles";
 import { UserFeed } from "@_types/user";
+import { getDB } from "utils/db/connect";
+import { execCreatePost } from "utils/db/helpers";
 
 export class FeedPost {
   static fetch(postId: string): Promise<FP[]> {
@@ -41,9 +43,10 @@ export class FeedPost {
     throw new Error("Method not implemented.");
   }
 
-  static create(contents: Post): Promise<void> {
+  static async create(contents: CreatePost) {
     //Send query that fills in the correct post fields with 'contents'
-    throw new Error("Method not implemented.");
+    const db = await getDB();
+    return execCreatePost(db, contents);
   }
   static update(postId: string, updates: UpdatePost): Promise<void> {
     throw new Error("Method not implemented.");
