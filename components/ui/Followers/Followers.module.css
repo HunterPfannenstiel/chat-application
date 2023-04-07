@@ -1,0 +1,33 @@
+.name p {
+    margin: 0;
+}
+
+.follower-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-inline: 1rem;
+}
+
+.pfp-name-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.image-block {
+    border: 1px solid black;
+    border-radius: 50%;
+    height: 2rem;
+    width: 2rem;
+    overflow: hidden;
+}
+
+.name {
+    margin-right: auto;
+}
+
+.pfp-container img {
+    width: 100%;
+    height: 100%;
+}
