@@ -7,7 +7,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-export const uploadFile = (
+export const uploadImage = (
   buffer: Buffer,
   cb: (imageUrl: string | undefined, publicId: string | undefined) => void
 ) => {

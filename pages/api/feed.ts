@@ -12,8 +12,9 @@ const handler: NextApiHandler = async (req, res) => {
     //CHECK PAGINATION QUERY
     //MAKE DB QUERY
     if (session) {
-      const user = await FeedPost.fetchFeed(session.userId);
-      return res.status(200).json({ user });
+      //session.user.userId
+      const user = await FeedPost.fetchFeed(1);
+      return res.status(200).send({ user: JSON.parse(user) });
     } else {
       res.status(400).json({ message: "Please sign-in" });
     }

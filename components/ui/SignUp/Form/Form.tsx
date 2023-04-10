@@ -26,8 +26,7 @@ const Form: FunctionComponent<FormProps> = () => {
           const id = await createUser(formData);
           console.log("NEW USER ID", id);
           //Update JWT
-          //Send to home
-          //router.push("/");
+          router.push("/");
         } catch (error) {
           console.log("ERROR SUBMITTING USER");
         }

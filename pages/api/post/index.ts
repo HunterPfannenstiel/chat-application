@@ -19,10 +19,8 @@ const handler: NextApiHandler = async (req, res) => {
       console.log("Backend post", post);
       const mockPost = {
         ...post,
-        userId: "1",
-        images: [
-          { imageUrl: "test.com", publicId: "public123", aspectRatio: 1.77 },
-        ],
+        userId: "5",
+        images: [],
       };
       const postId = await FeedPost.create(mockPost);
       return res.status(201).json({ message: "Success!", postId });

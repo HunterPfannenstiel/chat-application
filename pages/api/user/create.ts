@@ -4,7 +4,7 @@ import { createError, sendErrorResponse } from "../utils";
 import { User } from "models/User";
 import { getSession } from "next-auth/react";
 import { SessionToken } from "@_types/auth";
-import { uploadFile } from "utils/cloudinary";
+import { uploadImage } from "utils/cloudinary";
 
 let imageParser = multer({
   fileFilter: (req, file, cb) => {
@@ -44,8 +44,17 @@ const handler: NextApiHandler = (req, res) => {
             throw error;
           }
           const { name, handle, bio } = req.body;
-          uploadFile(fileReq.file.buffer, async (imageUrl, publicId) => {
-            console.log(imageUrl);
+          if (!name) {
+            const error = createError("Please add a name!", 400);
+            throw error;
+          } else if (!handle) {
+            const error = createError("Please add a handle!", 400);
+            throw error;
+          } else if (!bio) {
+            const error = createError("Please add a bio!", 400);
+            throw error;
+          }
+          uploadImage(fileReq.file.buffer, async (imageUrl, publicId) => {
             if (!imageUrl) {
               const error = createError("Image url not returned", 500);
               throw error;

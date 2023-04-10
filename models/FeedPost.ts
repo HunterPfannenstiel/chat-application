@@ -6,6 +6,7 @@ import { mockProfiles } from "../mock-data/profiles";
 import { UserFeed } from "@_types/user";
 import { getDB } from "utils/db/connect";
 import { execCreatePost } from "utils/db/helpers";
+import { execFetchFeed } from "utils/db/post-commands";
 
 export class FeedPost {
   static fetch(postId: string): Promise<FP[]> {
@@ -17,18 +18,13 @@ export class FeedPost {
     });
   }
 
-  static fetchFeed(userId: string): Promise<UserFeed> {
+  static fetchFeed(userId: number): Promise<UserFeed> {
     //*'userId' will be a valid userId*
     //Get all of 'id's' followers and join their posts
     //Sort by 'createdOn'
     //Fetch first x amount of rows
     //Return posts
-    return new Promise((resolve) => {
-      resolve({
-        ...mockProfiles[1],
-        posts: [...mockFeedPosts, ...mockFeedPosts, ...mockFeedPosts],
-      });
-    });
+    return execFetchFeed(userId);
   }
 
   static fetchComments(postId: string): Promise<FP[]> {
