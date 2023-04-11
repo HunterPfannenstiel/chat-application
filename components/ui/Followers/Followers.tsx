@@ -19,6 +19,7 @@ const Followers: FunctionComponent<FollowersProps> = ({ followers }) => {
 							<ProfileImage
 								src={follower.userImage}
 								className={classes["image-block"]}
+								circleDiameter="4rem"
 							/>
 						</Link>
 						<div className={classes["name-follow"]}>
