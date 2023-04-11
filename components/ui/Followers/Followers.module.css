@@ -19,8 +19,6 @@
 .image-block {
     border: 1px solid black;
     border-radius: 50%;
-    height: 3rem;
-    width: 3rem;
     overflow: hidden;
     grid-area: pfp;
 }
@@ -30,8 +28,8 @@
 }
 
 .follow-button {
-    height: 70%;
-    width: 30%;
+    height: 2rem;
+    width: 6rem;
     align-self: center;
     background-color: black;
     border-radius: 2rem;

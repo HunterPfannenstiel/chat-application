@@ -1,5 +1,6 @@
 import { FollowerDetails } from "@_types/user";
 import { FunctionComponent } from "react";
+import Link from "next/link";
 import classes from "./Followers.module.css";
 import ProfileImage from "@ui/Resuable/Profile/ProfileImage/ProfileImage";
 
@@ -14,10 +15,12 @@ const Followers: FunctionComponent<FollowersProps> = ({ followers }) => {
 			{followers.map((follower) => {
 				return (
 					<div className={classes["follower-block"]}>
-						<ProfileImage
-							src={follower.userImage}
-							className={classes["image-block"]}
-						/>
+						<Link href={`/${follower.userHandle}`}>
+							<ProfileImage
+								src={follower.userImage}
+								className={classes["image-block"]}
+							/>
+						</Link>
 						<div className={classes["name-follow"]}>
 							<div className={classes.name}>
 								<p>{follower.userName}</p>
