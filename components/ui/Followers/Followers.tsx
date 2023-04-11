@@ -14,16 +14,16 @@ const Followers: FunctionComponent<FollowersProps> = ({ followers }) => {
 			{followers.map((follower) => {
 				return (
 					<div className={classes["follower-block"]}>
-						<div className={classes["pfp-name-container"]}>
-							<ProfileImage
-								src={follower.userImage}
-								className={classes["image-block"]}
-							/>
+						<ProfileImage
+							src={follower.userImage}
+							className={classes["image-block"]}
+						/>
+						<div className={classes["name-follow"]}>
 							<div className={classes.name}>
 								<p>{follower.userName}</p>
 								<p>{`@${follower.userHandle}`}</p>
 							</div>
-							<button>Follow</button>
+							<button className={classes["follow-button"]}>Follow</button>
 						</div>
 						<div className={classes.description}>{follower.bio}</div>
 					</div>
