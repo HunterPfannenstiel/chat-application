@@ -7,6 +7,7 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.3);
     animation: fade_in var(--animationTime) ease-in-out;
+    z-index: 1;
 }
 
 .animate_out {

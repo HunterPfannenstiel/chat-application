@@ -4,12 +4,14 @@ import PlusIcon from "@ui/Resuable/Icons/PlusIcon";
 
 interface ImageInputProps {
   onImageSelected: (image: Blob) => void;
+  initialImage?: string;
 }
 
 const ImageInput: FunctionComponent<ImageInputProps> = ({
   onImageSelected,
+  initialImage,
 }) => {
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(initialImage);
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();

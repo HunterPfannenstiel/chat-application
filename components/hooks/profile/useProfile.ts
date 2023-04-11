@@ -17,15 +17,16 @@ const useProfile = () => {
   return { profile: data, isLoading, error };
 };
 
+type Profile = { user: UserProfile; isUsersProfile: boolean };
+
 const fetchProfile = async (
   userId: string | undefined
-): Promise<UserProfile | null> => {
+): Promise<Profile | null> => {
   if (userId) {
-    console.log("fetching");
     const res = await fetch(`/api/user/${userId}`);
     if (res.ok) {
-      const data = (await res.json()) as { user: UserProfile };
-      return data.user;
+      const data = (await res.json()) as Profile;
+      return data;
     } else {
       throw new Error("No profile found");
     }

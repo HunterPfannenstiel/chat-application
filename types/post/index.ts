@@ -7,6 +7,11 @@ export type Tag = {
   color: string;
 };
 
+export type Image = {
+  imageUrl: string;
+  aspectRatio: number;
+};
+
 export type PostLike = { bio: string } & UserInfo;
 
 export type ViewPost = {
@@ -14,7 +19,7 @@ export type ViewPost = {
   content: string;
   likeCount: number;
   commentCount: number;
-  imageUrls: string[];
+  imageUrls: Image[];
   createdOn: Date;
   replyToPostId?: string;
 } & UserInfo;

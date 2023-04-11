@@ -4,3 +4,15 @@
     gap: 0.5rem;
     padding: 1rem;
 }
+
+.spacer {
+    margin-block: 0.75rem;
+    padding: 0.5em 1.5em;
+}
+
+.edit {
+    margin-left: auto;
+    background-color: lightblue;
+    border: none;
+    border-radius: 8px;
+}

@@ -10,3 +10,5 @@ export type UserProfile = {
   communityCount: number;
   posts: FeedPost[];
 } & UserInfo;
+
+export type Profile = { user: UserProfile; isUsersProfile: boolean };

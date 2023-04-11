@@ -1,33 +1,42 @@
 import Profile from "@ui/Resuable/Profile";
-import { UserProfile } from "@_types/user/profile";
+import { Profile as UserProfile } from "@_types/user/profile";
 import { FunctionComponent } from "react";
 import ProfileNav from "./ProfileNav";
 import Links from "./UserDetails/Links";
 import FeedPostList from "@ui/Resuable/FeedPost/FeedPostList";
+import Header from "./Header/Header";
+import EditModal from "./EditModal/EditModal";
+import useAnimateModal from "@hooks/animation/useAnimateModal";
 
 interface ProfilePageProps {
   profile: UserProfile;
 }
 
 const ProfilePage: FunctionComponent<ProfilePageProps> = ({ profile }) => {
+  const { user, isUsersProfile } = profile;
+  const { playAnimation, showModal, toggleModal } = useAnimateModal(300);
+  console.log(isUsersProfile);
   return (
     <>
+      <Header userName={user.userName} />
       <Profile
-        userImage={profile.userImage}
-        userHandle={profile.userHandle}
-        userName={profile.userName}
-        bio={<p>{profile.bio}</p>}
+        userImage={user.userImage}
+        userHandle={user.userHandle}
+        userName={user.userName}
+        isUsersProfile={isUsersProfile}
+        toggleEdit={toggleModal}
+        bio={<p>{user.bio}</p>}
         aggregateData={
           <Links
             linkInfo={[
               {
-                href: `/${profile.userName}/following`,
-                count: profile.followingCount,
+                href: `/${user.userName}/following`,
+                count: user.followingCount,
                 label: "Following",
               },
               {
-                href: `/${profile.userName}/followers`,
-                count: profile.followerCount,
+                href: `/${user.userName}/followers`,
+                count: user.followerCount,
                 label: "Followers",
               },
             ]}
@@ -35,7 +44,15 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({ profile }) => {
         }
       />
       <ProfileNav />
-      <FeedPostList posts={profile.posts} />
+      <FeedPostList posts={user.posts} />
+      {showModal && (
+        <EditModal
+          playAnimation={playAnimation}
+          toggleModal={toggleModal}
+          animationTime={300}
+          userInfo={{ ...user }}
+        />
+      )}
     </>
   );
 };

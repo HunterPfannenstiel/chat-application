@@ -8,6 +8,7 @@
     overflow-y: scroll;
     transition: all var(--animationTime) ease;
     padding: 0.5rem;
+    z-index: 2;
 }
 
 .open {

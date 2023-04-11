@@ -12,7 +12,7 @@ export type UserDetails = {
 } & UserInfo;
 
 export type UserFeed = {
-  posts: FeedPost[];
+  posts?: FeedPost[];
 } & UserDetails;
 
 export type User = {

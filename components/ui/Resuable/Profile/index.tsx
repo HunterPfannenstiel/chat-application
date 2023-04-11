@@ -9,6 +9,8 @@ interface ProfileProps {
   dateDisplay?: ReactNode;
   bio?: ReactNode;
   aggregateData?: ReactNode;
+  isUsersProfile: boolean;
+  toggleEdit: () => void;
 }
 
 const Profile: FunctionComponent<ProfileProps> = ({
@@ -18,11 +20,22 @@ const Profile: FunctionComponent<ProfileProps> = ({
   dateDisplay,
   bio,
   aggregateData,
+  isUsersProfile,
+  toggleEdit,
 }) => {
   return (
     <section>
       <Banner imageUrl={userImage} />
       <div className={classes.user_details}>
+        {!isUsersProfile && (
+          <button
+            className={classes.edit + " " + classes.spacer}
+            onClick={toggleEdit}
+          >
+            Edit
+          </button>
+        )}
+        {!isUsersProfile && <div className={classes.spacer} />}
         <div>
           <h2 className="username">{userName}</h2>
           <p className="handle">{`@${userHandle}`}</p>

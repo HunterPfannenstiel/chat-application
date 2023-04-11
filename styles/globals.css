@@ -1,22 +1,19 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;600;700&display=swap');
 
 * {
   box-sizing: border-box;
 }
 
+html,
 body {
-  position: relative;
+  padding: 0;
+  margin: 0;
+  font-family: 'Fira Sans', sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 h1,h2,h3,h4,p,ul {

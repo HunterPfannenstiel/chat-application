@@ -2,6 +2,7 @@ import { CreateUser } from "@_types/user";
 import { createProcedureRequest, executeProcedure } from "./helpers";
 import sql, { ConnectionPool } from "mssql/msnodesqlv8";
 import { ProcedureParam } from "@_types/db";
+import { getDB } from "./connect";
 
 export const execCreateUser = async (
   db: ConnectionPool,
@@ -24,4 +25,10 @@ export const execCreateUser = async (
   const request = createProcedureRequest(db, params);
   const res = await executeProcedure("Chat.CreateUser", request);
   return res.userId as number;
+};
+
+export const isValidHandle = async (handle: string) => {
+  const db = await getDB();
+  const res = await db.query(`SELECT Chat.IsValidHandle(${handle})`);
+  console.log(res);
 };
