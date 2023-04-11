@@ -1,0 +1,41 @@
+.follower-block {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas: "pfp name-follow"
+                         "- description";
+    grid-column-gap: 1rem;
+    margin-bottom: 1rem;
+    padding-inline: 1rem;
+}
+
+.name-follow {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    grid-area: name-follow;
+}
+
+.image-block {
+    border: 1px solid black;
+    border-radius: 50%;
+    overflow: hidden;
+    grid-area: pfp;
+}
+
+.name {
+    margin-right: auto;
+}
+
+.follow-button {
+    height: 2rem;
+    width: 6rem;
+    align-self: center;
+    background-color: black;
+    border-radius: 2rem;
+    color: white;
+}
+
+.description {
+    grid-area: description;
+}

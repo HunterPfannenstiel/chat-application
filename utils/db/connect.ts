@@ -2,7 +2,7 @@ import sql from "mssql/msnodesqlv8";
 import { ConnectionPool } from "mssql";
 const sqlConfig = {
   connectionString:
-    "Driver={ODBC Driver 18 for SQL Server};Server=(localdb)\\MSSQLLocalDb;Database=ChatApplication;Trusted_Connection=yes;",
+    "Driver={ODBC Driver 17 for SQL Server};Server=(localdb)\\MSSQLLocalDb;Database=ChatApplication;Trusted_Connection=yes;",
   server: "(localdb)\\MSSQLLocalDb",
   driver: "msnodesqlv8",
 };

@@ -18,7 +18,7 @@ export class FeedPost {
     });
   }
 
-  static fetchFeed(userId: number): Promise<UserFeed> {
+  static fetchFeed(userId: number) {
     //*'userId' will be a valid userId*
     //Get all of 'id's' followers and join their posts
     //Sort by 'createdOn'
