@@ -49,7 +49,7 @@ export const mockProfiles: UserProfile[] = [
     followerCount: 456,
     followingCount: 23,
     communityCount: 5,
-    posts: [mockFeedPosts[2]],
+    posts: [mockFeedPosts[2], mockFeedPosts[1], mockFeedPosts[0]],
   },
   {
     ...algonquin,

@@ -60,13 +60,13 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
-        },
-      },
+      // authorization: {
+      //   params: {
+      //     prompt: "consent",
+      //     access_type: "offline",
+      //     response_type: "code",
+      //   },
+      // },
     }),
   ];
 
@@ -79,20 +79,50 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     callbacks: {
       async session({ session, token }: { session: any; token: any }) {
         session.user.name = token.sub;
-        console.log("Session callback", { session, token });
+        session.user.userId = token.userId;
+        session.user.isWeb3 = token.isWeb3;
+        if (!token.userId) {
+          session.user.isNew = true;
+        } else {
+          session.user.isNew = false;
+        }
+        console.log("SESSION", session);
         return session;
       },
       async signIn({ account, profile }) {
-        if (account?.provider === "google") {
-          console.log({ account, profile });
+        if (account?.provider === "google" && profile) {
+          if (profile.email_verified) return profile.email_verified;
         }
         return true;
       },
+      jwt: async ({ token, account, isNewUser, profile }) => {
+        if (account) {
+          //Only defined when JWT is created
+          if (account.provider === "credentials") {
+            token.isWeb3 = true;
+            token.userId = await fetchUserId(account.providerAccountId, true);
+          } else if (profile && profile.email) {
+            token.isWeb3 = false;
+            token.userId = await fetchUserId(profile.email, false);
+          }
+        }
+        return token;
+      },
     },
+
     pages: {
       signIn: "/auth/signin",
     },
   });
 }
+
+const fetchUserId = async (id: string, isWeb3: boolean) => {
+  if (isWeb3) {
+    //Id fetch with 'id' being ethereum address
+  } else {
+    //id fetch with 'id' being email
+  }
+  return "";
+};
 
 export const authOptions = {};

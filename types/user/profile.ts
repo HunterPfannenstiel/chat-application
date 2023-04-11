@@ -1,4 +1,4 @@
-import { FeedPost } from "models/FeedPost";
+import { FeedPost } from "../post/feed-post";
 import { UserInfo } from ".";
 
 export type UserProfile = {

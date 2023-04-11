@@ -7,23 +7,37 @@ export type Tag = {
   color: string;
 };
 
-export type PostLike = UserInfo;
+export type PostLike = { bio: string } & UserInfo;
 
 export type ViewPost = {
   postId: string;
   content: string;
   likeCount: number;
+  commentCount: number;
   imageUrls: string[];
   createdOn: Date;
-  commentCount: number;
   replyToPostId?: string;
 } & UserInfo;
 
-export type Post = {
+export type ClientPost = {
+  content: string;
+  replyToPostId?: string;
+  communityId?: string;
+  imageUrls?: string[];
+};
+
+export type CreatePost = {
   userId: string;
   content: string;
   replyToPostId?: string;
   communityId?: string;
+  images: ImageUpload[];
+};
+
+export type ImageUpload = {
+  publicId: string;
+  imageUrl: string;
+  aspectRatio: number;
 };
 
 export type UpdatePost = {

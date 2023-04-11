@@ -15,7 +15,11 @@ a {
   box-sizing: border-box;
 }
 
-h1,h2,h3,h4,p {
+body {
+  position: relative;
+}
+
+h1,h2,h3,h4,p,ul {
   margin: 0;
 }
 
@@ -27,6 +31,23 @@ ul {
   padding: 0;
 }
 
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.username {
+  color: black;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.handle {
+  color: gray;
+  font-size: 1rem;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
@@ -36,3 +57,9 @@ ul {
     background: black;
   }
 }
+/* 
+Animation Properties:
+position
+scale
+rotation
+opacity */

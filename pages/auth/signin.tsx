@@ -3,40 +3,37 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import { useSIWE } from "components/hooks/Web3/utils/exports";
-import { getProviders } from "next-auth/react";
+import SignInPage from "@ui/SignIn/SignIn";
+import {
+  ClientSafeProvider,
+  getProviders,
+  getSession,
+  signIn,
+} from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]";
+import { SessionToken } from "@_types/auth";
 
 export default function SignIn({
   providers,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { signIn: SIWE } = useSIWE();
-  const signInHandler = (provider: string) => {
-    console.log(provider);
-    if (provider === "Web3") {
-      SIWE();
-    }
-  };
-  return (
-    <>
-      {Object.values(providers).map((provider) => (
-        <div key={provider.name}>
-          <button onClick={signInHandler.bind(null, provider.name)}>
-            Sign in with {provider.name}
-          </button>
-        </div>
-      ))}
-    </>
-  );
+  return <SignInPage providers={providers} />;
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getServerSession(context.req, context.res, authOptions);
-  console.log("SESSION", session);
-  // If the user is already logged in, redirect.
-  // Note: Make sure not to redirect to the same page
-  // To avoid an infinite loop!
+  // const session = (await getServerSession(
+  //   context.req,
+  //   context.res,
+  //   authOptions
+  // )) as SessionToken;
+  const session = (await getSession({
+    req: context.req,
+  })) as SessionToken | null;
   if (session) {
+    if (session.user.isNew && !session.user.userId) {
+      //User signed in and needs to create account
+      return { redirect: { destination: "/auth/signup" } };
+    }
     return { redirect: { destination: "/" } };
   }
 

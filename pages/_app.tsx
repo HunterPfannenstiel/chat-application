@@ -4,7 +4,9 @@ import Web3Provider from "components/providers/Web3/Web3";
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { refetchOnWindowFocus: false } },
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

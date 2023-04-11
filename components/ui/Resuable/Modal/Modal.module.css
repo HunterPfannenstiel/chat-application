@@ -1,0 +1,30 @@
+.modal {
+    --animationTime: 300ms;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: fade_in var(--animationTime) ease-in-out;
+}
+
+.animate {
+    animation: fade_out var(--animationTime) ease-in-out;
+}
+
+@keyframes fade_in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fade_out {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
