@@ -19,7 +19,7 @@ export type ViewPost = {
   content: string;
   likeCount: number;
   commentCount: number;
-  imageUrls: Image[];
+  images?: Image[];
   createdOn: Date;
   replyToPostId?: string;
 } & UserInfo;

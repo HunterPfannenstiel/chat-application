@@ -1,5 +1,5 @@
 import { UpdatePost, PostLike } from "@_types/post";
-import { FeedPost as FP } from "@_types/post/feed-post";
+import { PostComments } from "@_types/post/feed-post";
 import { CreatePost } from "@_types/post";
 import { mockFeedPosts } from "mock-data/posts";
 import { mockProfiles } from "../mock-data/profiles";
@@ -9,12 +9,12 @@ import { execCreatePost } from "utils/db/helpers";
 import { execFetchFeed } from "utils/db/post-commands";
 
 export class FeedPost {
-  static fetch(postId: string): Promise<FP[]> {
+  static fetch(postId: string): Promise<PostComments> {
     //Make query to database
     //Check if post was returned
     //Make new post a return
     return new Promise((resolve) => {
-      resolve([mockFeedPosts[0]]);
+      resolve({ originalPost: mockFeedPosts[0] });
     });
   }
 
@@ -25,10 +25,6 @@ export class FeedPost {
     //Fetch first x amount of rows
     //Return posts
     return execFetchFeed(userId);
-  }
-
-  static fetchComments(postId: string): Promise<FP[]> {
-    throw new Error("Method not implemented.");
   }
 
   static fetchLikes(postId: string): Promise<PostLike[]> {
@@ -49,6 +45,10 @@ export class FeedPost {
   }
   static delete(postId: string): Promise<void> {
     throw new Error("Method not implemented.");
+  }
+
+  static like(postId: string, userId: string, action: "create" | "delete") {
+    throw new Error("Method not implemented");
   }
 }
 

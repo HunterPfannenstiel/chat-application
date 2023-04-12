@@ -24,3 +24,10 @@ export const uploadImage = (
   );
   return streamifier.createReadStream(buffer).pipe(uploadStream);
 };
+
+export const deleteImage = (publicId: string) => {
+  cloudinary.uploader.destroy(publicId, (err: any, res: any) => {
+    console.log("error delete", err);
+    console.log("res delete image", res);
+  });
+};

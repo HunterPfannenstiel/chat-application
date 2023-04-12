@@ -4,7 +4,8 @@ import { createError, sendErrorResponse } from "../utils";
 import { User } from "models/User";
 import { getSession } from "next-auth/react";
 import { SessionToken } from "@_types/auth";
-import { uploadImage } from "utils/cloudinary";
+import { deleteImage, uploadImage } from "utils/cloudinary";
+import fetch from "node-fetch";
 
 let imageParser = multer({
   fileFilter: (req, file, cb) => {
@@ -23,6 +24,7 @@ export const config = {
 };
 const handler: NextApiHandler = (req, res) => {
   if (req.method === "POST") {
+    let publicId: string | undefined = "";
     try {
       imageParser(req as any, res as any, async (err) => {
         if (!err) {
@@ -54,7 +56,8 @@ const handler: NextApiHandler = (req, res) => {
             const error = createError("Please add a bio!", 400);
             throw error;
           }
-          uploadImage(fileReq.file.buffer, async (imageUrl, publicId) => {
+          uploadImage(fileReq.file.buffer, async (imageUrl, pubId) => {
+            publicId = pubId;
             if (!imageUrl) {
               const error = createError("Image url not returned", 500);
               throw error;
@@ -76,9 +79,16 @@ const handler: NextApiHandler = (req, res) => {
             });
             res.status(200).json({ message: "uploaded user", id: userId });
           });
+          // console.log("calling fetch");
+          // const response = await fetch(
+          //   `${process.env.NEXTAUTH_URL}/api/auth/session?createUser=true`
+          // );
+          // console.log("response", response);
+          // res.status(200).json({ message: "uploaded user" });
         }
       });
     } catch (error) {
+      if (publicId) deleteImage(publicId);
       return sendErrorResponse(error, res);
     }
   } else {

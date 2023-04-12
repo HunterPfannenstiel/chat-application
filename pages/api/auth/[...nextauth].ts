@@ -96,12 +96,21 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         return true;
       },
       jwt: async ({ token, account, isNewUser, profile }) => {
-        if (account) {
+        console.log("QUERY", req.query);
+        if (req.query.createUser) {
+          console.log("CREATING USER");
+          if (token.isWeb3) {
+            token.userId = await fetchUserId(token.name as string, true);
+          } else {
+            token.userId = await fetchUserId(token.name as string, false);
+          }
+        } else if (account) {
           //Only defined when JWT is created
           if (account.provider === "credentials") {
             token.isWeb3 = true;
             token.userId = await fetchUserId(account.providerAccountId, true);
           } else if (profile && profile.email) {
+            token.sub = profile.email;
             token.isWeb3 = false;
             token.userId = await fetchUserId(profile.email, false);
           }
