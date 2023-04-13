@@ -1,13 +1,17 @@
-import { FunctionComponent } from "react";
+import { CSSProperties, FunctionComponent } from "react";
 import classes from "./PlusIcon.module.css";
 
-interface PlusProps {}
+interface PlusProps {
+  style?: CSSProperties;
+}
 
-const Plus: FunctionComponent<PlusProps> = () => {
+const Plus: FunctionComponent<PlusProps> = ({ style }) => {
   return (
-    <div className={classes.plus}>
-      <div className={classes.vertical} />
-      <div className={classes.horizontal} />
+    <div>
+      <div className={classes.plus} style={style}>
+        <div className={classes.vertical} />
+        <div className={classes.horizontal} />
+      </div>
     </div>
   );
 };

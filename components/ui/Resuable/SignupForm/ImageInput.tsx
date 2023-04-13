@@ -38,7 +38,7 @@ const ImageInput: FunctionComponent<ImageInputProps> = ({
           required
         />
         <label htmlFor="image" className={classes.image_label}>
-          {!image && <PlusIcon />}
+          <PlusIcon style={{ opacity: image ? 0 : 1 }} />
         </label>
         {image && <img src={image} className={classes.image} />}
       </div>

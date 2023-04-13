@@ -5,12 +5,15 @@ import ProfileImage from "@ui/Resuable/Profile/ProfileImage/ProfileImage";
 import Links from "@ui/Profile/UserDetails/Links";
 import Link from "next/link";
 import { UserDetails } from "@_types/user";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/router";
 
 interface MenuProps {
   showModal: boolean;
   playAnimation: boolean;
   toggleModal: () => void;
   user: UserDetails;
+  isSignedIn: boolean;
 }
 
 const Menu: FunctionComponent<MenuProps> = ({
@@ -18,7 +21,9 @@ const Menu: FunctionComponent<MenuProps> = ({
   playAnimation,
   toggleModal,
   user,
+  isSignedIn,
 }) => {
+  const router = useRouter();
   return (
     <MobileMenu
       title="Account"
@@ -50,6 +55,17 @@ const Menu: FunctionComponent<MenuProps> = ({
         />
         <li>Profile</li>
         <li>Communities</li>
+        <button
+          onClick={() => {
+            if (!isSignedIn) {
+              router.push("/auth/signin");
+            } else {
+              signOut();
+            }
+          }}
+        >
+          {isSignedIn ? "Logout" : "SignIn"}
+        </button>
       </nav>
     </MobileMenu>
   );

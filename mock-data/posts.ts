@@ -22,7 +22,7 @@ export var mockFeedPosts: FeedPost[] = [
     postId: "123",
     ...shoes,
     content: "This is the first test post!",
-    imageUrls: [],
+    images: [],
     tags: [
       {
         tagId: "1",
@@ -34,12 +34,13 @@ export var mockFeedPosts: FeedPost[] = [
     createdOn: new Date(),
     commentCount: 16,
     likeCount: 32,
+    isLiked: 1,
   },
   {
     postId: "124",
     ...happi,
     content: "This is the second test post!",
-    imageUrls: [],
+    images: [],
     tags: [
       {
         tagId: "2",
@@ -51,6 +52,7 @@ export var mockFeedPosts: FeedPost[] = [
     createdOn: new Date(),
     commentCount: 22,
     likeCount: 120,
+    isLiked: 1,
   },
   {
     postId: "125",
@@ -64,9 +66,10 @@ export var mockFeedPosts: FeedPost[] = [
         color: "red",
       },
     ],
-    imageUrls: [],
+    images: [],
     createdOn: new Date(),
     commentCount: 1000,
     likeCount: 22092,
+    isLiked: 1,
   },
 ];

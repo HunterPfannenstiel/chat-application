@@ -12,16 +12,7 @@ const FeedPostList: FunctionComponent<FeedPostListProps> = ({ posts }) => {
     return (
       <ul className={classes.posts}>
         {posts.map((post) => {
-          return (
-            <FeedPost
-              userImage={post.userImage}
-              userHandle={post.userHandle}
-              username={post.userName}
-              postContent={post.content}
-              likes={post.likeCount}
-              comments={post.commentCount}
-            />
-          );
+          return <FeedPost post={post} />;
         })}
       </ul>
     );

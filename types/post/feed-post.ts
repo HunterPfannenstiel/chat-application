@@ -2,9 +2,5 @@ import { Tag, ViewPost } from ".";
 
 export interface FeedPost extends ViewPost {
   tags: Tag[];
+  isLiked: number;
 }
-
-export type PostComments = {
-  originalPost: FeedPost;
-  comments?: FeedPost[];
-};

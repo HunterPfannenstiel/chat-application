@@ -3,34 +3,30 @@ import Contents from "./Contents";
 import Engagement from "./Engagement/Engagement";
 import classes from "./FeedPost.module.css";
 import UserDetails from "./UserDetails";
+import { FeedPost } from "@_types/post/feed-post";
 
 interface FeedPostProps {
-  userImage: string;
-  username: string;
-  userHandle: string;
-  postContent: string;
-  postImages?: string[];
-  likes: number;
-  comments: number;
+  post: FeedPost;
 }
 
-const FeedPost: FunctionComponent<FeedPostProps> = ({
-  userHandle,
-  userImage,
-  username,
-  postContent,
-  postImages,
-  likes,
-  comments,
-}) => {
+const FeedPost: FunctionComponent<FeedPostProps> = ({ post }) => {
   return (
     <div className={classes.feed_post}>
       <div className={classes.user_details}>
-        <UserDetails imageUrl={userImage} name={username} handle={userHandle} />
+        <UserDetails
+          imageUrl={post.userImage}
+          name={post.userName}
+          handle={post.userHandle}
+        />
       </div>
       <div className={classes.content}>
-        <Contents text={postContent} imageUrls={postImages} />
-        <Engagement likeCount={likes} commentCount={comments} />
+        <Contents text={post.content} images={post.images} />
+        <Engagement
+          likeCount={post.likeCount}
+          commentCount={post.commentCount}
+          isLiked={post.isLiked == 1}
+          postId={post.postId}
+        />
       </div>
     </div>
   );

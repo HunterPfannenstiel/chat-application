@@ -27,7 +27,7 @@ const Profile: FunctionComponent<ProfileProps> = ({
     <section>
       <Banner imageUrl={userImage} />
       <div className={classes.user_details}>
-        {!isUsersProfile && (
+        {isUsersProfile && (
           <button
             className={classes.edit + " " + classes.spacer}
             onClick={toggleEdit}

@@ -10,9 +10,10 @@ import { ClientPost } from "@_types/post";
 
 interface HomeFeedProps {
   user: UserFeed;
+  isSignedIn: boolean;
 }
 
-const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user }) => {
+const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user, isSignedIn }) => {
   const { toggleModal, showModal, playAnimation } = useAnimateModal(300);
   const {
     toggleModal: toggleCreatePost,
@@ -29,6 +30,7 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user }) => {
         playAnimation={playAnimation}
         user={user}
         toggleModal={toggleModal}
+        isSignedIn={isSignedIn}
       />
       {showPost && (
         <PostModal

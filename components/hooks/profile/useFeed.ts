@@ -7,7 +7,7 @@ const useFeed = () => {
     queryFn: fetchFeed,
   });
 
-  return { user: data, isLoading, isError };
+  return { feed: data, isLoading, isError };
 };
 
 const fetchFeed = async () => {
@@ -16,7 +16,7 @@ const fetchFeed = async () => {
   if (!res.ok) {
     throw new Error(data.message);
   }
-  return data.user as UserFeed;
+  return data as { user: UserFeed; isSignedIn: boolean };
 };
 
 export default useFeed;
