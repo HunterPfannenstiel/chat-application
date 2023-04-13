@@ -4,7 +4,7 @@ import Modal from "@ui/Resuable/Modal/Modal";
 import { ModalProps } from "@_types/ui";
 import Form from "@ui/Resuable/SignupForm/Form";
 import { UserInfo } from "@_types/user";
-import { isValidHandle } from "utils/db/user-commands";
+import { formHandler } from "utils/form";
 
 interface EditModalProps extends ModalProps {
   userInfo: UserInfo & { bio: string };
@@ -24,7 +24,7 @@ const EditModal: FunctionComponent<EditModalProps> = ({
       className={classes.modal}
     >
       <Form
-        handler={formHandler}
+        handler={handleForm}
         initialInput={{
           name: userInfo.userName,
           handle: userInfo.userHandle,
@@ -37,19 +37,24 @@ const EditModal: FunctionComponent<EditModalProps> = ({
   );
 };
 
-const formHandler = async (
+const handleForm = async (
   name: string,
   handle: string,
   bio: string,
   image: Blob
 ) => {
-  const res = await fetch(`/api/verify?handle=${handle}`);
+  const formData = formHandler({
+    userName: name,
+    userHandle: handle,
+    bio,
+    userImage: image,
+  });
+  const res = await fetch("/api/user", { method: "PUT", body: formData });
   if (res.ok) {
     const data = await res.json();
     console.log("IS VALID", data.isValidHandle);
   }
   console.log({ name, handle, bio, image });
 };
-//TODO: GET FORM HANDLER TO WORK
 
 export default EditModal;

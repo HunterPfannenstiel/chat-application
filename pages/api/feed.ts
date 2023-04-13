@@ -14,6 +14,7 @@ const handler: NextApiHandler = async (req, res) => {
       //MAKE DB QUERY
       const { global } = req.query;
       if (global || !session || !session.user.userId) {
+        console.log("Global fetch");
         const user = await FeedPost.fetchFeed(1);
         return res
           .status(200)

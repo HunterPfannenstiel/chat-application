@@ -30,8 +30,6 @@ export type UpdateUser = {
   userName?: string;
   userHandle?: string;
   bio?: string;
-  email?: string;
-  ethereumAddress?: string;
 };
 
 export type FollowerDetails = {

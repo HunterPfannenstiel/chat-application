@@ -2,29 +2,26 @@ import { ChangeEvent, FormEvent, FunctionComponent, useState } from "react";
 import classes from "./SignUp.module.css";
 import PlusIcon from "@ui/Resuable/Icons/PlusIcon";
 import Image from "next/image";
-import Form from "../Resuable/SignupForm/Form";
+import SignupForm from "../Resuable/SignupForm/Form";
 import { NextRouter, useRouter } from "next/router";
+import { formHandler } from "utils/form";
 
 interface SignUpProps {}
 
 const SignUp: FunctionComponent<SignUpProps> = () => {
   const router = useRouter();
   return (
-    <section className={classes.sign_up}>
+    <section>
       <h1>PROFILE</h1>
-      <Form handler={formHandler(router)} buttonDisplay="Create Account" />
+      <SignupForm handler={handleForm(router)} buttonDisplay="Create Account" />
     </section>
   );
 };
 
-const formHandler =
+const handleForm =
   (router: NextRouter) =>
   async (name: string, handle: string, bio: string, image: Blob) => {
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("handle", handle);
-    formData.append("bio", bio);
-    formData.append("image", image);
+    const formData = formHandler({ name, handle, bio, image });
     try {
       const id = await createUser(formData);
       console.log("NEW USER ID", id);

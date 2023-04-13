@@ -2,6 +2,7 @@ import { FormEvent, FunctionComponent, useState } from "react";
 import classes from "./Form.module.css";
 import Fieldset from "./Fieldset";
 import ImageInput from "./ImageInput";
+import useValidHandle from "@hooks/profile/useValidHandle";
 
 interface FormProps {
   handler: (name: string, handle: string, bio: string, image: Blob) => void;
@@ -14,6 +15,7 @@ const Form: FunctionComponent<FormProps> = ({
   buttonDisplay,
 }) => {
   const [image, setImage] = useState<Blob | null>(null);
+  const { isValid, setHandle } = useValidHandle(initialInput?.handle);
   const handleForm = async (e: FormEvent<HTMLElement>) => {
     e.preventDefault();
     console.log(e);
@@ -45,6 +47,9 @@ const Form: FunctionComponent<FormProps> = ({
           label="Choose a handle"
           placeholder="@123user"
           required
+          onChange={(e) => {
+            setHandle(e.target.value);
+          }}
           defaultValue={initialInput?.handle}
         />
         <ImageInput

@@ -4,6 +4,8 @@
     width: 75%;
     margin-inline: auto;
     padding-block: 0.5rem;
+    text-align: center;
+    --input-color: #D9D9D9
 }
 
 .form label {

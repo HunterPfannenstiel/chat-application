@@ -1,10 +1,12 @@
 import { FunctionComponent } from "react";
 import classes from "./Links.module.css";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface LinksProps {}
 
-const Links: FunctionComponent<LinksProps> = () => {
+const Links: FunctionComponent<LinksProps> = ({}) => {
+  const { query } = useRouter();
   return (
     <ul className={classes.links}>
       {links.map((link) => {

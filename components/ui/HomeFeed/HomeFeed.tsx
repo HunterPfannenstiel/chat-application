@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useRef } from "react";
 import classes from "./HomeFeed.module.css";
 import FeedPostList from "@ui/Resuable/FeedPost/FeedPostList";
 import FeedNav from "@ui/HomeFeed/FeedNav/FeedNav";
@@ -7,6 +7,7 @@ import useAnimateModal from "@hooks/animation/useAnimateModal";
 import { UserFeed } from "@_types/user";
 import PostModal from "@ui/Resuable/PostModal/PostModal";
 import { ClientPost } from "@_types/post";
+import useTensionScroll from "@hooks/animation/useTensionScroll";
 
 interface HomeFeedProps {
   user: UserFeed;
@@ -20,9 +21,11 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user, isSignedIn }) => {
     showModal: showPost,
     playAnimation: playPost,
   } = useAnimateModal(300);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  useTensionScroll(sectionRef);
   console.log("Width", screen.width);
   return (
-    <>
+    <section ref={sectionRef}>
       <FeedNav toggleModal={toggleModal} userImage={user.userImage} />
       <FeedPostList posts={user.posts} />
       <Menu
@@ -45,7 +48,7 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user, isSignedIn }) => {
       <button className={classes.create_post} onClick={toggleCreatePost}>
         Create Post
       </button>
-    </>
+    </section>
   );
 };
 

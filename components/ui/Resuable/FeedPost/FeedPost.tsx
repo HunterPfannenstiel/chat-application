@@ -17,6 +17,7 @@ const FeedPost: FunctionComponent<FeedPostProps> = ({ post }) => {
           imageUrl={post.userImage}
           name={post.userName}
           handle={post.userHandle}
+          postedDate={new Date(post.createdOn)}
         />
       </div>
       <div className={classes.content}>

@@ -131,7 +131,7 @@ const fetchUserId = async (id: string, isWeb3: boolean) => {
   } else {
     //id fetch with 'id' being email
   }
-  return 1;
+  return;
 };
 
 export const authOptions = {};
