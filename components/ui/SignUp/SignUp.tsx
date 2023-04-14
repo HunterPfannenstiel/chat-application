@@ -1,7 +1,4 @@
-import { ChangeEvent, FormEvent, FunctionComponent, useState } from "react";
-import classes from "./SignUp.module.css";
-import PlusIcon from "@ui/Resuable/Icons/PlusIcon";
-import Image from "next/image";
+import { FunctionComponent } from "react";
 import SignupForm from "../Resuable/SignupForm/Form";
 import { NextRouter, useRouter } from "next/router";
 import { formHandler } from "utils/form";

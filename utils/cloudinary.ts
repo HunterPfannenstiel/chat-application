@@ -8,26 +8,29 @@ cloudinary.config({
 });
 
 export const uploadImage = (
-  buffer: Buffer,
-  cb: (imageUrl: string | undefined, publicId: string | undefined) => void
-) => {
-  const uploadStream = cloudinary.uploader.upload_stream(
-    { folder: "profile-images" },
-    (err: any, result: any) => {
-      if (err) {
-        console.log("error", err);
-        throw new Error(err.message);
+  buffer: Buffer
+): Promise<{ url: string; publicId: string }> => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { folder: "profile-images" },
+      (err: any, result: any) => {
+        if (err) {
+          console.log("error", err);
+          reject(new Error(err.message));
+        }
+        console.log("Callback result", result);
+        resolve({ url: result.secure_url, publicId: result.public_id });
       }
-      console.log("Callback result", result);
-      cb(result.secure_url, result.public_id);
-    }
-  );
-  return streamifier.createReadStream(buffer).pipe(uploadStream);
+    );
+    streamifier.createReadStream(buffer).pipe(uploadStream);
+  });
 };
 
 export const deleteImage = (publicId: string) => {
   cloudinary.uploader.destroy(publicId, (err: any, res: any) => {
-    console.log("error delete", err);
+    console.log("ERROR", err);
     console.log("res delete image", res);
   });
 };
+
+export const parseImage = () => {};

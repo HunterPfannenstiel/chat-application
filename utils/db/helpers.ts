@@ -1,25 +1,27 @@
 import sql from "mssql/msnodesqlv8";
 import { CreatePost } from "@_types/post";
 import { ConnectionPool } from "mssql/msnodesqlv8";
-import { ProcedureParam } from "@_types/db";
+import { DBDelegate, ProcedureParam } from "@_types/db";
+import { getDB } from "./connect";
 
-export const execCreatePost = async (db: ConnectionPool, post: CreatePost) => {
-  try {
-    const request = db.request();
-    request.input("userId", post.userId);
-    request.input("content", post.content);
-    request.input("replyToPostId", post.replyToPostId);
-    request.input("communityId", post.communityId);
-    request.input("images", createImageTableInput(post.images));
-    request.output("postId", sql.Int);
+export const execCreatePost =
+  (post: CreatePost) => async (db: ConnectionPool) => {
+    const request = createProcedureRequest(db, [
+      { paramName: "userId", value: post.userId, isInput: true },
+      { paramName: "content", value: post.content, isInput: true },
+      { paramName: "replyToPostId", value: post.replyToPostId, isInput: true },
+      { paramName: "communityId", value: post.communityId, isInput: true },
+      {
+        paramName: "images",
+        value: createImageTableInput(post.images),
+        isInput: true,
+      },
+      { paramName: "postId", isInput: false, outputType: sql.Int },
+    ]);
     const res = await request.execute("Chat.CreatePost");
     console.log("PostId", res.output.postId);
     return res.output.postId;
-  } catch (error) {
-    console.log("ERROR WITH STORED", error);
-    throw error;
-  }
-};
+  };
 
 //@userId INT, @content NVARCHAR(280), @replyToPostId INT, @communityId INT, @isPinned BIT, @images IMAGES READONLY, @postId INT OUTPUT
 
@@ -64,4 +66,17 @@ const getImageTable = () => {
   imageTable.columns.add("publicId", sql.NVarChar(100));
   imageTable.columns.add("aspectRatio", sql.Numeric(5, 3));
   return imageTable;
+};
+
+export const useDB = async (command: DBDelegate) => {
+  let db;
+  try {
+    db = await getDB();
+    const res = await command(db);
+    return res;
+  } catch (error) {
+    throw error;
+  } finally {
+    if (db) db.close();
+  }
 };

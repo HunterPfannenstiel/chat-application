@@ -1,4 +1,4 @@
-import { ISqlType } from "mssql";
+import { ConnectionPool, ISqlType, ISqlTypeFactoryWithNoParams } from "mssql";
 
 type InputData = {
   paramName: string;
@@ -9,6 +9,8 @@ type InputData = {
 type OutputData = {
   paramName: string;
   isInput: false;
-  outputType: ISqlType;
+  outputType: ISqlTypeFactoryWithNoParams;
 };
 export type ProcedureParam = InputData | OutputData;
+
+export type DBDelegate = (db: ConnectionPool) => Promise<any>;

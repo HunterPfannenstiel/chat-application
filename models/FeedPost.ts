@@ -1,20 +1,18 @@
 import { UpdatePost, PostLike } from "@_types/post";
-import { PostComments } from "@_types/post/feed-post";
+import { FeedPost as Post } from "@_types/post/feed-post";
 import { CreatePost } from "@_types/post";
 import { mockFeedPosts } from "mock-data/posts";
-import { mockProfiles } from "../mock-data/profiles";
-import { UserFeed } from "@_types/user";
-import { getDB } from "utils/db/connect";
+import { useDB } from "utils/db/helpers";
 import { execCreatePost } from "utils/db/helpers";
 import { execFetchFeed } from "utils/db/post-commands";
 
 export class FeedPost {
-  static fetch(postId: string): Promise<PostComments> {
+  static fetch(postId: string): Promise<Post> {
     //Make query to database
     //Check if post was returned
     //Make new post a return
     return new Promise((resolve) => {
-      resolve({ originalPost: mockFeedPosts[0] });
+      resolve(mockFeedPosts[0]);
     });
   }
 
@@ -37,8 +35,7 @@ export class FeedPost {
 
   static async create(contents: CreatePost) {
     //Send query that fills in the correct post fields with 'contents'
-    const db = await getDB();
-    return execCreatePost(db, contents);
+    return useDB(execCreatePost(contents));
   }
   static update(postId: string, updates: UpdatePost): Promise<void> {
     throw new Error("Method not implemented.");
