@@ -41,20 +41,22 @@ const handleForm = async (
   name: string,
   handle: string,
   bio: string,
-  image: Blob
+  image: Blob | null
 ) => {
   const formData = formHandler({
     userName: name,
     userHandle: handle,
     bio,
-    userImage: image,
+    image,
   });
-  const res = await fetch("/api/user", { method: "PUT", body: formData });
+  const res = await fetch("/api/user/create", {
+    method: "PUT",
+    body: formData,
+  });
   if (res.ok) {
     const data = await res.json();
     console.log("IS VALID", data.isValidHandle);
   }
-  console.log({ name, handle, bio, image });
 };
 
 export default EditModal;

@@ -25,14 +25,7 @@ const handler: NextApiHandler = async (req, res) => {
   if (req.method === "POST") {
     let publicId: string | undefined = "";
     try {
-      await new Promise<void>((resolve, reject) => {
-        imageParser(req as any, res as any, async (err) => {
-          if (err) {
-            reject(new Error(err.message));
-          }
-          resolve();
-        });
-      });
+      await parseImage(req, res);
       const session = (await getSession({ req })) as SessionToken | null;
       if (!session) {
         const error = createError(
@@ -96,8 +89,62 @@ const handler: NextApiHandler = async (req, res) => {
       if (publicId) deleteImage(publicId);
       return sendErrorResponse(error, res);
     }
+  } else if (req.method === "PUT") {
+    let publicId;
+    try {
+      const session = (await getSession({ req })) as SessionToken | null;
+      if (!session) {
+        const error = createError(
+          "Please sign-in before updating an account!",
+          400
+        );
+        throw error;
+      }
+      await parseImage(req, res);
+      const fileReq = req as any;
+      const { userName, userHandle, bio } = req.body;
+      let imageUrl;
+      if (fileReq.file) {
+        const imageInfo = await uploadImage(fileReq.file.buffer);
+        imageUrl = imageInfo.url;
+        publicId = imageInfo.publicId;
+        if (!imageUrl) {
+          const error = createError("Image url not returned", 500);
+          throw error;
+        }
+        if (!publicId) {
+          const error = createError("No publicId", 500);
+          throw error;
+        }
+      }
+      const oldImageId = await User.update(session.user.userId, {
+        userName,
+        userHandle,
+        bio,
+        userImage: imageUrl,
+        publicId: publicId,
+      });
+      if (oldImageId) {
+        deleteImage(oldImageId);
+      }
+      return res.status(200).json({ message: "hello" });
+    } catch (error: any) {
+      if (publicId) deleteImage(publicId);
+      return sendErrorResponse(error, res);
+    }
   } else {
     return res.status(400).json({ message: "Invalid method" });
   }
 };
 export default handler;
+
+const parseImage = (req: any, res: any) => {
+  return new Promise<void>((resolve, reject) => {
+    imageParser(req, res, async (err) => {
+      if (err) {
+        reject(new Error(err.message));
+      }
+      resolve();
+    });
+  });
+};

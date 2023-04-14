@@ -27,6 +27,7 @@ export type CreateUser = {
 
 export type UpdateUser = {
   userImage?: string;
+  publicId?: string;
   userName?: string;
   userHandle?: string;
   bio?: string;

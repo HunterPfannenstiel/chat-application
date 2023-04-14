@@ -5,7 +5,12 @@ import ImageInput from "./ImageInput";
 import useValidHandle from "@hooks/profile/useValidHandle";
 
 interface FormProps {
-  handler: (name: string, handle: string, bio: string, image: Blob) => void;
+  handler: (
+    name: string,
+    handle: string,
+    bio: string,
+    image: Blob | null
+  ) => void;
   initialInput?: { name: string; handle: string; bio: string; image: string };
   buttonDisplay: string;
 }
@@ -25,7 +30,7 @@ const Form: FunctionComponent<FormProps> = ({
       const name = target[1].value;
       const handle = target[3].value;
       const bio = target[7].value;
-      if (isFormValid({ name, handle, bio }) && image) {
+      if (isFormValid({ name, handle, bio }) && (image || initialInput)) {
         handler(name, handle, bio, image);
       }
     }
@@ -51,6 +56,9 @@ const Form: FunctionComponent<FormProps> = ({
             setHandle(e.target.value);
           }}
           defaultValue={initialInput?.handle}
+          isInputValid={isValid}
+          invalidMessage="Handle already in use!"
+          className={isValid ? classes.valid : ""}
         />
         <ImageInput
           onImageSelected={setImage}

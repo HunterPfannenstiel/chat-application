@@ -12,7 +12,7 @@ const useValidHandle = (initialHandle?: string) => {
   useEffect(() => {
     let timer: NodeJS.Timeout;
     timer = setTimeout(() => {
-      if (handle) setFetchHandle(handle);
+      if (handle && handle !== initialHandle) setFetchHandle(handle);
     }, 1000);
 
     return () => {
