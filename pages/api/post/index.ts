@@ -3,7 +3,18 @@ import { ClientPost, CreatePost, UpdatePost } from "@_types/post";
 import FeedPost from "models/FeedPost";
 import { NextApiHandler } from "next";
 import { getSession } from "next-auth/react";
-import { createError } from "../utils";
+import { createError, parseImage } from "../utils";
+import multer from "multer";
+
+let imageParser = multer({
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  },
+}).array("images");
 const handler: NextApiHandler = async (req, res) => {
   try {
     if (req.method === "POST") {
@@ -13,6 +24,8 @@ const handler: NextApiHandler = async (req, res) => {
         const e = createError("Post content not provided", 400);
         throw e;
       }
+
+      await parseImage(req, res, imageParser);
 
       //GET USERID FROM SESSION
       //UPLOAD IMAGES AND GET PUBLIC ID's

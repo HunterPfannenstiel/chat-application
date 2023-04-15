@@ -5,6 +5,7 @@ import { mockFeedPosts } from "mock-data/posts";
 import { useDB } from "utils/db/helpers";
 import { execCreatePost } from "utils/db/helpers";
 import { execFetchFeed } from "utils/db/post-commands";
+import { DBFeed, UserFeed } from "@_types/user";
 
 export class FeedPost {
   static fetch(postId: string): Promise<Post> {
@@ -22,7 +23,7 @@ export class FeedPost {
     //Sort by 'createdOn'
     //Fetch first x amount of rows
     //Return posts
-    return execFetchFeed(userId);
+    return execFetchFeed(userId) as Promise<DBFeed>;
   }
 
   static fetchLikes(postId: string): Promise<PostLike[]> {

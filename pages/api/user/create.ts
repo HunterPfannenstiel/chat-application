@@ -1,6 +1,6 @@
 import { NextApiHandler } from "next";
 import multer from "multer";
-import { createError, sendErrorResponse } from "../utils";
+import { createError, parseImage, sendErrorResponse } from "../utils";
 import { User } from "models/User";
 import { getSession } from "next-auth/react";
 import { SessionToken } from "@_types/auth";
@@ -25,7 +25,7 @@ const handler: NextApiHandler = async (req, res) => {
   if (req.method === "POST") {
     let publicId: string | undefined = "";
     try {
-      await parseImage(req, res);
+      await parseImage(req, res, imageParser);
       const session = (await getSession({ req })) as SessionToken | null;
       if (!session) {
         const error = createError(
@@ -100,7 +100,7 @@ const handler: NextApiHandler = async (req, res) => {
         );
         throw error;
       }
-      await parseImage(req, res);
+      await parseImage(req, res, imageParser);
       const fileReq = req as any;
       const { userName, userHandle, bio } = req.body;
       let imageUrl;
@@ -137,14 +137,3 @@ const handler: NextApiHandler = async (req, res) => {
   }
 };
 export default handler;
-
-const parseImage = (req: any, res: any) => {
-  return new Promise<void>((resolve, reject) => {
-    imageParser(req, res, async (err) => {
-      if (err) {
-        reject(new Error(err.message));
-      }
-      resolve();
-    });
-  });
-};
