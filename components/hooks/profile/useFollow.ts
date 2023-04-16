@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { FollowerDetails } from "@_types/user";
+import { ConnectionsDetails } from "@_types/user";
 
 const useFollow = (param: "followers" | "following") => {
   const { data, isLoading, isError } = useQuery({
