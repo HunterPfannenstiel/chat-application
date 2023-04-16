@@ -1,10 +1,10 @@
-import { FollowerDetails } from "@_types/user";
+import { ConnectionsDetails } from "@_types/user";
 import { FunctionComponent } from "react";
 import UserBlock from "@ui/Resuable/UserBlock/UserBlock";
 import classes from "components/ui/Connections/Connections.module.css"
 
 interface ConnectionsProps {
-	users: FollowerDetails[];
+	users: ConnectionsDetails[];
 	heading?: string;
 }
 
