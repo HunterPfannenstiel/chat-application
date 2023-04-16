@@ -1,7 +1,6 @@
 .modal {
     width: 95%;
 }
-
 .content {
     text-align: center;
     background-color: #1DA1F2;
@@ -17,6 +16,20 @@
     width: 100%;
     border-radius: 8px;
 }
+
+.post_input {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 
 .button {
     background-color: white;

@@ -36,3 +36,7 @@
     border-radius: 9px;
     font-size: 1rem;
 }
+
+.valid {
+    background-color: rgba(75, 181, 67, 0.5) !important;
+}

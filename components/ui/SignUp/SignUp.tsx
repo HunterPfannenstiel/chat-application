@@ -17,7 +17,7 @@ const SignUp: FunctionComponent<SignUpProps> = () => {
 
 const handleForm =
   (router: NextRouter) =>
-  async (name: string, handle: string, bio: string, image: Blob) => {
+  async (name: string, handle: string, bio: string, image: Blob | null) => {
     const formData = formHandler({ name, handle, bio, image });
     try {
       const id = await createUser(formData);

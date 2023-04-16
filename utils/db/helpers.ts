@@ -47,7 +47,7 @@ export const executeProcedure = async (
   req: sql.Request
 ) => {
   const res = await req.execute(procedureName);
-  return res.output;
+  return res;
 };
 
 export const createImageTableInput = (

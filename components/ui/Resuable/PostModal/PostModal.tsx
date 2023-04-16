@@ -1,6 +1,9 @@
-import { ChangeEvent, FunctionComponent, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, FunctionComponent, useState } from "react";
 import classes from "./PostModal.module.css";
 import Modal from "../Modal/Modal";
+import ImageSelect, { revokeURLs } from "./ImageSelect";
+import { ImageInfo } from "./types";
+import ImageDisplay from "./ImageDisplay";
 
 interface PostModalProps {
   modalTitle: string;
@@ -19,7 +22,9 @@ const PostModal: FunctionComponent<PostModalProps> = ({
 }) => {
   const [content, setContent] = useState("");
   const [charCount, setCharCount] = useState(0);
-  const handlePost = async () => {
+  const [images, setImages] = useState<ImageInfo[]>([]);
+  const handlePost = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (charCount > 0) {
       try {
         await creatPostHandler(content);
@@ -34,6 +39,11 @@ const PostModal: FunctionComponent<PostModalProps> = ({
       setCharCount(e.target.value.length);
     }
   };
+
+  const clearImages = () => {
+    revokeURLs(images);
+    setImages([]);
+  };
   let className = classes.modal;
   return (
     <Modal
@@ -44,10 +54,21 @@ const PostModal: FunctionComponent<PostModalProps> = ({
     >
       <div className={classes.content}>
         <h1>{modalTitle}</h1>
-        <textarea rows={10} onChange={handleInput} value={content} />
-        <button className={classes.button} onClick={handlePost}>
-          Post
-        </button>
+        <form onSubmit={handlePost}>
+          <div className={classes.post_input}>
+            {images.length > 0 && (
+              <p className={classes.close} onClick={clearImages}>
+                x
+              </p>
+            )}
+            <textarea rows={10} onChange={handleInput} value={content} />
+            {images.length > 0 && <ImageDisplay images={images} />}
+          </div>
+          <ImageSelect images={images} setImages={setImages} />
+          <button className={classes.button} type="submit">
+            Post
+          </button>
+        </form>
         <p>{`Char count: ${charCount}/280`}</p>
       </div>
     </Modal>

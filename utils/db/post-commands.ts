@@ -9,9 +9,8 @@ export const execFetchFeed = async (userId: number) => {
   const db = await getDB();
   const params: ProcedureParam[] = [
     { paramName: "userId", isInput: true, value: userId },
-    { paramName: "feed", isInput: false, outputType: sql.NVarChar(MAX) },
   ];
   const request = createProcedureRequest(db, params);
   const res = await executeProcedure("Chat.FetchFeed", request);
-  return res.feed as string;
+  return res.recordset[0];
 };

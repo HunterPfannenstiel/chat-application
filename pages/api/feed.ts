@@ -15,16 +15,21 @@ const handler: NextApiHandler = async (req, res) => {
       const { global } = req.query;
       if (global || !session || !session.user.userId) {
         console.log("Global fetch");
+
         const user = await FeedPost.fetchFeed(1);
-        return res
-          .status(200)
-          .send({ user: JSON.parse(user), isSignedIn: !!session });
+        if (user.posts) {
+          user.posts = JSON.parse(user.posts);
+        }
+        console.log(user);
+
+        return res.status(200).send({ user, isSignedIn: !!session });
       } else if (session) {
         //session.user.userId
         const user = await FeedPost.fetchFeed(1);
-        return res
-          .status(200)
-          .send({ user: JSON.parse(user), isSignedIn: true });
+        if (user.posts) {
+          user.posts = JSON.parse(user.posts);
+        }
+        return res.status(200).send({ user, isSignedIn: true });
       } else {
         return res.status(400).json({ message: "Please sign-in" });
       }

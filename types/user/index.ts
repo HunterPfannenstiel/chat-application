@@ -15,6 +15,10 @@ export type UserFeed = {
   posts?: FeedPost[];
 } & UserDetails;
 
+export type DBFeed = {
+  posts?: string;
+} & UserDetails;
+
 export type User = {
   bio: string;
   email?: string;
@@ -27,6 +31,7 @@ export type CreateUser = {
 
 export type UpdateUser = {
   userImage?: string;
+  publicId?: string;
   userName?: string;
   userHandle?: string;
   bio?: string;

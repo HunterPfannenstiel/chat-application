@@ -117,3 +117,14 @@ export const sendErrorResponse = (error: any, res: NextApiResponse) => {
   if (!error.statusCode) error.statusCode = 500;
   return res.status(error.statusCode).json(error.message);
 };
+
+export const parseImage = (req: any, res: any, imageParser: any) => {
+  return new Promise<void>((resolve, reject) => {
+    imageParser(req, res, async (err: any) => {
+      if (err) {
+        reject(new Error(err.message));
+      }
+      resolve();
+    });
+  });
+};

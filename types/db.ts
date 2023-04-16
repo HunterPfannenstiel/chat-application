@@ -1,4 +1,8 @@
-import { ConnectionPool, ISqlType, ISqlTypeFactoryWithNoParams } from "mssql";
+import {
+  ConnectionPool,
+  ISqlTypeFactoryWithNoParams,
+  ISqlTypeWithLength,
+} from "mssql";
 
 type InputData = {
   paramName: string;
@@ -9,7 +13,7 @@ type InputData = {
 type OutputData = {
   paramName: string;
   isInput: false;
-  outputType: ISqlTypeFactoryWithNoParams;
+  outputType: ISqlTypeFactoryWithNoParams | ISqlTypeWithLength;
 };
 export type ProcedureParam = InputData | OutputData;
 

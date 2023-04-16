@@ -23,7 +23,7 @@ export class User {
     });
   }
 
-  static fetchFollowing(userId: string): Promise<UserInfo[]> {
+  static fetchFollowing(userId: string): Promise<FollowerDetails[]> {
     throw new Error("Method not implemented.");
   }
 
@@ -32,7 +32,7 @@ export class User {
     return execCreateUser(db, profile);
   }
 
-  static update(userId: string, updates: UpdateUser): Promise<void> {
+  static update(userId: string, updates: UpdateUser): Promise<string | null> {
     throw new Error("Method not implemented.");
   }
 }
