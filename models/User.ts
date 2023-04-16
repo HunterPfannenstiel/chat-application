@@ -7,7 +7,8 @@ import {
 import { UserProfile } from "@_types/user/profile";
 import { mockFollowers, mockProfiles } from "mock-data/profiles";
 import { getDB } from "utils/db/connect";
-import { execCreateUser } from "utils/db/user-commands";
+import { useDB } from "utils/db/helpers";
+import { execCreateUser, getFollow } from "utils/db/user-commands";
 
 export class User {
   static fetchProfile(userId: string): Promise<UserProfile> {
@@ -17,14 +18,14 @@ export class User {
     });
   }
 
-  static fetchFollowers(userId: string): Promise<FollowerDetails[]> {
-    return new Promise((resolve) => {
-      resolve(mockFollowers);
-    });
+  static async fetchFollowers(userId: number): Promise<FollowerDetails[]> {
+    const followers = await useDB(getFollow(userId, 0, "Followers"));
+    return followers;
   }
 
-  static fetchFollowing(userId: string): Promise<FollowerDetails[]> {
-    throw new Error("Method not implemented.");
+  static async fetchFollowing(userId: number): Promise<FollowerDetails[]> {
+    const following = await useDB(getFollow(userId, 0, "Following"));
+    return following;
   }
 
   static async create(profile: CreateUser): Promise<number> {

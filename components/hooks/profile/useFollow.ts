@@ -4,7 +4,7 @@ import { FollowerDetails } from "@_types/user";
 const useFollow = (param: "followers" | "following") => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["follow"],
-    queryFn: fetcher.bind(null, "123", param),
+    queryFn: fetcher.bind(null, "1", param),
   });
 
   return { data, isLoading, isError };

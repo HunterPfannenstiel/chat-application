@@ -6,7 +6,7 @@ import { getDB } from "./connect";
 
 //@userId INT, @content NVARCHAR(280), @replyToPostId INT, @communityId INT, @isPinned BIT, @images IMAGES READONLY, @postId INT OUTPUT
 
-export const createProcedureRequest = (
+export const createDatabaseRequest = (
   db: ConnectionPool,
   params: ProcedureParam[]
 ) => {
@@ -28,6 +28,11 @@ export const executeProcedure = async (
   req: sql.Request
 ) => {
   const res = await req.execute(procedureName);
+  return res;
+};
+
+export const executeFunction = async (query: string, req: sql.Request) => {
+  const res = await req.query(query);
   return res;
 };
 

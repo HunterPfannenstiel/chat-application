@@ -23,11 +23,11 @@ const handler: NextApiHandler = async (req, res) => {
           const userId = params[1];
           if (detail === "followers") {
             console.log("Fetching followers");
-            const followers = await User.fetchFollowers(userId);
+            const followers = await User.fetchFollowers(+userId);
             return res.status(200).json({ followers });
           } else {
             console.log("Fetching following");
-            const following = await User.fetchFollowing(userId);
+            const following = await User.fetchFollowing(+userId);
             return res.status(200).json({ following });
           }
         }

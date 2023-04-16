@@ -1,5 +1,9 @@
 import { CreateUser } from "@_types/user";
-import { createProcedureRequest, executeProcedure } from "./helpers";
+import {
+  createDatabaseRequest,
+  executeFunction,
+  executeProcedure,
+} from "./helpers";
 import sql, { ConnectionPool } from "mssql/msnodesqlv8";
 import { ProcedureParam } from "@_types/db";
 import { getDB } from "./connect";
@@ -22,7 +26,7 @@ export const execCreateUser = async (
     { paramName: "publicId", isInput: true, value: profile.publicId },
     { paramName: "userId", isInput: false, outputType: sql.Int },
   ];
-  const request = createProcedureRequest(db, params);
+  const request = createDatabaseRequest(db, params);
   const res = await executeProcedure("Chat.CreateUser", request);
   return res.output.userId as number;
 };
@@ -41,4 +45,19 @@ export const getUserId =
     const res = await db.query(query);
     if (res.recordset.length > 0) return res.recordset[0].userId;
     return "";
+  };
+
+export const getFollow =
+  (userId: number, page: number, followParam: "Followers" | "Following") =>
+  async (db: ConnectionPool) => {
+    const request = createDatabaseRequest(db, [
+      { paramName: "userId", value: userId, isInput: true },
+      { paramName: "page", value: page, isInput: true },
+    ]);
+
+    const res = await executeFunction(
+      `SELECT * FROM Chat.Fetch${followParam}(@userId, @page)`,
+      request
+    );
+    return res.recordset;
   };

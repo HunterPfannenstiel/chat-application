@@ -1,7 +1,7 @@
 import { ConnectionPool, MAX } from "mssql/msnodesqlv8";
 import {
   createImageTableInput,
-  createProcedureRequest,
+  createDatabaseRequest,
   executeProcedure,
 } from "./helpers";
 import { ProcedureParam } from "@_types/db";
@@ -15,14 +15,14 @@ export const execFetchFeed = async (userId: number) => {
   const params: ProcedureParam[] = [
     { paramName: "userId", isInput: true, value: userId },
   ];
-  const request = createProcedureRequest(db, params);
+  const request = createDatabaseRequest(db, params);
   const res = await executeProcedure("Chat.FetchFeed", request);
   return res.recordset[0];
 };
 
 export const execCreatePost =
   (post: CreatePost) => async (db: ConnectionPool) => {
-    const request = createProcedureRequest(db, [
+    const request = createDatabaseRequest(db, [
       { paramName: "userId", value: post.userId, isInput: true },
       { paramName: "content", value: post.content, isInput: true },
       { paramName: "replyToPostId", value: post.replyToPostId, isInput: true },
