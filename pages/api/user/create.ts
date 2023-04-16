@@ -55,7 +55,7 @@ const handler: NextApiHandler = async (req, res) => {
         throw error;
       }
       const imageInfo = await uploadImage(fileReq.file.buffer);
-      const imageUrl = imageInfo.url;
+      const imageUrl = imageInfo.imageUrl;
       publicId = imageInfo.publicId;
       if (!imageUrl) {
         const error = createError("Image url not returned", 500);
@@ -106,7 +106,7 @@ const handler: NextApiHandler = async (req, res) => {
       let imageUrl;
       if (fileReq.file) {
         const imageInfo = await uploadImage(fileReq.file.buffer);
-        imageUrl = imageInfo.url;
+        imageUrl = imageInfo.imageUrl;
         publicId = imageInfo.publicId;
         if (!imageUrl) {
           const error = createError("Image url not returned", 500);

@@ -5,9 +5,13 @@ import { ImageInfo } from "./types";
 
 interface ImageDisplayProps {
   images: ImageInfo[];
+  removeImage: (url: string) => void;
 }
 
-const ImageDisplay: FunctionComponent<ImageDisplayProps> = ({ images }) => {
+const ImageDisplay: FunctionComponent<ImageDisplayProps> = ({
+  images,
+  removeImage,
+}) => {
   const containerPercentage = (1 / images.length) * 100;
   return (
     <div className={classes.images}>
@@ -19,6 +23,12 @@ const ImageDisplay: FunctionComponent<ImageDisplayProps> = ({ images }) => {
             height: containerPercentage + "%",
           }}
         >
+          <div
+            onClick={removeImage.bind(null, image.src)}
+            className={classes.close}
+          >
+            x
+          </div>
           <Image
             src={image.src}
             alt="user image"

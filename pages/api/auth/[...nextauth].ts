@@ -5,6 +5,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { verifySignature } from "../utils";
 import jwt from "jsonwebtoken";
 import { SigningChallenge } from "@_types/api/verify";
+import { useDB } from "utils/db/helpers";
+import { getUserId } from "utils/db/user-commands";
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   const providers = [
@@ -126,12 +128,8 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
 }
 
 const fetchUserId = async (id: string, isWeb3: boolean) => {
-  if (isWeb3) {
-    //Id fetch with 'id' being ethereum address
-  } else {
-    //id fetch with 'id' being email
-  }
-  return 1;
+  const userId = await useDB(getUserId(id, isWeb3));
+  return userId;
 };
 
 export const authOptions = {};

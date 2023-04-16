@@ -1,7 +1,7 @@
 import { ChangeEvent, FunctionComponent, useState } from "react";
 import classes from "./ImageSelect.module.css";
 import ImageIcon from "../Icons/ImageSelect";
-import { readImages } from "utils/form";
+import { readImages, revokeURLs } from "utils/form";
 import { ImageInfo } from "./types";
 
 interface ImageSelectProps {
@@ -18,7 +18,6 @@ const ImageSelect: FunctionComponent<ImageSelectProps> = ({
     const inputImages = (await readImages(e)) as ImageInfo[];
     setImages(inputImages);
   };
-  console.log("CHILD IMAGES", images);
   return (
     <label className={classes.image_select} htmlFor="image">
       <input
@@ -33,12 +32,6 @@ const ImageSelect: FunctionComponent<ImageSelectProps> = ({
       <ImageIcon />
     </label>
   );
-};
-
-export const revokeURLs = (images: ImageInfo[]) => {
-  images.forEach((image) => {
-    URL.revokeObjectURL(image.src);
-  });
 };
 
 export default ImageSelect;

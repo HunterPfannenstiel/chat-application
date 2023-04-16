@@ -20,15 +20,25 @@ export const execCreateUser = async (
     },
     { paramName: "imageUrl", isInput: true, value: profile.userImage },
     { paramName: "publicId", isInput: true, value: profile.publicId },
-    { paramName: "userId", isInput: false, outputType: sql.Int() },
+    { paramName: "userId", isInput: false, outputType: sql.Int },
   ];
   const request = createProcedureRequest(db, params);
   const res = await executeProcedure("Chat.CreateUser", request);
-  return res.userId as number;
+  return res.output.userId as number;
 };
 
-export const isValidHandle = async (handle: string) => {
-  const db = await getDB();
+export const isValidHandle = (handle: string) => async (db: ConnectionPool) => {
   const res = await db.query(`SELECT Chat.IsValidHandle(${handle})`);
-  console.log(res);
+  console.log("is valid res", res);
+  return res.output;
 };
+
+export const getUserId =
+  (name: string, isWeb3: boolean) => async (db: ConnectionPool) => {
+    const query = isWeb3
+      ? `SELECT * FROM Chat.FetchWeb3User('${name}')`
+      : `SELECT * FROM Chat.FetchEmailUser('${name}')`;
+    const res = await db.query(query);
+    if (res.recordset.length > 0) return res.recordset[0].userId;
+    return "";
+  };

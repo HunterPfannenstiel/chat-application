@@ -28,7 +28,7 @@ export type ClientPost = {
   content: string;
   replyToPostId?: string;
   communityId?: string;
-  imageUrls?: string[];
+  imageUrls?: File[];
 };
 
 export type CreatePost = {

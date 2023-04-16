@@ -4,25 +4,6 @@ import { ConnectionPool } from "mssql/msnodesqlv8";
 import { DBDelegate, ProcedureParam } from "@_types/db";
 import { getDB } from "./connect";
 
-export const execCreatePost =
-  (post: CreatePost) => async (db: ConnectionPool) => {
-    const request = createProcedureRequest(db, [
-      { paramName: "userId", value: post.userId, isInput: true },
-      { paramName: "content", value: post.content, isInput: true },
-      { paramName: "replyToPostId", value: post.replyToPostId, isInput: true },
-      { paramName: "communityId", value: post.communityId, isInput: true },
-      {
-        paramName: "images",
-        value: createImageTableInput(post.images),
-        isInput: true,
-      },
-      { paramName: "postId", isInput: false, outputType: sql.Int },
-    ]);
-    const res = await request.execute("Chat.CreatePost");
-    console.log("PostId", res.output.postId);
-    return res.output.postId;
-  };
-
 //@userId INT, @content NVARCHAR(280), @replyToPostId INT, @communityId INT, @isPinned BIT, @images IMAGES READONLY, @postId INT OUTPUT
 
 export const createProcedureRequest = (

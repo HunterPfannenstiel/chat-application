@@ -9,7 +9,6 @@ interface FeedPostListProps {
 
 const FeedPostList: FunctionComponent<FeedPostListProps> = ({ posts }) => {
   if (posts) {
-    console.log(posts);
     return (
       <ul className={classes.posts}>
         {posts.map((post) => {

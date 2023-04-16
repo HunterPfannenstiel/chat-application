@@ -1,41 +1,55 @@
 import { SessionToken } from "@_types/auth";
-import { ClientPost, CreatePost, UpdatePost } from "@_types/post";
+import { ClientPost, CreatePost, ImageUpload, UpdatePost } from "@_types/post";
 import FeedPost from "models/FeedPost";
 import { NextApiHandler } from "next";
 import { getSession } from "next-auth/react";
-import { createError, parseImage } from "../utils";
+import { createError, getUserSession, parseImage } from "../utils";
 import multer from "multer";
+import { deleteImage, uploadManyImages } from "utils/cloudinary";
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 let imageParser = multer({
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith("image/")) {
+      console.log("FILE MULT", file);
       cb(null, true);
     } else {
+      console.log("NOT MULT", file);
       cb(null, false);
     }
   },
-}).array("images");
+}).array("images", 4);
 const handler: NextApiHandler = async (req, res) => {
+  let publicIds: string[] = [];
   try {
     if (req.method === "POST") {
-      console.log("CREATE POST");
-      const post = req.body as ClientPost;
-      if (!post) {
+      const userId = await getUserSession(req);
+      await parseImage(req, res, imageParser);
+      const fileReq = req as any;
+      const files = fileReq.files as { buffer: Buffer }[];
+      const { content, replyToPostId, communityId } = req.body as ClientPost;
+      if (!content) {
         const e = createError("Post content not provided", 400);
         throw e;
       }
-
-      await parseImage(req, res, imageParser);
-
+      const images = (await uploadManyImages(
+        files.map((image) => image.buffer)
+      )) as ImageUpload[];
+      publicIds = images.map((image) => image.publicId);
       //GET USERID FROM SESSION
       //UPLOAD IMAGES AND GET PUBLIC ID's
-      console.log("Backend post", post);
-      const mockPost = {
-        ...post,
-        userId: "5",
-        images: [],
-      };
-      const postId = await FeedPost.create(mockPost);
+      const postId = await FeedPost.create({
+        content,
+        userId,
+        replyToPostId,
+        communityId,
+        images,
+      });
       return res.status(201).json({ message: "Success!", postId });
     } else if (req.method === "PUT") {
       const updates = req.body.updates as UpdatePost;
@@ -52,18 +66,14 @@ const handler: NextApiHandler = async (req, res) => {
       return res.status(201).json({ message: "NOT IMPLEMENTED" });
     } else if (req.method === "DELETE") {
       console.log("DELETE POST");
-      const session = (await getSession({ req })) as SessionToken | null;
-      if (!session) {
-        const e = createError("Please sign-in!", 401);
-        throw e;
-      }
+      const userId = await getUserSession(req);
       const { postId } = req.body;
       if (!postId) {
         const e = createError("PostId not provided", 400);
         throw e;
       }
       const poster = await FeedPost.fetchPoster(postId);
-      if (poster === session.user.name) {
+      if (poster === userId) {
         await FeedPost.delete(postId);
       } else {
         const e = createError("You do not own this post!", 401);
@@ -75,6 +85,7 @@ const handler: NextApiHandler = async (req, res) => {
     }
   } catch (error: any) {
     if (!error.statusCode) error.statusCode = 500;
+    if (publicIds.length > 0) publicIds.forEach((id) => deleteImage(id));
     return res.status(error.statusCode).json({ message: error.message });
   }
 };

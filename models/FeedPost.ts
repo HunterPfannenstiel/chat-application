@@ -3,8 +3,7 @@ import { FeedPost as Post } from "@_types/post/feed-post";
 import { CreatePost } from "@_types/post";
 import { mockFeedPosts } from "mock-data/posts";
 import { useDB } from "utils/db/helpers";
-import { execCreatePost } from "utils/db/helpers";
-import { execFetchFeed } from "utils/db/post-commands";
+import { execCreatePost, execFetchFeed } from "utils/db/post-commands";
 import { DBFeed, UserFeed } from "@_types/user";
 
 export class FeedPost {

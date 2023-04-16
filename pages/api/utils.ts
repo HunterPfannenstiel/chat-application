@@ -3,6 +3,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { serialize, CookieSerializeOptions } from "cookie";
 import * as util from "ethereumjs-util";
 import { SigningChallenge } from "@_types/api/verify";
+import { getSession } from "next-auth/react";
+import { SessionToken } from "@_types/auth";
 
 declare module "iron-session" {
   interface IronSessionData {
@@ -120,11 +122,27 @@ export const sendErrorResponse = (error: any, res: NextApiResponse) => {
 
 export const parseImage = (req: any, res: any, imageParser: any) => {
   return new Promise<void>((resolve, reject) => {
-    imageParser(req, res, async (err: any) => {
+    imageParser(req, res, (err: any) => {
       if (err) {
         reject(new Error(err.message));
       }
       resolve();
     });
   });
+};
+
+export const getUserSession = async (req: NextApiRequest) => {
+  const session = (await getSession({ req })) as SessionToken | null;
+  if (!session) {
+    const e = createError("Please sign-in!", 400);
+    throw e;
+  }
+  if (!session.user.userId) {
+    const e = createError(
+      "Account not created, please create an account!",
+      400
+    );
+    throw e;
+  }
+  return session.user.userId;
 };

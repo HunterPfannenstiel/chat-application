@@ -1,22 +1,21 @@
 import { ChangeEvent, FormEvent, FunctionComponent, useState } from "react";
+import type { ModalProps } from "@_types/ui";
 import classes from "./PostModal.module.css";
 import Modal from "../Modal/Modal";
-import ImageSelect, { revokeURLs } from "./ImageSelect";
+import ImageSelect from "./ImageSelect";
 import { ImageInfo } from "./types";
 import ImageDisplay from "./ImageDisplay";
+import { revokeURLs } from "utils/form";
 
-interface PostModalProps {
+interface PostModalProps extends ModalProps {
   modalTitle: string;
-  playAnimation: boolean;
-  toggle: () => void;
-  animationTime: number;
-  creatPostHandler: (content: string) => Promise<void>;
+  creatPostHandler: (content: string, images: ImageInfo[]) => Promise<void>;
 }
 
 const PostModal: FunctionComponent<PostModalProps> = ({
   modalTitle,
   playAnimation,
-  toggle,
+  toggleModal,
   animationTime,
   creatPostHandler,
 }) => {
@@ -27,7 +26,8 @@ const PostModal: FunctionComponent<PostModalProps> = ({
     e.preventDefault();
     if (charCount > 0) {
       try {
-        await creatPostHandler(content);
+        await creatPostHandler(content, images);
+        toggleModal();
       } catch (error) {
         console.log("ERROR");
       }
@@ -44,10 +44,21 @@ const PostModal: FunctionComponent<PostModalProps> = ({
     revokeURLs(images);
     setImages([]);
   };
+  const removeImage = (url: string) => {
+    const index = images.findIndex((image) => image.src === url);
+    if (index != -1) {
+      revokeURLs([images[index]]);
+      setImages((prevState) => {
+        const newState = [...prevState];
+        newState.splice(index, 1);
+        return newState;
+      });
+    }
+  };
   let className = classes.modal;
   return (
     <Modal
-      toggle={toggle}
+      toggle={toggleModal}
       className={className}
       playAnimation={playAnimation}
       animationTime={animationTime}
@@ -62,7 +73,9 @@ const PostModal: FunctionComponent<PostModalProps> = ({
               </p>
             )}
             <textarea rows={10} onChange={handleInput} value={content} />
-            {images.length > 0 && <ImageDisplay images={images} />}
+            {images.length > 0 && (
+              <ImageDisplay images={images} removeImage={removeImage} />
+            )}
           </div>
           <ImageSelect images={images} setImages={setImages} />
           <button className={classes.button} type="submit">

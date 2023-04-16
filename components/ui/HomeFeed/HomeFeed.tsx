@@ -8,6 +8,8 @@ import { UserFeed } from "@_types/user";
 import PostModal from "@ui/Resuable/PostModal/PostModal";
 import { ClientPost } from "@_types/post";
 import useTensionScroll from "@hooks/animation/useTensionScroll";
+import { ImageInfo } from "@ui/Resuable/PostModal/types";
+import { formHandler } from "utils/form";
 
 interface HomeFeedProps {
   user: UserFeed;
@@ -22,7 +24,6 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user, isSignedIn }) => {
     playAnimation: playPost,
   } = useAnimateModal(300);
   // useTensionScroll();
-  console.log("Width", screen.width);
   return (
     <section>
       <FeedNav toggleModal={toggleModal} userImage={user.userImage} />
@@ -38,7 +39,7 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user, isSignedIn }) => {
         <PostModal
           modalTitle="Create a Post!"
           playAnimation={playPost}
-          toggle={toggleCreatePost}
+          toggleModal={toggleCreatePost}
           animationTime={300}
           creatPostHandler={postPost}
         />
@@ -51,16 +52,13 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user, isSignedIn }) => {
   );
 };
 
-const postPost = async (content: string) => {
-  console.log("posting");
-  console.log("Content", content);
-  const post: ClientPost = { content };
+const postPost = async (content: string, images: ImageInfo[]) => {
+  const blobs = images.map((image) => image.blob);
+  console.log(blobs);
+  const formData = formHandler({ content }, { images: blobs });
   const res = await fetch("/api/post", {
     method: "POST",
-    body: JSON.stringify(post),
-    headers: {
-      "Content-Type": "application/json",
-    },
+    body: formData,
   });
 
   if (!res.ok) {

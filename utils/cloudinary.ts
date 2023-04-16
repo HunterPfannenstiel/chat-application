@@ -8,8 +8,9 @@ cloudinary.config({
 });
 
 export const uploadImage = (
-  buffer: Buffer
-): Promise<{ url: string; publicId: string }> => {
+  buffer: Buffer,
+  includeAspect?: boolean
+): Promise<{ imageUrl: string; publicId: string; aspectRatio?: number }> => {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       { folder: "profile-images" },
@@ -19,11 +20,25 @@ export const uploadImage = (
           reject(new Error(err.message));
         }
         console.log("Callback result", result);
-        resolve({ url: result.secure_url, publicId: result.public_id });
+        if (includeAspect) {
+          resolve({
+            imageUrl: result.secure_url,
+            publicId: result.public_id,
+            aspectRatio: result.width / result.height,
+          });
+        }
+        resolve({ imageUrl: result.secure_url, publicId: result.public_id });
       }
     );
     streamifier.createReadStream(buffer).pipe(uploadStream);
   });
+};
+
+export const uploadManyImages = async (buffers: Buffer[]) => {
+  const promises = buffers.map((buffer) => uploadImage(buffer, true));
+  const images = await Promise.all(promises);
+
+  return images;
 };
 
 export const deleteImage = (publicId: string) => {
