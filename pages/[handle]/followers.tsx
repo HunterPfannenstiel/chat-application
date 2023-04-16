@@ -1,5 +1,5 @@
 import useFollow from "@hooks/profile/useFollow";
-import Followers from "@ui/Followers/Followers";
+import Connections from "@ui/Connections/Connections";
 import { FunctionComponent } from "react";
 import classes from "./FollowersPage.module.css";
 
@@ -10,7 +10,7 @@ const FollowersPage: FunctionComponent = () => {
 	} else if (isError) {
 		return <h1>Error</h1>;
 	} else if (data) {
-		return <Followers followers={data}/>;
+		return <Connections users={data} heading="Followers"/>;
 	}
 	return <></>;
 };
