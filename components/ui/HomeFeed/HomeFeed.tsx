@@ -17,31 +17,33 @@ interface HomeFeedProps {
 }
 
 const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user, isSignedIn }) => {
-  const { toggleModal, showModal, playAnimation } = useAnimateModal(300);
+  const { toggle, showModal, playAnimation } = useAnimateModal(300);
   const {
-    toggleModal: toggleCreatePost,
+    toggle: toggleCreatePost,
     showModal: showPost,
     playAnimation: playPost,
   } = useAnimateModal(300);
   // useTensionScroll();
   return (
     <section>
-      <FeedNav toggleModal={toggleModal} userImage={user.userImage} />
+      <FeedNav toggleModal={toggle} userImage={user.userImage} />
       <FeedPostList posts={user.posts} />
       <Menu
         showModal={showModal}
         playAnimation={playAnimation}
         user={user}
-        toggleModal={toggleModal}
+        toggleModal={toggle}
         isSignedIn={isSignedIn}
       />
       {showPost && (
         <PostModal
           modalTitle="Create a Post!"
-          playAnimation={playPost}
-          toggleModal={toggleCreatePost}
-          animationTime={300}
-          creatPostHandler={postPost}
+          modalProps={{
+            toggle: toggleCreatePost,
+            playAnimation: playPost,
+            animationTime: 300,
+          }}
+          createPostHandler={postPost}
         />
       )}
 

@@ -12,7 +12,7 @@ interface EditModalProps extends ModalProps {
 
 const EditModal: FunctionComponent<EditModalProps> = ({
   playAnimation,
-  toggleModal,
+  toggle,
   animationTime,
   userInfo,
 }) => {
@@ -20,7 +20,7 @@ const EditModal: FunctionComponent<EditModalProps> = ({
     <Modal
       playAnimation={playAnimation}
       animationTime={animationTime}
-      toggle={toggleModal}
+      toggle={toggle}
       className={classes.modal}
     >
       <Form

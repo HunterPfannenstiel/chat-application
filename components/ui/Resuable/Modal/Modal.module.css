@@ -8,6 +8,12 @@
     z-index: 2;
 }
 
+.close_button {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 .animate {
     animation: fade_out var(--animationTime) ease-in-out;
 }

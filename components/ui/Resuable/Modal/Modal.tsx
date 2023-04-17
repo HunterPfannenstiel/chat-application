@@ -1,6 +1,7 @@
 import { CSSProperties, FunctionComponent, ReactNode } from "react";
 import classes from "./Modal.module.css";
 import Background from "../MobileMenu/Background";
+import CloseIcon from "../Icons/CloseIcon";
 
 interface ModalProps {
   children: ReactNode;
@@ -8,6 +9,7 @@ interface ModalProps {
   toggle: () => void;
   playAnimation: boolean;
   animationTime: number;
+  displayCloseIcon?: boolean;
 }
 
 const Modal: FunctionComponent<ModalProps> = ({
@@ -16,6 +18,7 @@ const Modal: FunctionComponent<ModalProps> = ({
   toggle,
   playAnimation,
   animationTime,
+  displayCloseIcon,
 }) => {
   if (playAnimation) {
     className += ` ${classes.animate}`;
@@ -26,6 +29,11 @@ const Modal: FunctionComponent<ModalProps> = ({
         className={classes.modal + " " + className}
         style={{ "--animationTime": animationTime + "ms" } as CSSProperties}
       >
+        {displayCloseIcon && (
+          <div className={classes.close_button}>
+            <CloseIcon onClose={toggle} />
+          </div>
+        )}
         {children}
       </div>
       <Background

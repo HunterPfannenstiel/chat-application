@@ -144,5 +144,5 @@ export const getUserSession = async (req: NextApiRequest) => {
     );
     throw e;
   }
-  return session.user.userId;
+  return session;
 };

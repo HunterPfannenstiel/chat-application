@@ -3,9 +3,10 @@ import classes from "./Engagement.module.css";
 import EComponent from "./EComponent";
 import LikeIcon from "@ui/Resuable/Icons/LikeIcon";
 import CommentIcon from "@ui/Resuable/Icons/CommentIcon";
+import { updatePostLike } from "utils/actions";
 
 interface EngagementProps {
-  postId: string;
+  postId: number;
   likeCount: number;
   commentCount: number;
   isLiked: boolean;
@@ -19,26 +20,22 @@ const Engagement: FunctionComponent<EngagementProps> = ({
 }) => {
   const [liked, setLiked] = useState(isLiked);
   const [likes, setLikes] = useState(likeCount);
-
-  useEffect(() => {
-    if (liked !== isLiked || likeCount !== likes) {
-      handleLike(liked, postId);
-      setLikes((prevState) => {
-        if (liked) {
-          return prevState + 1;
-        } else {
-          return prevState - 1;
-        }
-      });
+  const handleLike = () => {
+    if (liked) {
+      updatePostLike(postId, "unlike");
+      setLikes((prevState) => prevState - 1);
+    } else {
+      updatePostLike(postId, "like");
+      setLikes((prevState) => prevState + 1);
     }
-  }, [liked]);
+    setLiked((prevState) => !prevState);
+  };
+
   return (
     <div className={classes.engagement}>
       <EComponent
         count={likes}
-        action={() => {
-          setLiked((prevState) => !prevState);
-        }}
+        action={handleLike}
         icon={<LikeIcon fillColor={liked ? "red" : "gray"} />}
       />
       <EComponent
@@ -50,14 +47,6 @@ const Engagement: FunctionComponent<EngagementProps> = ({
       />
     </div>
   );
-};
-
-const handleLike = (isLiked: boolean, postId: string) => {
-  fetch("/api/post/like", {
-    method: "POST",
-    body: JSON.stringify({ postId, action: isLiked ? "delete" : "create" }),
-    headers: { "Content-Type": "application/json" },
-  });
 };
 
 export default Engagement;

@@ -14,7 +14,7 @@ interface ProfilePageProps {
 
 const ProfilePage: FunctionComponent<ProfilePageProps> = ({ profile }) => {
   const { user, isUsersProfile } = profile;
-  const { playAnimation, showModal, toggleModal } = useAnimateModal(300);
+  const { playAnimation, showModal, toggle } = useAnimateModal(300);
   console.log(isUsersProfile);
   return (
     <>
@@ -24,7 +24,7 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({ profile }) => {
         userHandle={user.userHandle}
         userName={user.userName}
         isUsersProfile={isUsersProfile}
-        toggleEdit={toggleModal}
+        toggleEdit={toggle}
         bio={<p>{user.bio}</p>}
         aggregateData={
           <Links
@@ -48,7 +48,7 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({ profile }) => {
       {showModal && (
         <EditModal
           playAnimation={playAnimation}
-          toggleModal={toggleModal}
+          toggle={toggle}
           animationTime={300}
           userInfo={{ ...user }}
         />

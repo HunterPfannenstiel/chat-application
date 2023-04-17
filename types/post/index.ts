@@ -32,7 +32,7 @@ export type ClientPost = {
 };
 
 export type CreatePost = {
-  userId: string;
+  userId: number;
   content: string;
   replyToPostId?: string;
   communityId?: string;

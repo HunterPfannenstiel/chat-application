@@ -2,15 +2,19 @@ import { FunctionComponent } from "react";
 import classes from "./UserBlockButton.module.css";
 
 interface UserBlockButtonProps {
-	buttonText: string;
-    onClick?: () => {}
+  buttonText: string;
+  onClick?: () => void;
 }
 
 const UserBlockButton: FunctionComponent<UserBlockButtonProps> = ({
-	buttonText,
-    onClick
+  buttonText,
+  onClick,
 }) => {
-	return <button className={classes["button"]} onClick={onClick}>{buttonText}</button>;
+  return (
+    <button className={classes["button"]} onClick={onClick}>
+      {buttonText}
+    </button>
+  );
 };
 
 export default UserBlockButton;

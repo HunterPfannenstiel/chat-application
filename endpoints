@@ -11,7 +11,7 @@ Delete post - DELETE /api/post (body needs to include {postId}. The necessary us
 
 Fetch Likes - GET /api/post/likes/[postId] (returns {likes: UserInfo[]})
 
-Create/Delete Like - POST /api/post/like (body needs {postId, action: "create" | "delete"})
+Create/Delete Like - POST /api/post/like (body needs {postId, action: "like" | "unlike"})
 
 User:
 Fetch profile - GET /api/user/[userId] (returns {user: UserProfile})
@@ -23,3 +23,5 @@ Fetch following - GET /api/user/following/[userId] (returns {following: Follower
 Create user - POST /api/user (body needs to be of type 'User') -Implemented
 
 Update user - PUT /api/user (body needs to be of type 'UpdateUser')
+
+Follow user - POST /api/user/follow (body needs to be {followingUserId: number, action: "follow" | "unfollow"})

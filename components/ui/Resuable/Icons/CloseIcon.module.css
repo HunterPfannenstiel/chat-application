@@ -1,0 +1,27 @@
+.container {
+    --diameter: 50px;
+    width: var(--diameter);
+    height: var(--diameter);
+    position: relative;
+}
+
+.container div {
+    width: 10%;
+    height: 75%;
+    position: absolute;
+    background-color: black;
+    border-radius: 8px;
+    top: 50%;
+    left: 50%;
+}
+
+.container div:first-child {
+    rotate: -45deg;
+    transform: translate(-50%, -50%)
+}
+
+.container div:last-child {
+    rotate: 45deg;
+    transform: translate(-50%, -50%)
+}
+

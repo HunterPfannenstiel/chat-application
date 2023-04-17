@@ -28,7 +28,7 @@ const handler: NextApiHandler = async (req, res) => {
   let publicIds: string[] = [];
   try {
     if (req.method === "POST") {
-      const userId = await getUserSession(req);
+      const session = await getUserSession(req);
       await parseImage(req, res, imageParser);
       const fileReq = req as any;
       const files = fileReq.files as { buffer: Buffer }[];
@@ -45,7 +45,7 @@ const handler: NextApiHandler = async (req, res) => {
       //UPLOAD IMAGES AND GET PUBLIC ID's
       const postId = await FeedPost.create({
         content,
-        userId,
+        userId: session.user.userId,
         replyToPostId,
         communityId,
         images,
@@ -66,14 +66,14 @@ const handler: NextApiHandler = async (req, res) => {
       return res.status(201).json({ message: "NOT IMPLEMENTED" });
     } else if (req.method === "DELETE") {
       console.log("DELETE POST");
-      const userId = await getUserSession(req);
+      const session = await getUserSession(req);
       const { postId } = req.body;
       if (!postId) {
         const e = createError("PostId not provided", 400);
         throw e;
       }
       const poster = await FeedPost.fetchPoster(postId);
-      if (poster === userId) {
+      if (+poster === session.user.userId) {
         await FeedPost.delete(postId);
       } else {
         const e = createError("You do not own this post!", 401);

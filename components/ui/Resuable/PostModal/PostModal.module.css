@@ -11,29 +11,3 @@
 .content h1 {
     margin-bottom: 0.5rem;
 }
-
-.content textarea {
-    width: 100%;
-    border-radius: 8px;
-}
-
-.post_input {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    position: relative;
-}
-
-.close {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-
-.button {
-    background-color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 0.5em 2em;
-}

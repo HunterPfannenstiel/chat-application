@@ -1,5 +1,5 @@
 export type ModalProps = {
   playAnimation: boolean;
-  toggleModal: () => void;
+  toggle: () => void;
   animationTime: number;
 };

@@ -44,7 +44,7 @@ export class FeedPost {
     throw new Error("Method not implemented.");
   }
 
-  static like(postId: string, userId: string, action: "create" | "delete") {
+  static like(postId: number, userId: number, action: "like" | "unlike") {
     throw new Error("Method not implemented");
   }
 }

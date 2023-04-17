@@ -39,4 +39,6 @@ export type UpdateUser = {
 
 export type ConnectionsDetails = {
   bio: string;
+  userId: number;
+  isFollowing?: number;
 } & UserInfo;

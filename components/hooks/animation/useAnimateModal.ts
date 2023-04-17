@@ -4,7 +4,7 @@ const useAnimateModal = (animationTime: number) => {
   const [playAnimation, setPlayAnimation] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [handle, setHandle] = useState(false);
-  const toggleModal = () => {
+  const toggle = () => {
     setHandle((prevState) => !prevState);
   };
 
@@ -35,7 +35,7 @@ const useAnimateModal = (animationTime: number) => {
     };
   }, [handle]);
 
-  return { toggleModal, showModal, playAnimation };
+  return { toggle, showModal, playAnimation };
 };
 
 export default useAnimateModal;

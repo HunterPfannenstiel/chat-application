@@ -1,7 +1,7 @@
 import {
   UserInfo,
   UpdateUser,
-  FollowerDetails,
+  ConnectionsDetails,
   CreateUser,
 } from "@_types/user";
 import { UserProfile } from "@_types/user/profile";
@@ -18,12 +18,12 @@ export class User {
     });
   }
 
-  static async fetchFollowers(userId: number): Promise<FollowerDetails[]> {
+  static async fetchFollowers(userId: number): Promise<ConnectionsDetails[]> {
     const followers = await useDB(getFollow(userId, 0, "Followers"));
     return followers;
   }
 
-  static async fetchFollowing(userId: number): Promise<FollowerDetails[]> {
+  static async fetchFollowing(userId: number): Promise<ConnectionsDetails[]> {
     const following = await useDB(getFollow(userId, 0, "Following"));
     return following;
   }
@@ -34,6 +34,10 @@ export class User {
   }
 
   static update(userId: number, updates: UpdateUser): Promise<string | null> {
+    throw new Error("Method not implemented.");
+  }
+
+  static follow(userId: number, followingUserId: number) {
     throw new Error("Method not implemented.");
   }
 }
