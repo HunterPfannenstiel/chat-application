@@ -16,7 +16,7 @@ const handler: NextApiHandler = async (req, res) => {
       if (global || !session || !session.user.userId) {
         console.log("Global fetch");
 
-        const user = await FeedPost.fetchFeed(1);
+        const user = await FeedPost.fetchFeed(session?.user.userId || 1);
         if (user.posts) {
           user.posts = JSON.parse(user.posts);
         }
@@ -25,7 +25,7 @@ const handler: NextApiHandler = async (req, res) => {
         return res.status(200).send({ user, isSignedIn: !!session });
       } else if (session) {
         //session.user.userId
-        const user = await FeedPost.fetchFeed(1);
+        const user = await FeedPost.fetchFeed(session?.user.userId || 1);
         if (user.posts) {
           user.posts = JSON.parse(user.posts);
         }

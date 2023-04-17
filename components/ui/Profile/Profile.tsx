@@ -30,12 +30,12 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({ profile }) => {
           <Links
             linkInfo={[
               {
-                href: `/${user.userName}/following`,
+                href: `/${user.userHandle}/following`,
                 count: user.followingCount,
                 label: "Following",
               },
               {
-                href: `/${user.userName}/followers`,
+                href: `/${user.userHandle}/followers`,
                 count: user.followerCount,
                 label: "Followers",
               },

@@ -39,10 +39,23 @@ export const isValidHandle = (handle: string) => async (db: ConnectionPool) => {
 
 export const getUserId =
   (name: string, isWeb3: boolean) => async (db: ConnectionPool) => {
-    const query = isWeb3
-      ? `SELECT * FROM Chat.FetchWeb3User('${name}')`
-      : `SELECT * FROM Chat.FetchEmailUser('${name}')`;
-    const res = await db.query(query);
+    console.log("NAME", name);
+    let res: any;
+    let request: any;
+    let query: string;
+    if (isWeb3) {
+      request = createDatabaseRequest(db, [
+        { paramName: "ethereumAddress", isInput: true, value: name },
+      ]);
+      query = "SELECT * FROM Chat.FetchWeb3User(@ethereumAddress)";
+    } else {
+      request = createDatabaseRequest(db, [
+        { paramName: "email", isInput: true, value: name },
+      ]);
+      query = "SELECT * FROM Chat.FetchEmailUser(@email)";
+    }
+    res = await executeFunction(query, request);
+    console.log("USER ID", res);
     if (res.recordset.length > 0) return res.recordset[0].userId;
     return "";
   };

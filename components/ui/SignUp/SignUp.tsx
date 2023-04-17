@@ -21,8 +21,6 @@ const handleForm =
     const formData = formHandler({ name, handle, bio, image });
     try {
       const id = await createUser(formData);
-      console.log("NEW USER ID", id);
-      //Update JWT
       router.push("/");
     } catch (error) {
       console.log("ERROR SUBMITTING USER");
@@ -37,6 +35,7 @@ const createUser = async (formData: FormData) => {
   if (!res.ok) {
     throw new Error("Error creating user!");
   }
+  await fetch("/api/auth/session?createUser=true");
   const data = (await res.json()) as { id: number };
   return data.id;
 };

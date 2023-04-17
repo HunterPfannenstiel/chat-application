@@ -10,24 +10,24 @@ const handler: NextApiHandler = async (req, res) => {
       try {
         if (params?.length === 1) {
           const session = (await getSession({ req })) as SessionToken | null;
-          let userId = "";
+          let userId: number;
           if (session) {
             userId = session.user.userId;
           }
           const user = await User.fetchProfile(params[0]);
           return res
             .status(200)
-            .json({ user, isUsersProfile: userId == params[0] });
+            .json({ user, isUsersProfile: userId == +params[0] });
         } else if (params?.length === 2) {
           const detail = params[0];
-          const userId = params[1];
+          const handle = params[1]; //ALTER FUNCTION TO ACCEPT USER HANDLE
           if (detail === "followers") {
             console.log("Fetching followers");
-            const followers = await User.fetchFollowers(+userId);
+            const followers = await User.fetchFollowers(1);
             return res.status(200).json({ followers });
           } else {
             console.log("Fetching following");
-            const following = await User.fetchFollowing(+userId);
+            const following = await User.fetchFollowing(1);
             return res.status(200).json({ following });
           }
         }

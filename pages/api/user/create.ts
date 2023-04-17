@@ -74,9 +74,6 @@ const handler: NextApiHandler = async (req, res) => {
         email: !session.user.isWeb3 ? session.user.name : undefined,
         ethereumAddress: session.user.isWeb3 ? session.user.name : undefined,
       });
-      const url = `${process.env.NEXTAUTH_URL}/api/auth/session?createUser=true`;
-      console.log("URL", url);
-      await fetch(url);
       res.status(200).json({ message: "uploaded user", id: userId });
 
       // console.log("calling fetch");

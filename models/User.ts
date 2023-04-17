@@ -33,7 +33,7 @@ export class User {
     return execCreateUser(db, profile);
   }
 
-  static update(userId: string, updates: UpdateUser): Promise<string | null> {
+  static update(userId: number, updates: UpdateUser): Promise<string | null> {
     throw new Error("Method not implemented.");
   }
 }
