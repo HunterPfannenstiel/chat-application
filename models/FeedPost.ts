@@ -3,26 +3,29 @@ import { FeedPost as Post } from "@_types/post/feed-post";
 import { CreatePost } from "@_types/post";
 import { mockFeedPosts } from "mock-data/posts";
 import { useDB } from "utils/db/helpers";
-import { execCreatePost, execFetchFeed } from "utils/db/post-commands";
+import {
+  execCreatePost,
+  execFetchFeed,
+  getPostComments,
+} from "utils/db/post-commands";
 import { DBFeed, UserFeed } from "@_types/user";
 
 export class FeedPost {
-  static fetch(postId: string): Promise<Post> {
+  static fetch(postId: number, userId: number, page: number): Promise<Post> {
     //Make query to database
     //Check if post was returned
     //Make new post a return
-    return new Promise((resolve) => {
-      resolve(mockFeedPosts[0]);
-    });
+    return useDB(getPostComments(postId, userId, page));
   }
 
-  static fetchFeed(userId: number) {
+  static fetchFeed(userId: number): Promise<DBFeed> {
     //*'userId' will be a valid userId*
     //Get all of 'id's' followers and join their posts
     //Sort by 'createdOn'
     //Fetch first x amount of rows
     //Return posts
-    return execFetchFeed(userId) as Promise<DBFeed>;
+
+    return execFetchFeed(userId);
   }
 
   static fetchLikes(postId: string): Promise<PostLike[]> {

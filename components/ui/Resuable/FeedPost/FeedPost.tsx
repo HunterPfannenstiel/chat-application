@@ -4,14 +4,19 @@ import Engagement from "./Engagement/Engagement";
 import classes from "./FeedPost.module.css";
 import UserDetails from "./UserDetails";
 import { FeedPost } from "@_types/post/feed-post";
+import { useRouter } from "next/router";
 
 interface FeedPostProps {
   post: FeedPost;
 }
 
 const FeedPost: FunctionComponent<FeedPostProps> = ({ post }) => {
+  const router = useRouter();
+  const viewComments = () => {
+    router.push(`/post/${post.postId}`);
+  };
   return (
-    <div className={classes.feed_post}>
+    <div className={classes.feed_post} onClick={viewComments}>
       <div className={classes.user_details}>
         <UserDetails
           imageUrl={post.userImage}

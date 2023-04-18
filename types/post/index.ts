@@ -15,7 +15,7 @@ export type Image = {
 export type PostLike = { bio: string } & UserInfo;
 
 export type ViewPost = {
-  postId: string;
+  postId: number;
   content: string;
   likeCount: number;
   commentCount: number;
