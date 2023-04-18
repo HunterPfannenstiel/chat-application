@@ -6,9 +6,9 @@ import useValidHandle from "@hooks/profile/useValidHandle";
 
 interface FormProps {
   handler: (
-    name: string,
-    handle: string,
-    bio: string,
+    name: string | null,
+    handle: string | null,
+    bio: string | null,
     image: Blob | null
   ) => void;
   initialInput?: { name: string; handle: string; bio: string; image: string };
@@ -27,10 +27,15 @@ const Form: FunctionComponent<FormProps> = ({
     if (e.target) {
       const target = e.target as any;
       console.log(e.target);
-      const name = target[1].value;
-      const handle = target[3].value;
-      const bio = target[7].value;
+      let name = target[1].value;
+      let handle = target[3].value;
+      let bio = target[7].value;
       if (isFormValid({ name, handle, bio }) && (image || initialInput)) {
+        if (initialInput) {
+          name = initialInput.name !== name ? name : null;
+          handle = initialInput.handle !== handle ? handle : null;
+          bio = initialInput.bio !== bio ? bio : null;
+        }
         handler(name, handle, bio, image);
       }
     }

@@ -38,9 +38,9 @@ const EditModal: FunctionComponent<EditModalProps> = ({
 };
 
 const handleForm = async (
-  name: string,
-  handle: string,
-  bio: string,
+  name: string | null,
+  handle: string | null,
+  bio: string | null,
   image: Blob | null
 ) => {
   const formData = formHandler({

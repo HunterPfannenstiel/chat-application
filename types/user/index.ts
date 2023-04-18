@@ -30,7 +30,7 @@ export type CreateUser = {
 } & User;
 
 export type UpdateUser = {
-  userImage?: string;
+  imageUrl?: string;
   publicId?: string;
   userName?: string;
   userHandle?: string;

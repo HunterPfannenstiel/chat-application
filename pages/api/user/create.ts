@@ -1,6 +1,11 @@
 import { NextApiHandler } from "next";
 import multer from "multer";
-import { createError, parseImage, sendErrorResponse } from "../utils";
+import {
+  createError,
+  getUserSession,
+  parseImage,
+  sendErrorResponse,
+} from "../utils";
 import { User } from "models/User";
 import { getSession } from "next-auth/react";
 import { SessionToken } from "@_types/auth";
@@ -89,14 +94,7 @@ const handler: NextApiHandler = async (req, res) => {
   } else if (req.method === "PUT") {
     let publicId;
     try {
-      const session = (await getSession({ req })) as SessionToken | null;
-      if (!session) {
-        const error = createError(
-          "Please sign-in before updating an account!",
-          400
-        );
-        throw error;
-      }
+      const session = await getUserSession(req);
       await parseImage(req, res, imageParser);
       const fileReq = req as any;
       const { userName, userHandle, bio } = req.body;
@@ -114,19 +112,23 @@ const handler: NextApiHandler = async (req, res) => {
           throw error;
         }
       }
+      console.log("Updated contents", { userName, userHandle, bio });
       const oldImageId = await User.update(session.user.userId, {
         userName,
         userHandle,
         bio,
-        userImage: imageUrl,
-        publicId: publicId,
+        imageUrl,
+        publicId,
       });
       if (oldImageId) {
         deleteImage(oldImageId);
       }
-      return res.status(200).json({ message: "hello" });
+      return res.status(200).json({ message: "Upated User!" });
     } catch (error: any) {
-      if (publicId) deleteImage(publicId);
+      if (publicId) {
+        console.log("deleted image", publicId);
+        deleteImage(publicId);
+      }
       return sendErrorResponse(error, res);
     }
   } else {

@@ -1,7 +1,6 @@
-import { SessionToken } from "@_types/auth";
 import { User } from "models/User";
 import { NextApiHandler } from "next";
-import { getSession } from "next-auth/react";
+import { getUserSession } from "../utils";
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === "GET") {
     const { params } = req.query;
@@ -9,11 +8,8 @@ const handler: NextApiHandler = async (req, res) => {
     if (params) {
       try {
         if (params?.length === 1) {
-          const session = (await getSession({ req })) as SessionToken | null;
-          let userId: number;
-          if (session) {
-            userId = session.user.userId;
-          }
+          const userId = (await getUserSession(req))?.user?.userId;
+
           const user = await User.fetchProfile(params[0]);
           return res
             .status(200)

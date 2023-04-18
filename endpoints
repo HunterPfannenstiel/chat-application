@@ -20,8 +20,8 @@ Fetch followers - GET /api/user/followers/[userId] (returns {followers: Follower
 
 Fetch following - GET /api/user/following/[userId] (returns {following: FollowerDetails[]})
 
-Create user - POST /api/user (body needs to be of type 'User') -Implemented
+Create user - POST /api/user/create (body needs to be of type 'User') -Implemented
 
-Update user - PUT /api/user (body needs to be of type 'UpdateUser')
+Update user - PUT /api/user/create (body needs to be of type 'UpdateUser')
 
 Follow user - POST /api/user/follow (body needs to be {followingUserId: number, action: "follow" | "unfollow"})

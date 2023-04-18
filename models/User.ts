@@ -1,12 +1,6 @@
-import {
-  UserInfo,
-  UpdateUser,
-  ConnectionsDetails,
-  CreateUser,
-} from "@_types/user";
+import { UpdateUser, ConnectionsDetails, CreateUser } from "@_types/user";
 import { UserProfile } from "@_types/user/profile";
-import { mockFollowers, mockProfiles } from "mock-data/profiles";
-import { getDB } from "utils/db/connect";
+import { mockProfiles } from "mock-data/profiles";
 import { useDB } from "utils/db/helpers";
 import { execCreateUser, getFollow } from "utils/db/user-commands";
 
@@ -29,8 +23,7 @@ export class User {
   }
 
   static async create(profile: CreateUser): Promise<number> {
-    const db = await getDB();
-    return execCreateUser(db, profile);
+    return execCreateUser(profile);
   }
 
   static update(userId: number, updates: UpdateUser): Promise<string | null> {
