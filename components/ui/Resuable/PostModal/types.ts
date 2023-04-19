@@ -1,6 +1,5 @@
 export type ImageInfo = {
-  src: string;
+  imageUrl: string;
   blob: File;
-  width: number;
-  height: number;
+  aspectRatio: number;
 };

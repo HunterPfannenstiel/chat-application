@@ -19,9 +19,11 @@ export const formHandler = (
   return formData;
 };
 
-export const readImages = async (e: ChangeEvent<HTMLInputElement>) => {
+export const readImages = async (
+  e: ChangeEvent<HTMLInputElement>
+): Promise<ImageInfo[]> => {
   if (e.target.files) {
-    const promises = [];
+    const promises: Promise<ImageInfo>[] = [];
     for (let i = 0; i < Math.min(e.target.files.length, 4); i++) {
       promises.push(
         new Promise((resolve, reject) => {
@@ -29,9 +31,8 @@ export const readImages = async (e: ChangeEvent<HTMLInputElement>) => {
           img.src = URL.createObjectURL(e.target.files![i]);
           img.onload = () => {
             resolve({
-              src: img.src,
-              width: img.width,
-              height: img.height,
+              imageUrl: img.src,
+              aspectRatio: img.width / img.height,
               blob: e.target.files![i],
             });
           };
@@ -46,6 +47,6 @@ export const readImages = async (e: ChangeEvent<HTMLInputElement>) => {
 
 export const revokeURLs = (images: ImageInfo[]) => {
   images.forEach((image) => {
-    URL.revokeObjectURL(image.src);
+    URL.revokeObjectURL(image.imageUrl);
   });
 };

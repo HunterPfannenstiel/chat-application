@@ -1,28 +1,37 @@
 import { FeedPost as FeedPostT } from "@_types/post/feed-post";
-import { FunctionComponent } from "react";
+import { FunctionComponent, ReactNode } from "react";
 import FeedPost from "../FeedPost";
 import classes from "./index.module.css";
 
 interface FeedPostListProps {
   posts: FeedPostT[] | undefined;
+  emptyPostDisplay: ReactNode;
+  isUsersFeed?: boolean;
+  onEditPost?: (index: number) => void;
 }
 
-const FeedPostList: FunctionComponent<FeedPostListProps> = ({ posts }) => {
+const FeedPostList: FunctionComponent<FeedPostListProps> = ({
+  posts,
+  emptyPostDisplay,
+  isUsersFeed,
+  onEditPost,
+}) => {
   if (posts) {
     return (
       <ul className={classes.posts}>
-        {posts.map((post) => {
-          return <FeedPost post={post} />;
+        {posts.map((post, i) => {
+          return (
+            <FeedPost
+              post={post}
+              isUsersPost={isUsersFeed}
+              onEditPost={onEditPost?.bind(null, i)}
+            />
+          );
         })}
       </ul>
     );
-  } else
-    return (
-      <p>
-        No one you follow has posted! Follow more people or view the 'Global'
-        page!
-      </p>
-    );
+  }
+  return <>{emptyPostDisplay}</>;
 };
 
 export default FeedPostList;

@@ -3,6 +3,7 @@ import classes from "./PostForm.module.css";
 import { ImageInfo } from "../types";
 import ImageDisplay from "../ImageDisplay";
 import ImageSelect from "../ImageSelect";
+import { Image } from "@_types/post";
 
 interface PostFormProps {
   handlePost: (e: FormEvent<HTMLFormElement>) => void;
@@ -12,6 +13,7 @@ interface PostFormProps {
   handleInput: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   clearImages: () => void;
   onSelectImage: (index: number) => void;
+  initialImages?: Image[];
 }
 
 const PostForm: FunctionComponent<PostFormProps> = ({
@@ -22,6 +24,7 @@ const PostForm: FunctionComponent<PostFormProps> = ({
   clearImages,
   postContent,
   onSelectImage,
+  initialImages,
 }) => {
   return (
     <form onSubmit={handlePost}>
@@ -38,7 +41,11 @@ const PostForm: FunctionComponent<PostFormProps> = ({
           className={classes.textarea}
         />
         {images.length > 0 && (
-          <ImageDisplay images={images} onSelectImage={onSelectImage} />
+          <ImageDisplay
+            inputImages={images}
+            onSelectImage={onSelectImage}
+            initialImages={initialImages}
+          />
         )}
       </div>
       <ImageSelect images={images} setImages={setImages} />

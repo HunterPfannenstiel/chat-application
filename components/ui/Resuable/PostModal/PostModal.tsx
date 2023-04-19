@@ -7,19 +7,22 @@ import PostForm from "./PostForm/PostForm";
 import useAnimateModal from "@hooks/animation/useAnimateModal";
 import ImageView from "../ImageView/ImageView";
 import useCreateFeedPost from "@hooks/feed-post/useCreateFeedPost";
+import { Image } from "@_types/post";
 
 interface PostModalProps {
   modalProps: ModalProps;
   modalTitle: string;
   createPostHandler: (content: string, images: ImageInfo[]) => Promise<void>;
+  initialContents?: { content: string; imageUrls: Image[] | undefined };
 }
 
 const PostModal: FunctionComponent<PostModalProps> = ({
   modalTitle,
   modalProps,
   createPostHandler,
+  initialContents,
 }) => {
-  const post = useCreateFeedPost(createPostHandler);
+  const post = useCreateFeedPost(createPostHandler, initialContents?.content);
   const [initialIndex, setInitialIndex] = useState(0);
   const imageViewModal = useAnimateModal(300);
   const createPost = async (e: FormEvent<HTMLFormElement>) => {
@@ -48,28 +51,27 @@ const PostModal: FunctionComponent<PostModalProps> = ({
             handleInput={post.handleInput}
             clearImages={post.clearImages}
             onSelectImage={onSelectImage}
+            initialImages={initialContents?.imageUrls}
           />
           <p>{`Char count: ${post.charCount}/280`}</p>
         </div>
       </Modal>
-      {imageViewModal.showModal && post.images.length > 0 && (
-        <ImageView
-          images={getImageViewProps(post.images)}
-          modalProps={{ ...imageViewModal, animationTime: 300 }}
-          initialIndex={initialIndex}
-        />
-      )}
+      {imageViewModal.showModal &&
+        (post.images.length > 0 || initialContents?.imageUrls) && (
+          <ImageView
+            images={
+              post.images.length > 0
+                ? post.images
+                : initialContents?.imageUrls
+                ? initialContents.imageUrls
+                : []
+            }
+            modalProps={{ ...imageViewModal, animationTime: 300 }}
+            initialIndex={initialIndex}
+          />
+        )}
     </>
   );
-};
-
-const getImageViewProps = (images: ImageInfo[]) => {
-  return images.map((image) => {
-    return {
-      imageUrl: image.src,
-      aspectRatio: image.width / image.height,
-    };
-  });
 };
 
 export default PostModal;

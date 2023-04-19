@@ -1,5 +1,6 @@
 .feed_post {
     padding: 0.5rem;
+    position: relative;
 }
 
 .user_details {

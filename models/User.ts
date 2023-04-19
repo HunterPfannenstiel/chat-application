@@ -12,13 +12,17 @@ export class User {
     });
   }
 
-  static async fetchFollowers(userId: number): Promise<ConnectionsDetails[]> {
-    const followers = await useDB(getFollow(userId, 0, "Followers"));
+  static async fetchFollowers(
+    userHandle: string
+  ): Promise<ConnectionsDetails[]> {
+    const followers = await useDB(getFollow(userHandle, 0, "Followers"));
     return followers;
   }
 
-  static async fetchFollowing(userId: number): Promise<ConnectionsDetails[]> {
-    const following = await useDB(getFollow(userId, 0, "Following"));
+  static async fetchFollowing(
+    userHandle: string
+  ): Promise<ConnectionsDetails[]> {
+    const following = await useDB(getFollow(userHandle, 0, "Following"));
     return following;
   }
 

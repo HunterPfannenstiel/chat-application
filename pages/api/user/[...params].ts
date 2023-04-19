@@ -19,11 +19,11 @@ const handler: NextApiHandler = async (req, res) => {
           const handle = params[1]; //ALTER FUNCTION TO ACCEPT USER HANDLE
           if (detail === "followers") {
             console.log("Fetching followers");
-            const followers = await User.fetchFollowers(1);
+            const followers = await User.fetchFollowers(handle);
             return res.status(200).json({ followers });
           } else {
             console.log("Fetching following");
-            const following = await User.fetchFollowing(1);
+            const following = await User.fetchFollowing(handle);
             return res.status(200).json({ following });
           }
         }

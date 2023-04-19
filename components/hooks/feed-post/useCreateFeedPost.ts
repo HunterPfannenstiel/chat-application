@@ -1,12 +1,14 @@
+import { Image } from "@_types/post";
 import { ImageInfo } from "@ui/Resuable/PostModal/types";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { revokeURLs } from "utils/form";
 
 const useCreateFeedPost = (
-  creatPostHandler: (content: string, images: ImageInfo[]) => Promise<void>
+  creatPostHandler: (content: string, images: ImageInfo[]) => Promise<void>,
+  initialContent?: string
 ) => {
-  const [content, setContent] = useState("");
-  const [charCount, setCharCount] = useState(0);
+  const [content, setContent] = useState(initialContent || "");
+  const [charCount, setCharCount] = useState(initialContent?.length || 0);
   const [images, setImages] = useState<ImageInfo[]>([]);
   const handlePost = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

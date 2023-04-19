@@ -59,16 +59,14 @@ export const getUserId =
   };
 
 export const getFollow =
-  (userId: number, page: number, followParam: "Followers" | "Following") =>
+  (userHandle: string, page: number, followParam: "Followers" | "Following") =>
   async (db: ConnectionPool) => {
     const request = createDatabaseRequest(db, [
-      { paramName: "userId", value: userId, isInput: true },
+      { paramName: "userHandle", value: userHandle, isInput: true },
       { paramName: "page", value: page, isInput: true },
     ]);
 
-    const res = await executeFunction(
-      `SELECT * FROM Chat.Fetch${followParam}(@userId, @page)`,
-      request
-    );
+    const res = await executeProcedure(`Chat.Fetch${followParam}`, request);
+    console.log("RES", res);
     return res.recordset;
   };

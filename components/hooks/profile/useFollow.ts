@@ -6,7 +6,7 @@ const useFollow = (param: "followers" | "following") => {
   const router = useRouter();
   const { handle } = router.query;
   if (typeof handle !== "string") {
-    router.back();
+    return { data: [], isLoading: true, isError: false };
   }
 
   const { data, isLoading, isError } = useQuery({

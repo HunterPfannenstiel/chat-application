@@ -3,10 +3,10 @@ import { Profile as UserProfile } from "@_types/user/profile";
 import { FunctionComponent } from "react";
 import ProfileNav from "./ProfileNav";
 import Links from "./UserDetails/Links";
-import FeedPostList from "@ui/Resuable/FeedPost/FeedPostList";
 import Header from "./Header/Header";
 import EditModal from "./EditModal/EditModal";
 import useAnimateModal from "@hooks/animation/useAnimateModal";
+import UserPosts from "./UserPosts/UserPosts";
 
 interface ProfilePageProps {
   profile: UserProfile;
@@ -15,7 +15,6 @@ interface ProfilePageProps {
 const ProfilePage: FunctionComponent<ProfilePageProps> = ({ profile }) => {
   const { user, isUsersProfile } = profile;
   const { playAnimation, showModal, toggle } = useAnimateModal(300);
-  console.log(isUsersProfile);
   return (
     <>
       <Header userName={user.userName} />
@@ -44,7 +43,7 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({ profile }) => {
         }
       />
       <ProfileNav />
-      <FeedPostList posts={user.posts} />
+      <UserPosts posts={user.posts} isUsersProfile={isUsersProfile} />
       {showModal && (
         <EditModal
           playAnimation={playAnimation}

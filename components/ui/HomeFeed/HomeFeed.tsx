@@ -27,7 +27,15 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user, isSignedIn }) => {
   return (
     <section>
       <FeedNav toggleModal={toggle} userImage={user.userImage} />
-      <FeedPostList posts={user.posts} />
+      <FeedPostList
+        posts={user.posts}
+        emptyPostDisplay={
+          <p>
+            No one you follow has posted! Follow more people or view the
+            'Global' page!
+          </p>
+        }
+      />
       <Menu
         showModal={showModal}
         playAnimation={playAnimation}
