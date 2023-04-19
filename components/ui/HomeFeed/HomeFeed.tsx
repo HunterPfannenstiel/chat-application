@@ -6,11 +6,11 @@ import Menu from "./Menu/Menu";
 import useAnimateModal from "@hooks/animation/useAnimateModal";
 import { UserFeed } from "@_types/user";
 import PostModal from "@ui/Resuable/PostModal/PostModal";
-import { ClientPost } from "@_types/post";
 import useTensionScroll from "@hooks/animation/useTensionScroll";
 import { ImageInfo } from "@ui/Resuable/PostModal/types";
-import { formHandler } from "utils/form";
 import CreatePostIcon from "@ui/Resuable/Icons/CreatePostIcon";
+import { createFormData } from "utils/form";
+import { createPost } from "utils/actions";
 
 interface HomeFeedProps {
   user: UserFeed;
@@ -52,7 +52,7 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user, isSignedIn }) => {
             playAnimation: playPost,
             animationTime: 300,
           }}
-          createPostHandler={postPost}
+          createPostHandler={createPost}
         />
       )}
 
@@ -60,19 +60,4 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user, isSignedIn }) => {
     </section>
   );
 };
-
-const postPost = async (content: string, images: ImageInfo[]) => {
-  const blobs = images.map((image) => image.blob);
-  console.log(blobs);
-  const formData = formHandler({ content }, { images: blobs });
-  const res = await fetch("/api/post", {
-    method: "POST",
-    body: formData,
-  });
-
-  if (!res.ok) {
-    throw new Error("Creating post failed");
-  }
-};
-
 export default HomeFeed;

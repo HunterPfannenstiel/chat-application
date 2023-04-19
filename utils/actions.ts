@@ -1,4 +1,6 @@
 import { FeedPost } from "@_types/post/feed-post";
+import { ImageInfo } from "@ui/Resuable/PostModal/types";
+import { createFormData } from "./form";
 
 export const updateFollowing = (
   followingUserId: number,
@@ -41,4 +43,28 @@ export const fetchPostComments = async (
   } else if (postId !== undefined) {
     throw new Error("Invalid post to fetch");
   }
+};
+
+export const createPost = async (
+  content: string,
+  images: ImageInfo[],
+  replyToPostId?: number
+) => {
+  const blobs = images.map((image) => image.blob);
+  console.log(blobs);
+  const formData = createFormData(
+    { content, replyToPostId },
+    { images: blobs }
+  );
+  const res = await fetch("/api/post", {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!res.ok) {
+    throw new Error("Creating post failed");
+  }
+
+  const data = await res.json();
+  return data.post as FeedPost;
 };
