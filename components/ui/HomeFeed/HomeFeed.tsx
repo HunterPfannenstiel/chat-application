@@ -8,6 +8,7 @@ import { UserFeed } from "@_types/user";
 import PostModal from "@ui/Resuable/PostModal/PostModal";
 import useTensionScroll from "@hooks/animation/useTensionScroll";
 import { ImageInfo } from "@ui/Resuable/PostModal/types";
+import CreatePostIcon from "@ui/Resuable/Icons/CreatePostIcon";
 import { createFormData } from "utils/form";
 import { createPost } from "utils/actions";
 
@@ -55,9 +56,7 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user, isSignedIn }) => {
         />
       )}
 
-      <button className={classes.create_post} onClick={toggleCreatePost}>
-        Create Post
-      </button>
+      <CreatePostIcon className={classes.create_post} onClick={toggleCreatePost}/>
     </section>
   );
 };
