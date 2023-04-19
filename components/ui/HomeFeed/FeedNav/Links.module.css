@@ -4,6 +4,7 @@
     padding-block: 0.5rem;
     color: var(--secondary-purple);
     align-self: last baseline;
+    padding-bottom: 0;
 }
 
 .links li:first-child{

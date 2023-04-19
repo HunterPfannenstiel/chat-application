@@ -21,7 +21,7 @@ const FeedNav: FunctionComponent<FeedNavProps> = ({
 				onClick={toggleModal}
 			/>
 			<Links />
-			<SearchIcon />
+			<SearchIcon className={classes.search}/>
 		</nav>
 	);
 };

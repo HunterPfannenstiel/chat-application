@@ -7,6 +7,10 @@
     grid-column-gap: 1rem;
     margin-bottom: 1rem;
     padding-inline: 1rem;
+    background-color: white;
+    padding: 1rem;
+    margin: 0 1rem;
+    border-radius: 16px;
 }
 
 .name-button {
@@ -17,7 +21,7 @@
 }
 
 .image-block {
-    border: 1px solid black;
+    border: 2px solid black;
     border-radius: 50%;
     overflow: hidden;
     grid-area: pfp;
@@ -25,6 +29,10 @@
 
 .name {
     margin-right: auto;
+}
+
+.name p:first-child {
+    font-weight: bold;
 }
 
 .description {
