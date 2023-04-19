@@ -40,9 +40,11 @@ export const createImageTableInput = (
   images: { imageUrl: string; publicId: string; aspectRatio: number }[]
 ) => {
   const imageTable = getImageTable();
+
   images.forEach((image) => {
     imageTable.rows.add(image.imageUrl, image.publicId, image.aspectRatio);
   });
+  console.log("IMAGES", imageTable);
   return imageTable;
 };
 

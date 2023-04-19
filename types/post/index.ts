@@ -21,7 +21,7 @@ export type ViewPost = {
   commentCount: number;
   images?: Image[];
   createdOn: string;
-  replyToPostId?: string;
+  replyToPostId?: number;
 } & UserInfo;
 
 export type ClientPost = {

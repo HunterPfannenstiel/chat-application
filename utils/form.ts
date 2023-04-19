@@ -1,7 +1,7 @@
 import { ImageInfo } from "@ui/Resuable/PostModal/types";
 import { ChangeEvent } from "react";
 
-export const formHandler = (
+export const createFormData = (
   data: { [p: string]: any },
   arrayData?: { [p: string]: Array<any> }
 ) => {
@@ -47,6 +47,8 @@ export const readImages = async (
 
 export const revokeURLs = (images: ImageInfo[]) => {
   images.forEach((image) => {
-    URL.revokeObjectURL(image.imageUrl);
+    if (image.blob) {
+      URL.revokeObjectURL(image.imageUrl);
+    }
   });
 };

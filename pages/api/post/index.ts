@@ -41,16 +41,14 @@ const handler: NextApiHandler = async (req, res) => {
         files.map((image) => image.buffer)
       )) as ImageUpload[];
       publicIds = images.map((image) => image.publicId);
-      //GET USERID FROM SESSION
-      //UPLOAD IMAGES AND GET PUBLIC ID's
-      const postId = await FeedPost.create({
+      const post = await FeedPost.create({
         content,
         userId: session.user.userId,
         replyToPostId,
         communityId,
         images,
       });
-      return res.status(201).json({ message: "Success!", postId });
+      return res.status(201).json({ message: "Success!", post });
     } else if (req.method === "PUT") {
       const updates = req.body.updates as UpdatePost;
       const { postId } = req.body;
