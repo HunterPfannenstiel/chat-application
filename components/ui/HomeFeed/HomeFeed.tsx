@@ -10,6 +10,7 @@ import { ClientPost } from "@_types/post";
 import useTensionScroll from "@hooks/animation/useTensionScroll";
 import { ImageInfo } from "@ui/Resuable/PostModal/types";
 import { formHandler } from "utils/form";
+import CreatePostIcon from "@ui/Resuable/Icons/CreatePostIcon";
 
 interface HomeFeedProps {
   user: UserFeed;
@@ -55,9 +56,7 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user, isSignedIn }) => {
         />
       )}
 
-      <button className={classes.create_post} onClick={toggleCreatePost}>
-        Create Post
-      </button>
+      <CreatePostIcon className={classes.create_post} onClick={toggleCreatePost}/>
     </section>
   );
 };

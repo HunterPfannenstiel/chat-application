@@ -6,6 +6,8 @@
 
 body {
   --primary-purple: #5A3CD2;
+  --secondary-purple: #E9E5FF;
+  background-color: var(--secondary-purple);
 }
 
 html,

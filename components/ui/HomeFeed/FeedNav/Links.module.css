@@ -2,6 +2,8 @@
     display: flex;
     gap: 1rem;
     padding-block: 0.5rem;
+    color: var(--secondary-purple);
+    align-self: last baseline;
 }
 
 .links li:first-child{
