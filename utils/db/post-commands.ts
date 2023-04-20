@@ -11,6 +11,7 @@ import sql from "mssql/msnodesqlv8";
 import { getDB } from "./connect";
 import { UserFeed } from "@_types/user";
 import { CreatePost } from "@_types/post";
+import { FeedPost } from "@_types/post/feed-post";
 
 export const execFetchFeed = async (userId: number) =>
   useDB(async (db) => {
@@ -34,11 +35,10 @@ export const execCreatePost =
         value: createImageTableInput(post.images),
         isInput: true,
       },
-      { paramName: "postId", isInput: false, outputType: sql.Int },
     ]);
     const res = await request.execute("Chat.CreatePost");
-    console.log("PostId", res.output.postId);
-    return res.output.postId;
+    console.log("RECORDS", res.recordset);
+    return res.recordset[0] as FeedPost;
   };
 
 export const getPostComments =

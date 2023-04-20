@@ -12,7 +12,7 @@ import { Image } from "@_types/post";
 interface PostModalProps {
   modalProps: ModalProps;
   modalTitle: string;
-  createPostHandler: (content: string, images: ImageInfo[]) => Promise<void>;
+  createPostHandler: (content: string, images: ImageInfo[]) => Promise<any>;
   initialContents?: { content: string; imageUrls: Image[] | undefined };
 }
 
@@ -20,9 +20,9 @@ const PostModal: FunctionComponent<PostModalProps> = ({
   modalTitle,
   modalProps,
   createPostHandler,
-  initialContents,
+  initialContents = { content: "", imageUrls: [] },
 }) => {
-  const post = useCreateFeedPost(createPostHandler, initialContents?.content);
+  const post = useCreateFeedPost(createPostHandler, initialContents);
   const [initialIndex, setInitialIndex] = useState(0);
   const imageViewModal = useAnimateModal(300);
   const createPost = async (e: FormEvent<HTMLFormElement>) => {
@@ -56,20 +56,13 @@ const PostModal: FunctionComponent<PostModalProps> = ({
           <p>{`Char count: ${post.charCount}/280`}</p>
         </div>
       </Modal>
-      {imageViewModal.showModal &&
-        (post.images.length > 0 || initialContents?.imageUrls) && (
-          <ImageView
-            images={
-              post.images.length > 0
-                ? post.images
-                : initialContents?.imageUrls
-                ? initialContents.imageUrls
-                : []
-            }
-            modalProps={{ ...imageViewModal, animationTime: 300 }}
-            initialIndex={initialIndex}
-          />
-        )}
+      {imageViewModal.showModal && post.images.length > 0 && (
+        <ImageView
+          images={post.images}
+          modalProps={{ ...imageViewModal, animationTime: 300 }}
+          initialIndex={initialIndex}
+        />
+      )}
     </>
   );
 };

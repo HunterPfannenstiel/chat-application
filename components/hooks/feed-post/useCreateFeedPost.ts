@@ -5,11 +5,13 @@ import { revokeURLs } from "utils/form";
 
 const useCreateFeedPost = (
   creatPostHandler: (content: string, images: ImageInfo[]) => Promise<void>,
-  initialContent?: string
+  initialContents: { content: string; imageUrls: Image[] | undefined }
 ) => {
-  const [content, setContent] = useState(initialContent || "");
-  const [charCount, setCharCount] = useState(initialContent?.length || 0);
-  const [images, setImages] = useState<ImageInfo[]>([]);
+  const [content, setContent] = useState(initialContents.content);
+  const [charCount, setCharCount] = useState(initialContents.content.length);
+  const [images, setImages] = useState<ImageInfo[]>(
+    initialContents.imageUrls || []
+  );
   const handlePost = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (charCount > 0) {
