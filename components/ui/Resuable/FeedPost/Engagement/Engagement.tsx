@@ -36,7 +36,7 @@ const Engagement: FunctionComponent<EngagementProps> = ({
       <EComponent
         count={likes}
         action={handleLike}
-        icon={<LikeIcon fillColor={liked ? "red" : "gray"} />}
+        icon={<LikeIcon liked={liked} />}
       />
       <EComponent
         count={commentCount}
