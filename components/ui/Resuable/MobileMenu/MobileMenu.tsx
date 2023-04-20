@@ -1,6 +1,6 @@
 import { CSSProperties, FunctionComponent, ReactNode } from "react";
 import classes from "./MobileMenu.module.css";
-import Background from "./Background";
+import Background from "../Modal/Background";
 
 interface MobileMenuProps {
   children: ReactNode;
@@ -29,7 +29,7 @@ const MobileMenu: FunctionComponent<MobileMenuProps> = ({
   }
   if (showModal) {
     return (
-      <>
+      <div>
         <Background
           toggle={toggleModal}
           animateOut={playAnimation}
@@ -50,7 +50,7 @@ const MobileMenu: FunctionComponent<MobileMenuProps> = ({
           </div>
           {children}
         </section>
-      </>
+      </div>
     );
   }
   return <></>;

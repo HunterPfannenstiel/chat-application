@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { FunctionComponent } from "react";
 import { Image as PostImage } from "@_types/post";
 import classes from "./Contents.module.css";
+import ImageDisplay from "../PostModal/ImageDisplay";
 
 interface ContentsProps {
   text: string;
@@ -12,12 +12,7 @@ const Contents: FunctionComponent<ContentsProps> = ({ text, images }) => {
   return (
     <div>
       <p>{text}</p>
-      <div className={classes.images}>
-        {images &&
-          images.map((image) => {
-            return <Image src={image.imageUrl} alt="Image" />;
-          })}
-      </div>
+      <ImageDisplay onSelectImage={() => {}} images={images} />
     </div>
   );
 };

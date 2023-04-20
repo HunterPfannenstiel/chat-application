@@ -1,13 +1,14 @@
 .modal {
-    width: 95%;
-}
-.content {
+    width: 90%;
     text-align: center;
-    background-color: #1DA1F2;
-    padding: 2rem;
+    background-color: #FFFFFF;
+    padding: 0.75rem;
     border-radius: 10px;
 }
 
-.content h1 {
+.modal h1 {
     margin-bottom: 0.5rem;
+    text-align: left;
+    font-weight: normal;
+    font-style: italic;
 }

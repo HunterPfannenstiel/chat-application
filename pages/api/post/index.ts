@@ -44,8 +44,9 @@ const handler: NextApiHandler = async (req, res) => {
       const post = await FeedPost.create({
         content,
         userId: session.user.userId,
-        replyToPostId,
-        communityId,
+        replyToPostId:
+          replyToPostId === "undefined" ? undefined : replyToPostId,
+        communityId: communityId === "undefined" ? undefined : communityId,
         images,
       });
       return res.status(201).json({ message: "Success!", post });

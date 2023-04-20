@@ -4,10 +4,15 @@ import Modal from "@ui/Resuable/Modal/Modal";
 import { ModalProps } from "@_types/ui";
 import Form from "@ui/Resuable/SignupForm/Form";
 import { UserInfo } from "@_types/user";
-import { formHandler } from "utils/form";
 
 interface EditModalProps extends ModalProps {
   userInfo: UserInfo & { bio: string };
+  handleForm: (
+    name: string | null,
+    handle: string | null,
+    bio: string | null,
+    image: Blob | null
+  ) => Promise<void>;
 }
 
 const EditModal: FunctionComponent<EditModalProps> = ({
@@ -15,6 +20,7 @@ const EditModal: FunctionComponent<EditModalProps> = ({
   toggle,
   animationTime,
   userInfo,
+  handleForm,
 }) => {
   return (
     <Modal
@@ -35,28 +41,6 @@ const EditModal: FunctionComponent<EditModalProps> = ({
       />
     </Modal>
   );
-};
-
-const handleForm = async (
-  name: string | null,
-  handle: string | null,
-  bio: string | null,
-  image: Blob | null
-) => {
-  const formData = formHandler({
-    userName: name,
-    userHandle: handle,
-    bio,
-    image,
-  });
-  const res = await fetch("/api/user/create", {
-    method: "PUT",
-    body: formData,
-  });
-  if (res.ok) {
-    const data = await res.json();
-    console.log("IS VALID", data.isValidHandle);
-  }
 };
 
 export default EditModal;

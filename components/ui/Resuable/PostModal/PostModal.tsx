@@ -12,6 +12,7 @@ import { Image } from "@_types/post";
 interface PostModalProps {
   modalProps: ModalProps;
   modalTitle: string;
+  buttonText: string;
   createPostHandler: (content: string, images: ImageInfo[]) => Promise<any>;
   initialContents?: { content: string; imageUrls: Image[] | undefined };
 }
@@ -19,6 +20,7 @@ interface PostModalProps {
 const PostModal: FunctionComponent<PostModalProps> = ({
   modalTitle,
   modalProps,
+  buttonText,
   createPostHandler,
   initialContents = { content: "", imageUrls: [] },
 }) => {
@@ -40,21 +42,19 @@ const PostModal: FunctionComponent<PostModalProps> = ({
   };
   return (
     <>
-      <Modal {...modalProps} className={classes.modal}>
-        <div className={classes.content}>
-          <h1>{modalTitle}</h1>
-          <PostForm
-            handlePost={createPost}
-            images={post.images}
-            setImages={post.setImages}
-            postContent={post.content}
-            handleInput={post.handleInput}
-            clearImages={post.clearImages}
-            onSelectImage={onSelectImage}
-            initialImages={initialContents?.imageUrls}
-          />
-          <p>{`Char count: ${post.charCount}/280`}</p>
-        </div>
+      <Modal {...modalProps} className={classes.modal} displayCloseIcon>
+        <h1>{modalTitle}</h1>
+        <PostForm
+          handlePost={createPost}
+          images={post.images}
+          setImages={post.setImages}
+          postContent={post.content}
+          handleInput={post.handleInput}
+          clearImages={post.clearImages}
+          onSelectImage={onSelectImage}
+          initialImages={initialContents?.imageUrls}
+          buttonText={buttonText}
+        />
       </Modal>
       {imageViewModal.showModal && post.images.length > 0 && (
         <ImageView

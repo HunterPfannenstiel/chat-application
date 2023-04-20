@@ -52,11 +52,12 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user, isSignedIn }) => {
             playAnimation: playPost,
             animationTime: 300,
           }}
+          buttonText="Post"
           createPostHandler={createPost}
         />
       )}
 
-      <CreatePostIcon className={classes.create_post} onClick={toggleCreatePost}/>
+      <CreatePostIcon onClick={toggleCreatePost} />
     </section>
   );
 };

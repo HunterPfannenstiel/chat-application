@@ -10,6 +10,8 @@ import { User } from "models/User";
 import { getSession } from "next-auth/react";
 import { SessionToken } from "@_types/auth";
 import { deleteImage, uploadImage } from "utils/cloudinary";
+import { UserProfile } from "@_types/user/profile";
+import { UpdateUser } from "@_types/user";
 
 let imageParser = multer({
   fileFilter: (req, file, cb) => {
@@ -123,7 +125,14 @@ const handler: NextApiHandler = async (req, res) => {
       if (oldImageId) {
         deleteImage(oldImageId);
       }
-      return res.status(200).json({ message: "Upated User!" });
+      const updatedUser: UpdateUser = {};
+      updatedUser.userHandle = userHandle === "null" ? undefined : userHandle;
+      updatedUser.userName = userName === "null" ? undefined : userName;
+      updatedUser.bio = bio === "null" ? undefined : bio;
+      updatedUser.imageUrl = imageUrl;
+      return res
+        .status(200)
+        .json({ message: "Upated User!", user: updatedUser });
     } catch (error: any) {
       if (publicId) {
         console.log("deleted image", publicId);
@@ -135,4 +144,5 @@ const handler: NextApiHandler = async (req, res) => {
     return res.status(400).json({ message: "Invalid method" });
   }
 };
+
 export default handler;

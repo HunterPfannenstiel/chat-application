@@ -1,0 +1,9 @@
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 3.5rem;
+}
+
+.buttons svg:first-child {
+    rotate: 180deg;
+}

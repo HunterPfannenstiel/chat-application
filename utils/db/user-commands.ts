@@ -29,11 +29,19 @@ export const execCreateUser = (profile: CreateUser) =>
     return res.output.userId as number;
   });
 
-export const isValidHandle = (handle: string) => async (db: ConnectionPool) => {
-  const res = await db.query(`SELECT Chat.IsValidHandle(${handle})`);
-  console.log("is valid res", res);
-  return res.output;
-};
+export const isValidHandle = (handle: string) =>
+  useDB(async (db) => {
+    const request = createDatabaseRequest(db, [
+      { paramName: "handle", isInput: true, value: handle },
+    ]);
+    const res = await executeFunction(
+      "SELECT * FROM Chat.IsValidHandle(@handle)",
+      request
+    );
+
+    console.log("is valid res", res);
+    return res.recordset[0];
+  });
 
 export const getUserId =
   (name: string, isWeb3: boolean) => async (db: ConnectionPool) => {

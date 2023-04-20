@@ -43,6 +43,7 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
             content: posts[editPostIndex].content,
             imageUrls: posts[editPostIndex].images,
           }}
+          buttonText="Update"
         />
       )}
     </>

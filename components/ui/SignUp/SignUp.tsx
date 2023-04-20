@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import SignupForm from "../Resuable/SignupForm/Form";
 import { NextRouter, useRouter } from "next/router";
-import { formHandler } from "utils/form";
+import { createFormData } from "utils/form";
 
 interface SignUpProps {}
 
@@ -23,7 +23,7 @@ const handleForm =
     bio: string | null,
     image: Blob | null
   ) => {
-    const formData = formHandler({ name, handle, bio, image });
+    const formData = createFormData({ name, handle, bio, image });
     try {
       const id = await createUser(formData);
       router.push("/");
@@ -44,11 +44,5 @@ const createUser = async (formData: FormData) => {
   const data = (await res.json()) as { id: number };
   return data.id;
 };
-
-//Form handler
-//Client side verification (all fields are present, handle is available)
-//send POST request
-//If !res.ok, get fields that are invalid and display message/highlight
-//If res.ok, update token and send user to home page
 
 export default SignUp;

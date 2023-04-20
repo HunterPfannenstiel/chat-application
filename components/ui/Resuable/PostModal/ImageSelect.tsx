@@ -29,7 +29,10 @@ const ImageSelect: FunctionComponent<ImageSelectProps> = ({
         onChange={readImageHandler}
         multiple
       />
-      <ImageIcon />
+      <div>
+        <ImageIcon />
+      </div>
+      <p>Add Image</p>
     </label>
   );
 };

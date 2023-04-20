@@ -5,7 +5,8 @@
 }
 
 body {
-  --primary-purple: #5A3CD2;
+  --primary-purple-rgb: 90, 60, 210;
+  --primary-purple: rgb(var(--primary-purple-rgb));
   --secondary-purple: #E9E5FF;
   background-color: var(--secondary-purple);
 }

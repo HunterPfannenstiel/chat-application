@@ -10,7 +10,7 @@ interface FormProps {
     handle: string | null,
     bio: string | null,
     image: Blob | null
-  ) => void;
+  ) => Promise<void>;
   initialInput?: { name: string; handle: string; bio: string; image: string };
   buttonDisplay: string;
 }
@@ -21,10 +21,12 @@ const Form: FunctionComponent<FormProps> = ({
 }) => {
   const [image, setImage] = useState<Blob | null>(null);
   const { isValid, setHandle } = useValidHandle(initialInput?.handle);
+  const [lockButton, setLockButton] = useState(false);
   const handleForm = async (e: FormEvent<HTMLElement>) => {
     e.preventDefault();
     console.log(e);
     if (e.target) {
+      setLockButton(true);
       const target = e.target as any;
       console.log(e.target);
       let name = target[1].value;
@@ -36,7 +38,15 @@ const Form: FunctionComponent<FormProps> = ({
           handle = initialInput.handle !== handle ? handle : null;
           bio = initialInput.bio !== bio ? bio : null;
         }
-        handler(name, handle, bio, image);
+        try {
+          await handler(name, handle, bio, image);
+        } catch (error) {
+          throw error;
+        } finally {
+          setLockButton(false);
+        }
+      } else {
+        setLockButton(false);
       }
     }
   };
@@ -84,7 +94,9 @@ const Form: FunctionComponent<FormProps> = ({
         </fieldset>
       </div>
       <div className={classes.create_account}>
-        <button type="submit">{buttonDisplay}</button>
+        <button type="submit" disabled={lockButton}>
+          {buttonDisplay}
+        </button>
       </div>
     </form>
   );

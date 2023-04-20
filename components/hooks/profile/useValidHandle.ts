@@ -27,15 +27,13 @@ export default useValidHandle;
 
 const validateHandler = async (handle: string) => {
   if (handle) {
-    // const res = await fetch(`/api/verify?handle=${handle}`);
-    // if (res.ok) {
-    //   const data = await res.json();
-    //   console.log("IS VALID", data.isValidHandle);
-    //   return data.isValidHandle as boolean;
-    // } else {
-    //   throw new Error("Could not validate handle");
-    // }
-    console.log("CHECK HANDLE");
-    return true;
+    const res = await fetch(`/api/user/verify?handle=${handle}`);
+    if (res.ok) {
+      const data = await res.json();
+      console.log("IS VALID", data.isValidHandle);
+      return data.isValidHandle as boolean;
+    } else {
+      throw new Error("Could not validate handle");
+    }
   }
 };

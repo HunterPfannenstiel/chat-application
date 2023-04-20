@@ -5,28 +5,19 @@ import Image from "next/image";
 import { ImageInfo } from "./types";
 
 interface ImageDisplayProps {
-  inputImages: ImageInfo[];
-  initialImages?: Images[];
+  images?: Images[];
   onSelectImage: (index: number) => void;
 }
 
 const ImageDisplay: FunctionComponent<ImageDisplayProps> = ({
-  inputImages,
-  initialImages,
+  images = [],
   onSelectImage,
 }) => {
-  const images =
-    inputImages.length > 0 ? inputImages : initialImages ? initialImages : [];
-  const containerPercentage = (1 / images.length) * 100;
   return (
-    <div className={classes.images}>
+    <ul className={classes.images}>
       {images.map((image, i) => (
         <div
           className={classes.image_container}
-          style={{
-            width: containerPercentage + "%",
-            height: containerPercentage + "%",
-          }}
           onClick={onSelectImage.bind(null, i)}
         >
           <Image
@@ -37,7 +28,7 @@ const ImageDisplay: FunctionComponent<ImageDisplayProps> = ({
           />
         </div>
       ))}
-    </div>
+    </ul>
   );
 };
 

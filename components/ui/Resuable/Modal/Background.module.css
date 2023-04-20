@@ -1,13 +1,12 @@
 .background {
     --animationTime: 300ms;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.3);
     animation: fade_in var(--animationTime) ease-in-out;
-    z-index: 1;
 }
 
 .animate_out {

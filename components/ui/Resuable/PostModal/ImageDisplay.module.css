@@ -1,17 +1,20 @@
 .images {
-    width: 50%;
-    height: 100%;
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
     flex-wrap: wrap;
+    max-height: 163px;
+    overflow-y: scroll;
 }
 
 .image_container {
     position: relative;
+    width: 45%;
 }
 
-
 .image_container img{
+    border-radius: 8px;
     width: 100%;
     height: 100%;
     object-fit: contain;
