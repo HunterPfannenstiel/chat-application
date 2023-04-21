@@ -2,14 +2,16 @@ import { UpdateUser, ConnectionsDetails, CreateUser } from "@_types/user";
 import { UserProfile } from "@_types/user/profile";
 import { mockProfiles } from "mock-data/profiles";
 import { useDB } from "utils/db/helpers";
-import { execCreateUser, getFollow } from "utils/db/user-commands";
+import {
+  execCreateUser,
+  fetchUserProfile,
+  getFollow,
+} from "utils/db/user-commands";
 
 export class User {
-  static fetchProfile(userId: string): Promise<UserProfile> {
+  static fetchProfile(handle: string) {
     //Query for profile with 'userId'
-    return new Promise((resolve) => {
-      resolve(mockProfiles[2]);
-    });
+    return fetchUserProfile(handle);
   }
 
   static async fetchFollowers(

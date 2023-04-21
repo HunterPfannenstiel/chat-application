@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import classes from "./Header.module.css";
 import Link from "next/link";
+import BackIcon from "@ui/Resuable/Icons/BackIcon";
 
 interface HeaderProps {
   userName: string;
@@ -8,10 +9,9 @@ interface HeaderProps {
 
 const Header: FunctionComponent<HeaderProps> = ({ userName }) => {
   return (
-    <header className={classes.header}>
-      <Link href={"/"}>Back</Link>
-      <p>{userName}</p>
-    </header>
+    <Link href={"/"}>
+      <BackIcon />
+    </Link>
   );
 };
 

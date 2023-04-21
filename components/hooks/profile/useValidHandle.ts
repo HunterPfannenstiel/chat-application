@@ -33,7 +33,8 @@ const validateHandler = async (handle: string) => {
       console.log("IS VALID", data.isValidHandle);
       return data.isValidHandle as boolean;
     } else {
-      throw new Error("Could not validate handle");
+      return false;
     }
   }
+  return undefined;
 };

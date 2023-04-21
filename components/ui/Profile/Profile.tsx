@@ -1,5 +1,5 @@
 import Profile from "@ui/Resuable/Profile";
-import { Profile as UserP, UserProfile } from "@_types/user/profile";
+import { Profile as UserP } from "@_types/user/profile";
 import { FunctionComponent, useState } from "react";
 import ProfileNav from "./ProfileNav";
 import Links from "./UserDetails/Links";
@@ -50,7 +50,15 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({ profile }) => {
         }
       />
       <ProfileNav />
-      <UserPosts posts={user.posts} isUsersProfile={isUsersProfile} />
+      <UserPosts
+        posts={user.posts}
+        isUsersProfile={isUsersProfile}
+        user={{
+          userName: user.userName,
+          userHandle: user.userHandle,
+          userImage: user.userImage,
+        }}
+      />
       {showModal && (
         <EditModal
           playAnimation={playAnimation}

@@ -48,6 +48,8 @@ const PostForm: FunctionComponent<PostFormProps> = ({
             images.length > 0 ? images : initialImages ? initialImages : []
           }
           onSelectImage={onSelectImage}
+          onRemoveImages={clearImages}
+          displayRemove
         />
       )}
 

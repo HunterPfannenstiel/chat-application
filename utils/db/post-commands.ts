@@ -10,7 +10,7 @@ import { ProcedureParam } from "@_types/db";
 import sql from "mssql/msnodesqlv8";
 import { getDB } from "./connect";
 import { UserFeed } from "@_types/user";
-import { CreatePost } from "@_types/post";
+import { CreatePost, UpdatePost } from "@_types/post";
 import { FeedPost } from "@_types/post/feed-post";
 
 export const execFetchFeed = async (userId: number) =>
@@ -37,9 +37,28 @@ export const execCreatePost =
       },
     ]);
     const res = await request.execute("Chat.CreatePost");
-    console.log("RECORDS", res.recordset);
     return res.recordset[0] as FeedPost;
   };
+
+export const execUpdatePost = (
+  postId: string,
+  updates: UpdatePost,
+  deleteImages: boolean
+) =>
+  useDB(async (db) => {
+    const request = createDatabaseRequest(db, [
+      { paramName: "postId", isInput: true, value: postId },
+      { paramName: "content", isInput: true, value: updates.content || "" },
+      {
+        paramName: "images",
+        isInput: true,
+        value: createImageTableInput(updates.images || []),
+      },
+      { paramName: "deleteImages", isInput: true, value: deleteImages ? 1 : 0 },
+    ]);
+    const res = await executeProcedure("Chat.UpdatePost", request);
+    return res.recordset[0];
+  });
 
 export const getPostComments =
   (postId: number, userId: number, page: number) =>

@@ -1,3 +1,11 @@
+.close_button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
 .container {
     --diameter: 30px;
     width: var(--diameter);

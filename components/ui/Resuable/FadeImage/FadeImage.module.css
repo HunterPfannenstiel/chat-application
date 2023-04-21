@@ -1,0 +1,12 @@
+.image_loaded {
+    animation: fade_in 250ms ease;
+}
+
+@keyframes fade_in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

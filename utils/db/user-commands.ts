@@ -29,6 +29,16 @@ export const execCreateUser = (profile: CreateUser) =>
     return res.output.userId as number;
   });
 
+export const fetchUserProfile = (handle: string) =>
+  useDB(async (db) => {
+    const request = createDatabaseRequest(db, [
+      { paramName: "userHandle", isInput: true, value: handle },
+    ]);
+    const res = await executeProcedure("Chat.FetchUserProfile", request);
+    console.log(res);
+    return res.recordset[0];
+  });
+
 export const isValidHandle = (handle: string) =>
   useDB(async (db) => {
     const request = createDatabaseRequest(db, [

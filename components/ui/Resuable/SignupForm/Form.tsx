@@ -50,6 +50,7 @@ const Form: FunctionComponent<FormProps> = ({
       }
     }
   };
+  console.log("Is valid", isValid);
   return (
     <form className={classes.form} onSubmit={handleForm}>
       <div className={classes.form_content}>
@@ -73,7 +74,13 @@ const Form: FunctionComponent<FormProps> = ({
           defaultValue={initialInput?.handle}
           isInputValid={isValid}
           invalidMessage="Handle already in use!"
-          className={isValid ? classes.valid : ""}
+          className={
+            isValid === true
+              ? classes.valid
+              : isValid === false
+              ? classes.invalid
+              : ""
+          }
         />
         <ImageInput
           onImageSelected={setImage}

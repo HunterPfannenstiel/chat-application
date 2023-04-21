@@ -4,17 +4,21 @@ import FeedPostList from "@ui/Resuable/FeedPost/FeedPostList";
 import { FeedPost } from "@_types/post/feed-post";
 import useAnimateModal from "@hooks/animation/useAnimateModal";
 import PostModal from "@ui/Resuable/PostModal/PostModal";
-import type { Image } from "@_types/post";
+import type { Image, UpdatePost } from "@_types/post";
 import { ImageInfo } from "@ui/Resuable/PostModal/types";
+import { createFormData } from "utils/form";
+import { UserInfo } from "@_types/user";
 
 interface UserPostsProps {
   posts: FeedPost[];
   isUsersProfile: boolean;
+  user: UserInfo;
 }
 
 const UserPosts: FunctionComponent<UserPostsProps> = ({
   posts,
   isUsersProfile,
+  user,
 }) => {
   const { showModal, playAnimation, toggle } = useAnimateModal(300);
   const [editPostIndex, setEditPostIndex] = useState(0);
@@ -29,14 +33,14 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
         emptyPostDisplay={<p>No posts to show here!</p>}
         isUsersFeed={true}
         onEditPost={onEditPost}
+        userDetails={user}
       />
       {showModal && (
         <PostModal
           modalProps={{ playAnimation, toggle, animationTime: 300 }}
           createPostHandler={editPostHandler(
             posts[editPostIndex].postId,
-            posts[editPostIndex].content,
-            posts[editPostIndex].images
+            posts[editPostIndex].content
           )}
           modalTitle="Update Post"
           initialContents={{
@@ -51,16 +55,20 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
 };
 
 const editPostHandler =
-  (
-    postId: number,
-    initialContent: string,
-    initialImages: Image[] | undefined
-  ) =>
-  (content: string, images: ImageInfo[]) => {
+  (postId: number, initialContent: string) =>
+  async (content: string, images: ImageInfo[], deleteImages: boolean) => {
+    const blobs = images.map((image) => image.blob);
+    const formData = createFormData(
+      { content, postId, deleteImages },
+      { images: blobs }
+    );
     console.log({ content, images });
-    return new Promise<void>((resolve) => {
-      resolve();
-    });
+    const res = await fetch("/api/post", { method: "PUT", body: formData });
+    if (res.ok) {
+      console.log("OK");
+    } else {
+      console.log("ERRRORORROOROROR");
+    }
   };
 
 export default UserPosts;

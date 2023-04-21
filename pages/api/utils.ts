@@ -120,8 +120,13 @@ export const sendErrorResponse = (error: any, res: NextApiResponse) => {
   return res.status(error.statusCode).json(error.message);
 };
 
-export const parseImage = (req: any, res: any, imageParser: any) => {
-  return new Promise<void>((resolve, reject) => {
+export const parseImage = async (
+  req: any,
+  res: any,
+  imageParser: any,
+  single: boolean
+) => {
+  await new Promise<void>((resolve, reject) => {
     imageParser(req, res, (err: any) => {
       if (err) {
         reject(new Error(err.message));
@@ -129,6 +134,8 @@ export const parseImage = (req: any, res: any, imageParser: any) => {
       resolve();
     });
   });
+  if (single) return req.file;
+  return req.files;
 };
 
 export const getUserSession = async (req: NextApiRequest) => {

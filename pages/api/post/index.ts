@@ -29,16 +29,14 @@ const handler: NextApiHandler = async (req, res) => {
   try {
     if (req.method === "POST") {
       const session = await getUserSession(req);
-      await parseImage(req, res, imageParser);
-      const fileReq = req as any;
-      const files = fileReq.files as { buffer: Buffer }[];
+      const files = await parseImage(req, res, imageParser, false);
       const { content, replyToPostId, communityId } = req.body as ClientPost;
       if (!content) {
         const e = createError("Post content not provided", 400);
         throw e;
       }
       const images = (await uploadManyImages(
-        files.map((image) => image.buffer)
+        files.map((image: any) => image.buffer)
       )) as ImageUpload[];
       publicIds = images.map((image) => image.publicId);
       const post = await FeedPost.create({
@@ -51,18 +49,39 @@ const handler: NextApiHandler = async (req, res) => {
       });
       return res.status(201).json({ message: "Success!", post });
     } else if (req.method === "PUT") {
-      const updates = req.body.updates as UpdatePost;
-      const { postId } = req.body;
-      if (!updates) {
-        const e = createError("Post updates not provided", 400);
-        throw e;
-      } else if (!postId) {
+      const files = await parseImage(req, res, imageParser, false);
+      const { postId, content, deleteImages } = req.body;
+      if (!postId) {
         const e = createError("PostId not provided", 400);
         throw e;
       }
-      console.log("UPDATE POST");
-      await FeedPost.update(postId, updates);
-      return res.status(201).json({ message: "NOT IMPLEMENTED" });
+
+      const removeImages =
+        !!(deleteImages && deleteImages === "false") ||
+        !!(files && files.length > 0);
+      console.log("DELETE IMAGES?", removeImages);
+
+      let images;
+      if (files) {
+        images = (await uploadManyImages(
+          files.map((image: any) => image.buffer)
+        )) as ImageUpload[];
+        publicIds = images.map((image) => image.publicId);
+      }
+      const removedImages = await FeedPost.update(
+        postId,
+        {
+          content,
+          images,
+        },
+        removeImages
+      );
+      if (removedImages && removedImages.length > 0) {
+        removedImages.forEach((id) => deleteImage(id));
+      }
+      return res
+        .status(201)
+        .json({ message: "Updated post!", post: { content, images } });
     } else if (req.method === "DELETE") {
       console.log("DELETE POST");
       const session = await getUserSession(req);
@@ -84,7 +103,11 @@ const handler: NextApiHandler = async (req, res) => {
     }
   } catch (error: any) {
     if (!error.statusCode) error.statusCode = 500;
-    if (publicIds.length > 0) publicIds.forEach((id) => deleteImage(id));
+    if (publicIds.length > 0)
+      publicIds.forEach((id) => {
+        console.log(`Delete ${id}`);
+        deleteImage(id);
+      });
     return res.status(error.statusCode).json({ message: error.message });
   }
 };

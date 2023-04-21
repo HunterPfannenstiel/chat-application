@@ -30,7 +30,10 @@ const Fieldset: FunctionComponent<FieldsetProps> = ({
         inputRef.current?.reportValidity();
       } else if (inputRef) {
         inputRef.current?.setCustomValidity("");
+        inputRef.current?.reportValidity();
       }
+    } else {
+      inputRef.current?.setCustomValidity("");
     }
   }, [isInputValid]);
   return (

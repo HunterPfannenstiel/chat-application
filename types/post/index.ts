@@ -1,4 +1,5 @@
 import { UserInfo } from "@_types/user";
+import { ImageInfo } from "@ui/Resuable/PostModal/types";
 
 export type Tag = {
   tagId: string;
@@ -47,5 +48,11 @@ export type ImageUpload = {
 
 export type UpdatePost = {
   content?: string;
-  imageUrls?: string[];
+  images?: ImageUpload[];
 };
+
+export type CreatePostHandler = (
+  content: string,
+  images: ImageInfo[],
+  deleteImage: boolean
+) => Promise<any>;

@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { FunctionComponent } from "react";
 import classes from "./ProfileImage.module.css";
+import FadeImage from "@ui/Resuable/FadeImage/FadeImage";
 
 interface ProfileImageProps {
   src: string;
@@ -23,7 +23,7 @@ const ProfileImage: FunctionComponent<ProfileImageProps> = ({
       style={{ width: circleDiameter, height: circleDiameter }}
       onClick={onClick}
     >
-      <Image src={src} alt={alt || "cosmetic"} width={100} height={100} />
+      <FadeImage src={src} alt={alt || "cosmetic"} width={100} height={100} />
     </div>
   );
 };

@@ -40,3 +40,7 @@
 .valid {
     background-color: rgba(75, 181, 67, 0.5) !important;
 }
+
+.invalid {
+    background-color: #FFCCCC !important;
+}

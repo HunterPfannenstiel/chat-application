@@ -6,6 +6,7 @@ import { useDB } from "utils/db/helpers";
 import {
   execCreatePost,
   execFetchFeed,
+  execUpdatePost,
   getPostComments,
 } from "utils/db/post-commands";
 import { DBFeed, UserFeed } from "@_types/user";
@@ -40,8 +41,12 @@ export class FeedPost {
     //Send query that fills in the correct post fields with 'contents'
     return useDB(execCreatePost(contents));
   }
-  static update(postId: string, updates: UpdatePost): Promise<void> {
-    throw new Error("Method not implemented.");
+  static update(
+    postId: string,
+    updates: UpdatePost,
+    deleteImages: boolean
+  ): Promise<string[]> {
+    return execUpdatePost(postId, updates, deleteImages);
   }
   static delete(postId: string): Promise<void> {
     throw new Error("Method not implemented.");

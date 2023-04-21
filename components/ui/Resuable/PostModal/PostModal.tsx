@@ -2,18 +2,17 @@ import { FormEvent, FunctionComponent, useState } from "react";
 import type { ModalProps } from "@_types/ui";
 import classes from "./PostModal.module.css";
 import Modal from "../Modal/Modal";
-import { ImageInfo } from "./types";
 import PostForm from "./PostForm/PostForm";
 import useAnimateModal from "@hooks/animation/useAnimateModal";
 import ImageView from "../ImageView/ImageView";
 import useCreateFeedPost from "@hooks/feed-post/useCreateFeedPost";
-import { Image } from "@_types/post";
+import { CreatePostHandler, Image } from "@_types/post";
 
 interface PostModalProps {
   modalProps: ModalProps;
   modalTitle: string;
   buttonText: string;
-  createPostHandler: (content: string, images: ImageInfo[]) => Promise<any>;
+  createPostHandler: CreatePostHandler;
   initialContents?: { content: string; imageUrls: Image[] | undefined };
 }
 

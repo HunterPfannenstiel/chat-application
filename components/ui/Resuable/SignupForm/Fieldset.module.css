@@ -18,7 +18,3 @@
     font-size: 1rem;
     font-weight: 600;
 }
-
-.fieldset input:invalid {
-    background-color: #FFCCCC;
-}
