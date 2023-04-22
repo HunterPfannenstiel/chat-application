@@ -2,6 +2,7 @@ import { FunctionComponent } from "react";
 import { Image as PostImage } from "@_types/post";
 import classes from "./Contents.module.css";
 import ImageDisplay from "../PostModal/ImageDisplay";
+import ImageBox from "./ImageBox/ImageBox";
 
 interface ContentsProps {
   text: string;
@@ -12,7 +13,8 @@ const Contents: FunctionComponent<ContentsProps> = ({ text, images }) => {
   return (
     <div>
       <p>{text}</p>
-      <ImageDisplay onSelectImage={() => {}} images={images} />
+      <ImageBox images={images} />
+      {/* <ImageDisplay onSelectImage={() => {}} images={images} /> */}
     </div>
   );
 };

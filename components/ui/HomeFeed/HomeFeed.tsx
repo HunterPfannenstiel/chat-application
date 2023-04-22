@@ -1,23 +1,24 @@
-import { FunctionComponent } from "react";
-import classes from "./HomeFeed.module.css";
+import { FunctionComponent, RefObject } from "react";
 import FeedPostList from "@ui/Resuable/FeedPost/FeedPostList";
 import FeedNav from "@ui/HomeFeed/FeedNav/FeedNav";
 import Menu from "./Menu/Menu";
 import useAnimateModal from "@hooks/animation/useAnimateModal";
 import { UserFeed } from "@_types/user";
 import PostModal from "@ui/Resuable/PostModal/PostModal";
-import useTensionScroll from "@hooks/animation/useTensionScroll";
-import { ImageInfo } from "@ui/Resuable/PostModal/types";
 import CreatePostIcon from "@ui/Resuable/Icons/CreatePostIcon";
-import { createFormData } from "utils/form";
 import { createPost } from "utils/actions";
 
 interface HomeFeedProps {
   user: UserFeed;
   isSignedIn: boolean;
+  scrollElement: RefObject<HTMLUListElement>;
 }
 
-const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user, isSignedIn }) => {
+const HomeFeed: FunctionComponent<HomeFeedProps> = ({
+  user,
+  isSignedIn,
+  scrollElement,
+}) => {
   const { toggle, showModal, playAnimation } = useAnimateModal(300);
   const {
     toggle: toggleCreatePost,
@@ -29,6 +30,7 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({ user, isSignedIn }) => {
     <section>
       <FeedNav toggleModal={toggle} userImage={user.userImage} />
       <FeedPostList
+        scrollElement={scrollElement}
         posts={user.posts}
         emptyPostDisplay={
           <p>

@@ -8,18 +8,29 @@ import {
 } from "./helpers";
 import { ProcedureParam } from "@_types/db";
 import sql from "mssql/msnodesqlv8";
-import { getDB } from "./connect";
-import { UserFeed } from "@_types/user";
 import { CreatePost, UpdatePost } from "@_types/post";
 import { FeedPost } from "@_types/post/feed-post";
 
-export const execFetchFeed = async (userId: number) =>
+export const execFetchFeed = (userId: number) =>
   useDB(async (db) => {
     const params: ProcedureParam[] = [
       { paramName: "userId", isInput: true, value: userId },
     ];
     const request = createDatabaseRequest(db, params);
     const res = await executeProcedure("Chat.FetchFeed", request);
+    return res.recordset[0];
+  });
+
+export const fetchFeedPage = (userId: number, page: number) =>
+  useDB(async (db) => {
+    const request = createDatabaseRequest(db, [
+      { paramName: "userId", isInput: true, value: userId },
+      { paramName: "page", isInput: true, value: page },
+    ]);
+    const res = await executeFunction(
+      "SELECT * FROM Chat.FetchFeedPage(@userId, @page)",
+      request
+    );
     return res.recordset[0];
   });
 
@@ -55,9 +66,18 @@ export const execUpdatePost = (
         value: createImageTableInput(updates.images || []),
       },
       { paramName: "deleteImages", isInput: true, value: deleteImages ? 1 : 0 },
+      {
+        paramName: "deletedImages",
+        isInput: false,
+        outputType: sql.NVarChar(MAX),
+      },
     ]);
     const res = await executeProcedure("Chat.UpdatePost", request);
-    return res.recordset[0];
+    let deletedImages = undefined;
+    if (res.output.deletedImages) {
+      deletedImages = await JSON.parse(res.output.deletedImages);
+    }
+    return deletedImages;
   });
 
 export const getPostComments =
@@ -71,5 +91,14 @@ export const getPostComments =
     const query =
       "SELECT * FROM Chat.FetchPostComments(@postId, @userId, @page)";
     const res = await executeFunction(query, request);
+    if (res.recordset.length > 0) {
+      console.log("comments", res.recordset);
+      const posts = res.recordset as FeedPost[];
+      posts.forEach(async (post) => {
+        if (post.images) {
+          post.images = await JSON.parse(post.images as any);
+        }
+      });
+    }
     return res.recordset;
   };

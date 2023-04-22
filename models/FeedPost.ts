@@ -45,7 +45,7 @@ export class FeedPost {
     postId: string,
     updates: UpdatePost,
     deleteImages: boolean
-  ): Promise<string[]> {
+  ): Promise<{ publicId: string }[]> {
     return execUpdatePost(postId, updates, deleteImages);
   }
   static delete(postId: string): Promise<void> {

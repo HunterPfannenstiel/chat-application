@@ -21,10 +21,49 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
   user,
 }) => {
   const { showModal, playAnimation, toggle } = useAnimateModal(300);
+  const [userPosts, setUserPosts] = useState(posts);
   const [editPostIndex, setEditPostIndex] = useState(0);
   const onEditPost = (index: number) => {
     setEditPostIndex(index);
     toggle();
+  };
+
+  const editPostHandler = async (
+    content: string,
+    images: ImageInfo[],
+    deleteImages: boolean
+  ) => {
+    const initialContent = userPosts[editPostIndex];
+    console.log("delte", deleteImages);
+    if (
+      deleteImages ||
+      content !== initialContent.content ||
+      images.length > 0
+    ) {
+      const blobs = images.map((image) => image.blob);
+      const formData = createFormData(
+        { content, postId: initialContent.postId, deleteImages },
+        { images: blobs }
+      );
+      const res = await fetch("/api/post", { method: "PUT", body: formData });
+      if (res.ok) {
+        console.log("OK");
+        let newImages = initialContent.images;
+        if (deleteImages || images.length > 0) {
+          newImages = images.map((image) => {
+            return { imageUrl: image.imageUrl, aspectRatio: image.aspectRatio };
+          });
+        }
+        setUserPosts((prevState) => {
+          const copyState = [...prevState];
+          copyState[editPostIndex].content = content;
+          copyState[editPostIndex].images = newImages;
+          return copyState;
+        });
+      } else {
+        console.log("Error");
+      }
+    }
   };
   return (
     <>
@@ -38,10 +77,7 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
       {showModal && (
         <PostModal
           modalProps={{ playAnimation, toggle, animationTime: 300 }}
-          createPostHandler={editPostHandler(
-            posts[editPostIndex].postId,
-            posts[editPostIndex].content
-          )}
+          createPostHandler={editPostHandler}
           modalTitle="Update Post"
           initialContents={{
             content: posts[editPostIndex].content,
@@ -53,22 +89,5 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
     </>
   );
 };
-
-const editPostHandler =
-  (postId: number, initialContent: string) =>
-  async (content: string, images: ImageInfo[], deleteImages: boolean) => {
-    const blobs = images.map((image) => image.blob);
-    const formData = createFormData(
-      { content, postId, deleteImages },
-      { images: blobs }
-    );
-    console.log({ content, images });
-    const res = await fetch("/api/post", { method: "PUT", body: formData });
-    if (res.ok) {
-      console.log("OK");
-    } else {
-      console.log("ERRRORORROOROROR");
-    }
-  };
 
 export default UserPosts;

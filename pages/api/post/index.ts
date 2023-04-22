@@ -56,9 +56,9 @@ const handler: NextApiHandler = async (req, res) => {
         throw e;
       }
 
-      const removeImages =
-        !!(deleteImages && deleteImages === "false") ||
-        !!(files && files.length > 0);
+      const removeImages = deleteImages !== "false";
+      // !!(deleteImages && deleteImages === "false") ||
+      // !!(files && files.length > 0);
       console.log("DELETE IMAGES?", removeImages);
 
       let images;
@@ -77,7 +77,7 @@ const handler: NextApiHandler = async (req, res) => {
         removeImages
       );
       if (removedImages && removedImages.length > 0) {
-        removedImages.forEach((id) => deleteImage(id));
+        removedImages.forEach((image) => deleteImage(image.publicId));
       }
       return res
         .status(201)

@@ -1,10 +1,12 @@
 import { UserFeed } from "@_types/user";
+import usePageFetch from "@hooks/page-fetch/usePageFetch";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const useFeed = () => {
   const [fetchGlobal, setFetchGlobal] = useState(false);
+  const { scrollElement } = usePageFetch(fetchFeedPage, false, true, 20);
   const { query } = useRouter();
   const { data, isLoading, isError } = useQuery({
     queryKey: ["feed", fetchGlobal],
@@ -17,7 +19,7 @@ const useFeed = () => {
       setFetchGlobal(false);
     }
   }, [query]);
-  return { feed: data, isLoading, isError };
+  return { feed: data, isLoading, isError, scrollElement };
 };
 
 const fetchFeed = async (global: boolean) => {
@@ -27,6 +29,11 @@ const fetchFeed = async (global: boolean) => {
     throw new Error(data.message);
   }
   return data as { user: UserFeed; isSignedIn: boolean };
+};
+
+const fetchFeedPage = async () => {
+  console.log("Fetch Page");
+  return [];
 };
 
 export default useFeed;
