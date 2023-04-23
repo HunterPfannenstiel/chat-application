@@ -1,6 +1,27 @@
 .add_comment {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    padding: 1em;
+    margin: .5rem 1.5rem;
+}
+
+.add_comment button {
+    padding: .5em;
+    width: 100%;
+    font-size: 1rem;
+    background: none;
+    border-radius: .5rem;
+    border-color: var(--primary-purple);
+    color: var(--primary-purple);
+}
+
+.add_comment button:hover {
+    color: white;
+    background-color: var(--primary-purple);
+    cursor: pointer;
+}
+
+.count {
+    margin: .5rem 1.5rem;
+}
+
+.count span {
+    font-weight: bold;
 }
