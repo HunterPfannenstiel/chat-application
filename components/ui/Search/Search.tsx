@@ -2,6 +2,7 @@ import { FunctionComponent } from "react";
 import SearchNav from "./SearchNav";
 import useUserSearch from "@hooks/user-search/useUserSearch";
 import UserBlock from "@ui/Resuable/UserBlock/UserBlock";
+import Connections from "@ui/Connections/Connections";
 
 interface SearchProps {
   userImage: string;
@@ -18,11 +19,7 @@ const Search: FunctionComponent<SearchProps> = ({ userImage }) => {
         instantFetch={instantFetch}
       />
       {users && (
-        <ul>
-          {users.map((user) => {
-            return <UserBlock user={user} />;
-          })}
-        </ul>
+        <Connections users={users}/>
       )}
     </>
   );

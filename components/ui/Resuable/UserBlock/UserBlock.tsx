@@ -1,12 +1,12 @@
 import { FunctionComponent, ReactNode } from "react";
 import classes from "./UserBlock.module.css";
-import { ConnectionsDetails } from "@_types/user";
+import { UserDetails } from "@_types/user";
 import ProfileImage from "../Profile/ProfileImage/ProfileImage";
 import { useRouter } from "next/router";
 import UserBlockButton from "./UserBlockButton";
 
 interface UserBlockProps {
-	user: ConnectionsDetails;
+	user: UserDetails;
 	buttonText?: string;
 	button?: ReactNode;
 }
@@ -36,10 +36,10 @@ const UserBlock: FunctionComponent<UserBlockProps> = ({
 			<p>{user.bio}</p>
 			<div className={classes["follow-container"]}>
 				<p>
-					<span>2,234</span> Following
+					<span>{user.followingCount}</span> Following
 				</p>
 				<p>
-					<span>2</span> Followers
+					<span>{user.followerCount}</span> Followers
 				</p>
 				{!button && buttonText && <UserBlockButton buttonText={buttonText} />}
 				{button}

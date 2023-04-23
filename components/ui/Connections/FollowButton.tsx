@@ -12,7 +12,7 @@ const FollowButton: FunctionComponent<FollowButtonProps> = ({
   userId,
 }) => {
   const [following, setFollowing] = useState(isFollowing);
-  const buttonText = following ? "UnFollow" : "Follow";
+  const buttonText = following ? "Unfollow" : "Follow";
   const handleButtonClick = () => {
     if (following) updateFollowing(userId, "unfollow");
     else updateFollowing(userId, "follow");
