@@ -1,0 +1,15 @@
+.search {
+	display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-grow: 1;
+}
+
+.search input {
+    padding: .3rem;
+    font-size: 1rem;
+    width: max-content;
+    border-radius: 1rem;
+    border: none;
+    flex-grow: 1;
+}

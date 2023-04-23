@@ -1,0 +1,11 @@
+.nav {
+    display: flex;
+    align-items: center;
+    padding: .5rem 1rem;
+    border-bottom: 0.5px solid gray;
+    z-index: 1;
+    position: sticky;
+    top: 0px;
+    background-color: var(--primary-purple);
+    gap: 1rem;
+}
