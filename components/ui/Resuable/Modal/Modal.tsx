@@ -1,6 +1,6 @@
 import { CSSProperties, FunctionComponent, ReactNode } from "react";
 import classes from "./Modal.module.css";
-import Background from "../MobileMenu/Background";
+import Background from "./Background";
 import CloseIcon from "../Icons/CloseIcon";
 
 interface ModalProps {
@@ -24,8 +24,13 @@ const Modal: FunctionComponent<ModalProps> = ({
     className += ` ${classes.animate}`;
   }
   return (
-    <>
-      <div
+    <div>
+      <Background
+        toggle={toggle}
+        animateOut={playAnimation}
+        animationTime={animationTime}
+      />
+      <section
         className={classes.modal + " " + className}
         style={{ "--animationTime": animationTime + "ms" } as CSSProperties}
       >
@@ -35,13 +40,8 @@ const Modal: FunctionComponent<ModalProps> = ({
           </div>
         )}
         {children}
-      </div>
-      <Background
-        toggle={toggle}
-        animateOut={playAnimation}
-        animationTime={animationTime}
-      />
-    </>
+      </section>
+    </div>
   );
 };
 

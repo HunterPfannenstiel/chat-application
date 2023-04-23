@@ -9,6 +9,7 @@ export type UserInfo = {
 export type UserDetails = {
   followingCount: number;
   followerCount: number;
+  userId?: number;
 } & UserInfo;
 
 export type UserFeed = {

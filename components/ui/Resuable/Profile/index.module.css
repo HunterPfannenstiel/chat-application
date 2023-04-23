@@ -6,14 +6,9 @@
     background-color: white;
 }
 
-.spacer {
-    margin-block: 0.75rem;
-    padding: 0.5em 1.5em;
-}
-
-.edit {
+.button {
     margin-left: auto;
-    background-color: lightblue;
-    border: none;
-    border-radius: 8px;
+    margin-block: 0.25rem;
+    padding: .6em 2em;
+    width: auto;
 }

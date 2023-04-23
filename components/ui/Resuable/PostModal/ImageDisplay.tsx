@@ -3,30 +3,27 @@ import type { Image as Images } from "@_types/post";
 import classes from "./ImageDisplay.module.css";
 import Image from "next/image";
 import { ImageInfo } from "./types";
+import CloseIcon from "../Icons/CloseIcon";
 
 interface ImageDisplayProps {
-  inputImages: ImageInfo[];
-  initialImages?: Images[];
+  images?: Images[];
   onSelectImage: (index: number) => void;
+  displayRemove?: boolean;
+  onRemoveImages?: () => void;
 }
 
 const ImageDisplay: FunctionComponent<ImageDisplayProps> = ({
-  inputImages,
-  initialImages,
+  images = [],
   onSelectImage,
+  displayRemove,
+  onRemoveImages,
 }) => {
-  const images =
-    inputImages.length > 0 ? inputImages : initialImages ? initialImages : [];
-  const containerPercentage = (1 / images.length) * 100;
   return (
-    <div className={classes.images}>
+    <ul className={classes.images}>
+      {displayRemove && <CloseIcon onClose={onRemoveImages} />}
       {images.map((image, i) => (
         <div
           className={classes.image_container}
-          style={{
-            width: containerPercentage + "%",
-            height: containerPercentage + "%",
-          }}
           onClick={onSelectImage.bind(null, i)}
         >
           <Image
@@ -37,7 +34,7 @@ const ImageDisplay: FunctionComponent<ImageDisplayProps> = ({
           />
         </div>
       ))}
-    </div>
+    </ul>
   );
 };
 

@@ -14,6 +14,7 @@ interface PostFormProps {
   clearImages: () => void;
   onSelectImage: (index: number) => void;
   initialImages?: Image[];
+  buttonText: string;
 }
 
 const PostForm: FunctionComponent<PostFormProps> = ({
@@ -25,32 +26,36 @@ const PostForm: FunctionComponent<PostFormProps> = ({
   postContent,
   onSelectImage,
   initialImages,
+  buttonText,
 }) => {
   return (
-    <form onSubmit={handlePost}>
-      <div className={classes.post_input}>
-        {images.length > 0 && (
-          <p className={classes.close} onClick={clearImages}>
-            x
-          </p>
-        )}
-        <textarea
-          rows={10}
-          onChange={handleInput}
-          value={postContent}
-          className={classes.textarea}
+    <form onSubmit={handlePost} className={classes.form}>
+      <textarea
+        rows={8}
+        onChange={handleInput}
+        value={postContent}
+        className={classes.textarea}
+      />
+      <p>
+        Characters: <span>{postContent.length}/280</span>
+      </p>
+      <p>
+        Images: <span>{images.length}/4</span>
+      </p>
+      {images.length > 0 && (
+        <ImageDisplay
+          images={
+            images.length > 0 ? images : initialImages ? initialImages : []
+          }
+          onSelectImage={onSelectImage}
+          onRemoveImages={clearImages}
+          displayRemove
         />
-        {images.length > 0 && (
-          <ImageDisplay
-            inputImages={images}
-            onSelectImage={onSelectImage}
-            initialImages={initialImages}
-          />
-        )}
-      </div>
+      )}
+
       <ImageSelect images={images} setImages={setImages} />
       <button className={classes.button} type="submit">
-        Post
+        {buttonText}
       </button>
     </form>
   );

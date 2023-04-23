@@ -5,7 +5,7 @@
     margin-inline: auto;
     padding-block: 0.5rem;
     text-align: center;
-    --input-color: #D9D9D9
+    --input-color: rgba(var(--primary-purple-rgb), 0.2);
 }
 
 .form label {
@@ -39,4 +39,8 @@
 
 .valid {
     background-color: rgba(75, 181, 67, 0.5) !important;
+}
+
+.invalid {
+    background-color: #FFCCCC !important;
 }

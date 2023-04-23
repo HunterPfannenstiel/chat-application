@@ -34,22 +34,17 @@ const UserDetails: FunctionComponent<UserDetailsProps> = ({
 
 const getRelativeTime = (date: Date) => {
   const minutesAgo = (new Date().getTime() - date.getTime()) / 60000;
-  if (minutesAgo >= 60) {
-    const hours = minutesAgo / 60;
-    if (hours > 1) {
-      return `${hours.toFixed(0)} hours ago`;
-    }
-    return `${hours.toFixed(0)} hour ago`;
-  } else if (minutesAgo >= 10080) {
+  if (minutesAgo >= 10080) {
     const weeks = minutesAgo / 10080;
-    if (weeks > 1) {
-      return `${weeks.toFixed(0)} weeks ago`;
-    }
-    return `${weeks.toFixed(0)} week ago`;
-  } else if (minutesAgo > 1) {
-    return `${minutesAgo.toFixed(0)} minutes ago`;
+    return `${weeks.toFixed(0)}w ago`;
+  } else if (minutesAgo >= 1440) {
+    const days = minutesAgo / 1440;
+    return `${days.toFixed(0)}d ago`;
+  } else if (minutesAgo >= 60) {
+    const hours = minutesAgo / 60;
+    return `${hours.toFixed(0)}h ago`;
   }
-  return `${minutesAgo.toFixed(0)} minute ago`;
+  return `${minutesAgo.toFixed(0)}m ago`;
 };
 
 export default UserDetails;

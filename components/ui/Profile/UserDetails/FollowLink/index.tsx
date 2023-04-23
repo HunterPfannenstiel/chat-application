@@ -16,8 +16,8 @@ const FollowLink: FunctionComponent<FollowLinkProps> = ({
   return (
     <Link href={href} className={classes.link}>
       <p className={classes.text}>
-        {count}
-        <span>{label}</span>
+        <span>{count}</span>
+        {label}
       </p>
     </Link>
   );

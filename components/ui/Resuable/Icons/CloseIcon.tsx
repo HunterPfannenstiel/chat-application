@@ -4,7 +4,7 @@ import classes from "./CloseIcon.module.css";
 interface CloseIconProps {
   diameter?: number;
   className?: string;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 const CloseIcon: FunctionComponent<CloseIconProps> = ({
@@ -13,9 +13,11 @@ const CloseIcon: FunctionComponent<CloseIconProps> = ({
   onClose,
 }) => {
   return (
-    <div className={classes.container} onClick={onClose}>
-      <div />
-      <div />
+    <div className={classes.close_button + " " + className}>
+      <div className={classes.container} onClick={onClose}>
+        <div />
+        <div />
+      </div>
     </div>
   );
 };

@@ -1,9 +1,4 @@
-.text {
-    color: black;
-    font-weight: 500;
-}
-
 .text span {
-    color: #71767B;
-    padding-left: .25rem;
+    padding-right: .25rem;
+    font-weight: bold;
 }

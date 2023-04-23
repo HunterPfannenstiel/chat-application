@@ -2,23 +2,24 @@ import { FormEvent, FunctionComponent, useState } from "react";
 import type { ModalProps } from "@_types/ui";
 import classes from "./PostModal.module.css";
 import Modal from "../Modal/Modal";
-import { ImageInfo } from "./types";
 import PostForm from "./PostForm/PostForm";
 import useAnimateModal from "@hooks/animation/useAnimateModal";
 import ImageView from "../ImageView/ImageView";
 import useCreateFeedPost from "@hooks/feed-post/useCreateFeedPost";
-import { Image } from "@_types/post";
+import { CreatePostHandler, Image } from "@_types/post";
 
 interface PostModalProps {
   modalProps: ModalProps;
   modalTitle: string;
-  createPostHandler: (content: string, images: ImageInfo[]) => Promise<any>;
+  buttonText: string;
+  createPostHandler: CreatePostHandler;
   initialContents?: { content: string; imageUrls: Image[] | undefined };
 }
 
 const PostModal: FunctionComponent<PostModalProps> = ({
   modalTitle,
   modalProps,
+  buttonText,
   createPostHandler,
   initialContents = { content: "", imageUrls: [] },
 }) => {
@@ -40,21 +41,19 @@ const PostModal: FunctionComponent<PostModalProps> = ({
   };
   return (
     <>
-      <Modal {...modalProps} className={classes.modal}>
-        <div className={classes.content}>
-          <h1>{modalTitle}</h1>
-          <PostForm
-            handlePost={createPost}
-            images={post.images}
-            setImages={post.setImages}
-            postContent={post.content}
-            handleInput={post.handleInput}
-            clearImages={post.clearImages}
-            onSelectImage={onSelectImage}
-            initialImages={initialContents?.imageUrls}
-          />
-          <p>{`Char count: ${post.charCount}/280`}</p>
-        </div>
+      <Modal {...modalProps} className={classes.modal} displayCloseIcon>
+        <h1>{modalTitle}</h1>
+        <PostForm
+          handlePost={createPost}
+          images={post.images}
+          setImages={post.setImages}
+          postContent={post.content}
+          handleInput={post.handleInput}
+          clearImages={post.clearImages}
+          onSelectImage={onSelectImage}
+          initialImages={initialContents?.imageUrls}
+          buttonText={buttonText}
+        />
       </Modal>
       {imageViewModal.showModal && post.images.length > 0 && (
         <ImageView

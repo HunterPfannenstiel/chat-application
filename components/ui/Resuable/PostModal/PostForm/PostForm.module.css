@@ -1,13 +1,24 @@
-.post_input {
+.form {
     display: flex;
-    gap: 1rem;
-    align-items: center;
-    position: relative;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: left;
+}
+.form p {
+    font-size: 0.875rem;
+}
+
+.form span {
+    font-weight: bold;
 }
 
 .textarea {
     width: 100%;
     border-radius: 8px;
+    border: 1px solid var(--primary-purple);
+    font-family: inherit;
+    padding: 0.5rem;
+    font-size: 1rem;
 }
 
 .close {
@@ -18,8 +29,11 @@
 
 
 .button {
-    background-color: white;
+    background-color: var(--primary-purple);
     border: none;
-    border-radius: 6px;
-    padding: 0.5em 2em;
+    border-radius: 8px;
+    width: 100%;
+    padding-block: 1em;
+    font-size: 1rem;
+    color: white;
 }

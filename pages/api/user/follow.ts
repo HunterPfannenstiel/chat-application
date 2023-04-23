@@ -5,9 +5,9 @@ const handler: NextApiHandler = async (req, res) => {
   if (req.method === "POST") {
     try {
       const session = await getUserSession(req);
-      const { followingUserId } = req.body;
-      await User.follow(session.user.userId, followingUserId);
-      res.status(200).json({ message: "followed user!" });
+      const { followingUserId, action } = req.body;
+      await User.follow(session.user.userId, followingUserId, action);
+      res.status(200).json({ message: `${action}ed user` });
     } catch (error) {
       return sendErrorResponse(error, res);
     }

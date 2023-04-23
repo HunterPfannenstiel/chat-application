@@ -5,6 +5,7 @@ export type UserProfile = {
   bio: string;
   createdDate: Date;
   ethereumAddress?: string;
+  userId: number;
   followerCount: number;
   followingCount: number;
   communityCount: number;

@@ -29,11 +29,25 @@ export const execCreateUser = (profile: CreateUser) =>
     return res.output.userId as number;
   });
 
-export const isValidHandle = (handle: string) => async (db: ConnectionPool) => {
-  const res = await db.query(`SELECT Chat.IsValidHandle(${handle})`);
-  console.log("is valid res", res);
-  return res.output;
-};
+export const fetchUserProfile = (handle: string, userId?: number) =>
+  useDB(async (db) => {
+    const request = createDatabaseRequest(db, [
+      { paramName: "userHandle", isInput: true, value: handle },
+      { paramName: "queryUserId", isInput: true, value: userId },
+    ]);
+    const res = await executeProcedure("Chat.FetchUserProfile", request);
+    return res.recordset[0];
+  });
+
+export const isValidHandle = (handle: string) =>
+  useDB(async (db) => {
+    const request = createDatabaseRequest(db, [
+      { paramName: "handle", isInput: true, value: handle },
+    ]);
+    const res = await executeProcedure("Chat.IsValidHandle", request);
+    console.log("is valid res", res);
+    return res.recordset[0].isValidHandle;
+  });
 
 export const getUserId =
   (name: string, isWeb3: boolean) => async (db: ConnectionPool) => {
@@ -70,3 +84,45 @@ export const getFollow =
     console.log("RES", res);
     return res.recordset;
   };
+
+export const execFollowUser = (
+  userId: number,
+  followedUserId: number,
+  followUser: number
+) =>
+  useDB(async (db) => {
+    const request = createDatabaseRequest(db, [
+      { paramName: "followedUserId", isInput: true, value: followedUserId },
+      { paramName: "followerUserId", isInput: true, value: userId },
+      { paramName: "follow", isInput: true, value: followUser },
+    ]);
+    await executeProcedure("Chat.FollowUser", request);
+  });
+
+export const fetchUserDetials = (userId: number) =>
+  useDB(async (db) => {
+    const request = createDatabaseRequest(db, [
+      { paramName: "userId", isInput: true, value: userId },
+    ]);
+    const res = await executeFunction(
+      "SELECT * FROM Chat.FetchUser(@userId)",
+      request
+    );
+    if (res.recordset.length > 0) {
+      return res.recordset[0];
+    }
+    throw new Error("No user found!");
+  });
+
+export const searchForUsers = (searchTerm: string, userId: number) =>
+  useDB(async (db) => {
+    const request = createDatabaseRequest(db, [
+      { paramName: "searcher", isInput: true, value: userId },
+      { paramName: "filter", isInput: true, value: searchTerm },
+    ]);
+    const res = await executeFunction(
+      "SELECT * FROM Chat.FilterUsers(@searcher, @filter)",
+      request
+    );
+    return res.recordset;
+  });

@@ -4,6 +4,7 @@ import { Image as ImageProp } from "@_types/post";
 import Modal from "../Modal/Modal";
 import { ModalProps } from "@_types/ui";
 import Image from "next/image";
+import ImageButtons from "../Icons/ImageButtons/ImageButtons";
 
 interface ImageViewProps {
   images: ImageProp[];
@@ -31,10 +32,13 @@ const ImageView: FunctionComponent<ImageViewProps> = ({
   };
   return (
     <Modal {...modalProps} className={classes.modal} displayCloseIcon>
-      <div
-        className={classes.image_container}
-        style={{ aspectRatio: images[currImage].aspectRatio }}
-      >
+      <p>
+        Images:{" "}
+        <span>
+          {currImage + 1}/{images.length}
+        </span>
+      </p>
+      <div className={classes.image_container}>
         <Image
           src={images[currImage].imageUrl}
           alt="Post Image"
@@ -42,10 +46,10 @@ const ImageView: FunctionComponent<ImageViewProps> = ({
           height={500}
         />
       </div>
-      <div className={classes.image_buttons}>
-        <button onClick={handleNextImage.bind(null, "left")}>{"<"}</button>
-        <button onClick={handleNextImage.bind(null, "right")}>{">"}</button>
-      </div>
+      <ImageButtons
+        onClickLeft={handleNextImage.bind(null, "left")}
+        onClickRight={handleNextImage.bind(null, "right")}
+      />
     </Modal>
   );
 };

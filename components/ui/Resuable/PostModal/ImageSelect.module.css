@@ -1,6 +1,12 @@
 .image_select {
-    display: block;
-    width: 32px;
-    height: 32px;
-    margin: 0.5rem;
+    display: flex;
+    padding-block: 0.25rem;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: var(--primary-purple);
+    border: 1px solid var(--primary-purple);
+    border-radius: 8px;
+    cursor: pointer;
 }

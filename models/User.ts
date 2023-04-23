@@ -2,14 +2,19 @@ import { UpdateUser, ConnectionsDetails, CreateUser } from "@_types/user";
 import { UserProfile } from "@_types/user/profile";
 import { mockProfiles } from "mock-data/profiles";
 import { useDB } from "utils/db/helpers";
-import { execCreateUser, getFollow } from "utils/db/user-commands";
+import {
+  execCreateUser,
+  execFollowUser,
+  fetchUserDetials,
+  fetchUserProfile,
+  getFollow,
+  searchForUsers,
+} from "utils/db/user-commands";
 
 export class User {
-  static fetchProfile(userId: string): Promise<UserProfile> {
+  static fetchProfile(handle: string, userId?: number) {
     //Query for profile with 'userId'
-    return new Promise((resolve) => {
-      resolve(mockProfiles[2]);
-    });
+    return fetchUserProfile(handle, userId);
   }
 
   static async fetchFollowers(
@@ -17,6 +22,10 @@ export class User {
   ): Promise<ConnectionsDetails[]> {
     const followers = await useDB(getFollow(userHandle, 0, "Followers"));
     return followers;
+  }
+
+  static async fetchDetails(userId: number) {
+    return fetchUserDetials(userId);
   }
 
   static async fetchFollowing(
@@ -34,7 +43,15 @@ export class User {
     throw new Error("Method not implemented.");
   }
 
-  static follow(userId: number, followingUserId: number) {
-    throw new Error("Method not implemented.");
+  static follow(
+    userId: number,
+    followedUserId: number,
+    action: "follow" | "unfollow"
+  ) {
+    return execFollowUser(userId, followedUserId, action === "follow" ? 1 : 0);
+  }
+
+  static search(searchTerm: string, userId: number) {
+    return searchForUsers(searchTerm, userId);
   }
 }

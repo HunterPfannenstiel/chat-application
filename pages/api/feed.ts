@@ -14,12 +14,13 @@ const handler: NextApiHandler = async (req, res) => {
       //MAKE DB QUERY
       const { global } = req.query;
       if (global || !session || !session.user.userId) {
-        const user = await FeedPost.fetchFeed(1);
-        if (user.posts) {
-          user.posts = JSON.parse(user.posts);
-        }
+        const posts = await FeedPost.fetchGlobal(0, session?.user?.userId);
+        // if (user.posts) {
 
-        return res.status(200).send({ user, isSignedIn: !!session });
+        //   user.posts = JSON.parse(user.posts);
+        // }
+
+        return res.status(200).send({ user: { posts }, isSignedIn: !!session });
       } else if (session) {
         //session.user.userId
         const user = await FeedPost.fetchFeed(session?.user.userId || 1);
