@@ -25,6 +25,7 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({ profile }) => {
         userImage={updatedUser?.imageUrl || user.userImage}
         userHandle={updatedUser?.userHandle || user.userHandle}
         userName={updatedUser?.userName || user.userName}
+        userId={user.userId}
         isUsersProfile={isUsersProfile}
         toggleEdit={toggle}
         bio={<p>{updatedUser?.bio || user.bio}</p>}

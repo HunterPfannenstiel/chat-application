@@ -5,6 +5,7 @@ import { useDB } from "utils/db/helpers";
 import {
   execCreateUser,
   execFollowUser,
+  fetchUserDetials,
   fetchUserProfile,
   getFollow,
 } from "utils/db/user-commands";
@@ -20,6 +21,10 @@ export class User {
   ): Promise<ConnectionsDetails[]> {
     const followers = await useDB(getFollow(userHandle, 0, "Followers"));
     return followers;
+  }
+
+  static async fetchDetails(userId: number) {
+    return fetchUserDetials(userId);
   }
 
   static async fetchFollowing(

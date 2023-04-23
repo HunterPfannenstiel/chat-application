@@ -9,11 +9,8 @@ export type UserInfo = {
 export type UserDetails = {
   followingCount: number;
   followerCount: number;
+  userId?: number;
 } & UserInfo;
-
-export type UserContext = {
-  bio: string;
-} & UserDetails;
 
 export type UserFeed = {
   posts?: FeedPost[];

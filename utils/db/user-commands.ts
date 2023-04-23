@@ -44,13 +44,9 @@ export const isValidHandle = (handle: string) =>
     const request = createDatabaseRequest(db, [
       { paramName: "handle", isInput: true, value: handle },
     ]);
-    const res = await executeFunction(
-      "SELECT * FROM Chat.IsValidHandle(@handle)",
-      request
-    );
-
+    const res = await executeProcedure("Chat.IsValidHandle", request);
     console.log("is valid res", res);
-    return res.recordset[0];
+    return res.recordset[0].isValidHandle;
   });
 
 export const getUserId =
@@ -101,4 +97,19 @@ export const execFollowUser = (
       { paramName: "follow", isInput: true, value: followUser },
     ]);
     await executeProcedure("Chat.FollowUser", request);
+  });
+
+export const fetchUserDetials = (userId: number) =>
+  useDB(async (db) => {
+    const request = createDatabaseRequest(db, [
+      { paramName: "userId", isInput: true, value: userId },
+    ]);
+    const res = await executeFunction(
+      "SELECT * FROM Chat.FetchUser(@userId)",
+      request
+    );
+    if (res.recordset.length > 0) {
+      return res.recordset[0];
+    }
+    throw new Error("No user found!");
   });

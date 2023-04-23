@@ -10,7 +10,7 @@ const handler: NextApiHandler = async (req, res) => {
         throw e;
       }
       const isValid = await isValidHandle(handle);
-      res.status(200).json({ isValidHandle: true });
+      res.status(200).json({ isValidHandle: isValid === 1 });
     } else {
       return res.status(400).json({ message: "Invalid method" });
     }

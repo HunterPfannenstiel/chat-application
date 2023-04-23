@@ -1,6 +1,7 @@
 import { CSSProperties, FunctionComponent, ReactNode } from "react";
 import classes from "./MobileMenu.module.css";
 import Background from "../Modal/Background";
+import CloseIcon from "../Icons/CloseIcon";
 
 interface MobileMenuProps {
   children: ReactNode;
@@ -44,10 +45,8 @@ const MobileMenu: FunctionComponent<MobileMenuProps> = ({
             } as CSSProperties
           }
         >
-          <div className={classes.title}>
-            {title && <h2>{title}</h2>}
-            <p onClick={toggleModal}>X</p>
-          </div>
+          <CloseIcon onClose={toggleModal} />
+          <div className={classes.title}>{title && <h2>{title}</h2>}</div>
           {children}
         </section>
       </div>

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { UserDetails } from "@_types/user";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
+import PurpleButton from "@ui/Resuable/Icons/PurpleButton";
 
 interface MenuProps {
   showModal: boolean;
@@ -53,9 +54,12 @@ const Menu: FunctionComponent<MenuProps> = ({
             },
           ]}
         />
-        <li>Profile</li>
-        <li>Communities</li>
-        <button
+        <Link href={`/${user.userHandle}`}>
+          <PurpleButton>Profile</PurpleButton>
+        </Link>
+
+        {/* <PurpleButton>Communities</PurpleButton> */}
+        <PurpleButton
           onClick={() => {
             if (!isSignedIn) {
               router.push("/auth/signin");
@@ -65,7 +69,7 @@ const Menu: FunctionComponent<MenuProps> = ({
           }}
         >
           {isSignedIn ? "Logout" : "SignIn"}
-        </button>
+        </PurpleButton>
       </nav>
     </MobileMenu>
   );
