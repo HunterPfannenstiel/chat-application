@@ -2,16 +2,16 @@ import { FunctionComponent } from "react";
 import classes from "./EditModal.module.css";
 import Modal from "@ui/Resuable/Modal/Modal";
 import { ModalProps } from "@_types/ui";
-import Form from "@ui/Resuable/SignupForm/Form";
+import Form, { FormImage } from "@ui/Resuable/SignupForm/Form";
 import { UserInfo } from "@_types/user";
 
 interface EditModalProps extends ModalProps {
   userInfo: UserInfo & { bio: string };
   handleForm: (
-    name: string | null,
-    handle: string | null,
-    bio: string | null,
-    image: Blob | null
+    name: string | undefined,
+    handle: string | undefined,
+    bio: string | undefined,
+    image: FormImage | undefined
   ) => Promise<void>;
 }
 

@@ -1,33 +1,29 @@
-import {
-  ChangeEvent,
-  FunctionComponent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, FunctionComponent } from "react";
 import classes from "./ImageInput.module.css";
 import PlusIcon from "@ui/Resuable/Icons/PlusIcon";
 
 interface ImageInputProps {
-  onImageSelected: (image: Blob) => void;
-  initialImage?: string;
+  onImageSelected: (image: { blob: Blob; imageUrl: string }) => void;
+  imageUrl?: string;
 }
 
 const ImageInput: FunctionComponent<ImageInputProps> = ({
   onImageSelected,
-  initialImage,
+  imageUrl,
 }) => {
-  const [image, setImage] = useState(initialImage);
-
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
+      const blob = e.target.files[0];
       const reader = new FileReader();
       reader.onload = (event) => {
         if (event.target && typeof event.target.result === "string") {
-          setImage(event.target.result);
+          onImageSelected({
+            blob,
+            imageUrl: event.target.result,
+          });
         }
       };
-      onImageSelected(e.target.files[0]);
+
       reader.readAsDataURL(e.target.files[0]);
     }
   };
@@ -44,12 +40,12 @@ const ImageInput: FunctionComponent<ImageInputProps> = ({
           onChange={handleImage}
           name="imageSelect"
           hidden
-          required={initialImage ? false : true}
+          required={imageUrl ? false : true}
         />
         <label htmlFor="image" className={classes.image_label}>
-          <PlusIcon style={{ opacity: image ? 0 : 1 }} />
+          <PlusIcon style={{ opacity: imageUrl ? 0 : 1 }} />
         </label>
-        {image && <img src={image} className={classes.image} />}
+        {imageUrl && <img src={imageUrl} className={classes.image} />}
       </div>
     </fieldset>
   );

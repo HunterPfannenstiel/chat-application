@@ -94,6 +94,7 @@ const handler: NextApiHandler = async (req, res) => {
       return sendErrorResponse(error, res);
     }
   } else if (req.method === "PUT") {
+    // return res.status(200).json({ message: "Updated" });
     let publicId;
     try {
       const session = await getUserSession(req);

@@ -1,7 +1,7 @@
-import { ConnectionsDetails } from "@_types/user";
+import { ConnectionsDetails, UserDetails } from "@_types/user";
 
 export const getInitialSearch = () => {
-  const users: ConnectionsDetails[] = [];
+  const users: UserDetails[] = [];
   return {
     users,
     setSearchTerm: (term: string) => {},
