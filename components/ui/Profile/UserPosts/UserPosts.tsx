@@ -40,6 +40,7 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
       content !== initialContent.content ||
       images.length > 0
     ) {
+      if (!deleteImages) deleteImages = images.length > 0;
       const blobs = images.map((image) => image.blob);
       const formData = createFormData(
         { content, postId: initialContent.postId, deleteImages },
@@ -49,7 +50,7 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
       if (res.ok) {
         console.log("OK");
         let newImages = initialContent.images;
-        if (deleteImages || images.length > 0) {
+        if (deleteImages) {
           newImages = images.map((image) => {
             return { imageUrl: image.imageUrl, aspectRatio: image.aspectRatio };
           });

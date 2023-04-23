@@ -36,8 +36,12 @@ const FeedPost: FunctionComponent<FeedPostProps> = ({
           postedDate={new Date(post.createdOn)}
         />
       </div>
-      <div className={classes.content} onClick={viewComments}>
-        <Contents text={post.content} images={post.images} />
+      <div className={classes.content}>
+        <Contents
+          text={post.content}
+          images={post.images}
+          onClick={viewComments}
+        />
         <Engagement
           likeCount={post.likeCount}
           commentCount={post.commentCount}

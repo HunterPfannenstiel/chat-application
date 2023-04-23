@@ -29,13 +29,13 @@ export const execCreateUser = (profile: CreateUser) =>
     return res.output.userId as number;
   });
 
-export const fetchUserProfile = (handle: string) =>
+export const fetchUserProfile = (handle: string, userId?: number) =>
   useDB(async (db) => {
     const request = createDatabaseRequest(db, [
       { paramName: "userHandle", isInput: true, value: handle },
+      { paramName: "queryUserId", isInput: true, value: userId },
     ]);
     const res = await executeProcedure("Chat.FetchUserProfile", request);
-    console.log(res);
     return res.recordset[0];
   });
 
@@ -88,3 +88,17 @@ export const getFollow =
     console.log("RES", res);
     return res.recordset;
   };
+
+export const execFollowUser = (
+  userId: number,
+  followedUserId: number,
+  followUser: number
+) =>
+  useDB(async (db) => {
+    const request = createDatabaseRequest(db, [
+      { paramName: "followedUserId", isInput: true, value: followedUserId },
+      { paramName: "followerUserId", isInput: true, value: userId },
+      { paramName: "follow", isInput: true, value: followUser },
+    ]);
+    await executeProcedure("Chat.FollowUser", request);
+  });

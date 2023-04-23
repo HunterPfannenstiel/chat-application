@@ -4,14 +4,15 @@ import { mockProfiles } from "mock-data/profiles";
 import { useDB } from "utils/db/helpers";
 import {
   execCreateUser,
+  execFollowUser,
   fetchUserProfile,
   getFollow,
 } from "utils/db/user-commands";
 
 export class User {
-  static fetchProfile(handle: string) {
+  static fetchProfile(handle: string, userId?: number) {
     //Query for profile with 'userId'
-    return fetchUserProfile(handle);
+    return fetchUserProfile(handle, userId);
   }
 
   static async fetchFollowers(
@@ -36,7 +37,11 @@ export class User {
     throw new Error("Method not implemented.");
   }
 
-  static follow(userId: number, followingUserId: number) {
-    throw new Error("Method not implemented.");
+  static follow(
+    userId: number,
+    followedUserId: number,
+    action: "follow" | "unfollow"
+  ) {
+    return execFollowUser(userId, followedUserId, action === "follow" ? 1 : 0);
   }
 }

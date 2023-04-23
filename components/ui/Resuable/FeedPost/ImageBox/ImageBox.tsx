@@ -5,25 +5,28 @@ import Image from "next/image";
 
 interface ImageBoxProps {
   images: Images[] | undefined;
+  onClick?: () => void;
 }
 
-const ImageBox: FunctionComponent<ImageBoxProps> = ({ images }) => {
-  return (
-    <ul className={classes.images}>
-      {images?.map((image) => {
-        return (
-          <div className={classes.image_container}>
-            <Image
-              src={image.imageUrl}
-              alt="post image"
-              width={200}
-              height={200}
-            />
-          </div>
-        );
-      })}
-    </ul>
-  );
+const ImageBox: FunctionComponent<ImageBoxProps> = ({ images, onClick }) => {
+  if (images) {
+    return (
+      <ul className={classes.images}>
+        {images.map((image) => {
+          return (
+            <div className={classes.image_container} onClick={onClick}>
+              <Image
+                src={image.imageUrl}
+                alt="post image"
+                width={200}
+                height={200}
+              />
+            </div>
+          );
+        })}
+      </ul>
+    );
+  } else return <div className={classes.spacer} />;
 };
 
 export default ImageBox;

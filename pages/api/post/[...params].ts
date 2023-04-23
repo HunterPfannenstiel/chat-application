@@ -7,6 +7,7 @@ const handler: NextApiHandler = async (req, res) => {
       const { params } = req.query;
       if (params) {
         const session = await getUserSession(req);
+        //params[0] = postId
         if (params.length === 1 && +params[0]) {
           const post = await FeedPost.fetch(+params[0], session.user.userId, 0);
 

@@ -1,11 +1,11 @@
 import { UpdatePost, PostLike } from "@_types/post";
 import { FeedPost as Post } from "@_types/post/feed-post";
 import { CreatePost } from "@_types/post";
-import { mockFeedPosts } from "mock-data/posts";
 import { useDB } from "utils/db/helpers";
 import {
   execCreatePost,
   execFetchFeed,
+  execLikePost,
   execUpdatePost,
   getPostComments,
 } from "utils/db/post-commands";
@@ -53,7 +53,7 @@ export class FeedPost {
   }
 
   static like(postId: number, userId: number, action: "like" | "unlike") {
-    throw new Error("Method not implemented");
+    return execLikePost(userId, postId, action === "like" ? 1 : 0);
   }
 }
 

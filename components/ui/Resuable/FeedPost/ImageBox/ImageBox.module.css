@@ -1,11 +1,9 @@
 .images {
     width: 100%;
     display: grid;
-    grid-template-columns: 45% 45%;
-    gap: 0.5rem;
-    padding: 0.5rem;
+    grid-template-columns: 50% 50%;
     justify-content: center;
-    background-color: var(--primary-purple);
+    margin-block: 1rem;
 }
 
 .image_container {
@@ -24,4 +22,8 @@
     object-fit: cover;
     top: 0;
     left: 0;
+}
+
+.spacer {
+    padding-block: 0.5rem;
 }

@@ -102,3 +102,20 @@ export const getPostComments =
     }
     return res.recordset;
   };
+
+export const execLikePost = (
+  userId: number,
+  postId: number,
+  likePost: number
+) =>
+  useDB(async (db) => {
+    const request = createDatabaseRequest(db, [
+      { paramName: "userId", isInput: true, value: userId },
+      { paramName: "postId", isInput: true, value: postId },
+      { paramName: "like", isInput: true, value: likePost },
+    ]);
+
+    const res = await executeProcedure("Chat.LikePost", request);
+    console.log("RES", res);
+    return res;
+  });

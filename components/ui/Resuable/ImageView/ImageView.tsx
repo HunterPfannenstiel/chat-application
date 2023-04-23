@@ -38,10 +38,7 @@ const ImageView: FunctionComponent<ImageViewProps> = ({
           {currImage + 1}/{images.length}
         </span>
       </p>
-      <div
-        className={classes.image_container}
-        style={{ aspectRatio: images[currImage].aspectRatio }}
-      >
+      <div className={classes.image_container}>
         <Image
           src={images[currImage].imageUrl}
           alt="Post Image"
