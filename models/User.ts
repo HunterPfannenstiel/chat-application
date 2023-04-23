@@ -8,6 +8,7 @@ import {
   fetchUserDetials,
   fetchUserProfile,
   getFollow,
+  searchForUsers,
 } from "utils/db/user-commands";
 
 export class User {
@@ -48,5 +49,9 @@ export class User {
     action: "follow" | "unfollow"
   ) {
     return execFollowUser(userId, followedUserId, action === "follow" ? 1 : 0);
+  }
+
+  static search(searchTerm: string, userId: number) {
+    return searchForUsers(searchTerm, userId);
   }
 }

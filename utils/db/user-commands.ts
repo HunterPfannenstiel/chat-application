@@ -113,3 +113,16 @@ export const fetchUserDetials = (userId: number) =>
     }
     throw new Error("No user found!");
   });
+
+export const searchForUsers = (searchTerm: string, userId: number) =>
+  useDB(async (db) => {
+    const request = createDatabaseRequest(db, [
+      { paramName: "searcher", isInput: true, value: userId },
+      { paramName: "filter", isInput: true, value: searchTerm },
+    ]);
+    const res = await executeFunction(
+      "SELECT * FROM Chat.FilterUsers(@searcher, @filter)",
+      request
+    );
+    return res.recordset;
+  });
