@@ -34,6 +34,25 @@ export const fetchFeedPage = (userId: number, page: number) =>
     return res.recordset[0];
   });
 
+export const fetchGlobalFeed = (page: number, userId?: number) =>
+  useDB(async (db) => {
+    const request = createDatabaseRequest(db, [
+      { paramName: "page", isInput: true, value: page },
+      { paramName: "userId", isInput: true, value: userId },
+    ]);
+    const res = await executeFunction(
+      "SELECT * FROM Chat.FetchGlobalFeed(@page, @userId)",
+      request
+    );
+    if (res.recordset.length > 0) {
+      res.recordset.forEach(async (post) => {
+        if (post.images) post.images = await JSON.parse(post.images);
+      });
+    }
+    console.log(res);
+    return res.recordset;
+  });
+
 export const execCreatePost =
   (post: CreatePost) => async (db: ConnectionPool) => {
     const request = createDatabaseRequest(db, [

@@ -7,7 +7,7 @@
     height: 100%;
     overflow-y: scroll;
     transition: all var(--animationTime) ease;
-    padding: 0.5rem;
+    padding: 1.5rem;
     z-index: 2;
 }
 
@@ -21,8 +21,8 @@
 
 .title {
     display: flex;
-    justify-content: space-around;
     align-items: center;
+    margin-top: 1.5rem;
     margin-bottom: 1rem;
 }
 

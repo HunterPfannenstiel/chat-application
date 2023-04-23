@@ -32,7 +32,7 @@ const handler: NextApiHandler = async (req, res) => {
   if (req.method === "POST") {
     let publicId: string | undefined = "";
     try {
-      await parseImage(req, res, imageParser);
+      await parseImage(req, res, imageParser, true);
       const session = (await getSession({ req })) as SessionToken | null;
       if (!session) {
         const error = createError(
@@ -97,7 +97,7 @@ const handler: NextApiHandler = async (req, res) => {
     let publicId;
     try {
       const session = await getUserSession(req);
-      await parseImage(req, res, imageParser);
+      await parseImage(req, res, imageParser, true);
       const fileReq = req as any;
       const { userName, userHandle, bio } = req.body;
       let imageUrl;

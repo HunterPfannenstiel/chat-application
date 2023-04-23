@@ -7,6 +7,7 @@ import {
   execFetchFeed,
   execLikePost,
   execUpdatePost,
+  fetchGlobalFeed,
   getPostComments,
 } from "utils/db/post-commands";
 import { DBFeed, UserFeed } from "@_types/user";
@@ -20,13 +21,11 @@ export class FeedPost {
   }
 
   static fetchFeed(userId: number): Promise<DBFeed> {
-    //*'userId' will be a valid userId*
-    //Get all of 'id's' followers and join their posts
-    //Sort by 'createdOn'
-    //Fetch first x amount of rows
-    //Return posts
-
     return execFetchFeed(userId);
+  }
+
+  static fetchGlobal(page: number, userId?: number) {
+    return fetchGlobalFeed(page, userId);
   }
 
   static fetchLikes(postId: string): Promise<PostLike[]> {
