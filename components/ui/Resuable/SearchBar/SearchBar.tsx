@@ -1,33 +1,39 @@
-import { FunctionComponent, useRef, useState } from "react";
+import { ChangeEvent, FunctionComponent, useRef, useState } from "react";
 import classes from "./SearchBar.module.css";
 import ClearSearchIcon from "../Icons/ClearSearchIcon";
 
-interface SearchBarProps {}
+interface SearchBarProps {
+  setSearchTerm: (searchTerm: string) => void;
+  searchTerm: string;
+  instantFetch: (term: string) => void;
+}
 
-const SearchBar: FunctionComponent<SearchBarProps> = () => {
-	const [searchTerm, updateSearchTerm] = useState("");
-	const searchRef = useRef<HTMLInputElement>(null);
+const SearchBar: FunctionComponent<SearchBarProps> = ({
+  searchTerm,
+  setSearchTerm,
+  instantFetch,
+}) => {
+  const search = (event: React.FormEvent) => {
+    event.preventDefault();
+    console.log(searchTerm);
+  };
 
-	const onSearchChange = () => {
-		updateSearchTerm(searchRef.current!.value);
-	};
+  const clearSearch = () => {
+    instantFetch("");
+  };
 
-	const search = (event: React.FormEvent) => {
-		event.preventDefault();
-		console.log(searchTerm);
-	};
-
-    const clearSearch = () => {
-        searchRef.current!.value = "";
-        updateSearchTerm("");
-    }
-
-	return (
-		<form onSubmit={search} className={classes.search}>
-			<input type="text" ref={searchRef} onChange={onSearchChange} />
-			<ClearSearchIcon className={classes.clear} onClick={clearSearch}/>
-		</form>
-	);
+  return (
+    <form onSubmit={search} className={classes.search}>
+      <input
+        type="text"
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+        }}
+        value={searchTerm}
+      />
+      <ClearSearchIcon className={classes.clear} onClick={clearSearch} />
+    </form>
+  );
 };
 
 export default SearchBar;
