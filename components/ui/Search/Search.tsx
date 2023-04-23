@@ -1,30 +1,18 @@
 import { FunctionComponent } from "react";
-import SearchNav from "./SearchNav";
 import useUserSearch from "@hooks/user-search/useUserSearch";
 import UserBlock from "@ui/Resuable/UserBlock/UserBlock";
+import { useSearch } from "components/providers/Search/Search";
 
-interface SearchProps {
-  userImage: string;
-}
+interface SearchProps {}
 
-const Search: FunctionComponent<SearchProps> = ({ userImage }) => {
-  const { setSearchTerm, searchTerm, users, instantFetch } = useUserSearch();
+const Search: FunctionComponent<SearchProps> = () => {
+  const { users } = useSearch();
   return (
-    <>
-      <SearchNav
-        userImage={userImage}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        instantFetch={instantFetch}
-      />
-      {users && (
-        <ul>
-          {users.map((user) => {
-            return <UserBlock user={user} />;
-          })}
-        </ul>
-      )}
-    </>
+    <ul>
+      {users.map((user) => {
+        return <UserBlock user={user} />;
+      })}
+    </ul>
   );
 };
 

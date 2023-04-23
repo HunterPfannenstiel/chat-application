@@ -24,7 +24,7 @@ const useUserSearch = () => {
     setSearchTerm,
     searchTerm,
     instantFetch: setFetchSearchTerm,
-    users: data,
+    users: data || [],
     isLoading,
     isError,
   };

@@ -48,10 +48,13 @@ export const fetchPostComments = async (
 export const createPost = async (
   content: string,
   images: ImageInfo[],
-  delteImages: boolean
+  replyToPostId?: number
 ) => {
   const blobs = images.map((image) => image.blob);
-  const formData = createFormData({ content }, { images: blobs });
+  const formData = createFormData(
+    { content, replyToPostId },
+    { images: blobs }
+  );
   const res = await fetch("/api/post", {
     method: "POST",
     body: formData,

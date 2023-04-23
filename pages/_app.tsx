@@ -4,6 +4,8 @@ import Web3Provider from "components/providers/Web3/Web3";
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import UserProvider from "components/providers/User/User";
+import MainNav from "@ui/MainNav/MainNav";
+import SearchProvider from "components/providers/Search/Search";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false } },
@@ -15,7 +17,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Web3Provider>
         <SessionProvider>
           <UserProvider>
-            <Component {...pageProps} />
+            <SearchProvider>
+              <MainNav>
+                <Component {...pageProps} />
+              </MainNav>
+            </SearchProvider>
           </UserProvider>
         </SessionProvider>
       </Web3Provider>
