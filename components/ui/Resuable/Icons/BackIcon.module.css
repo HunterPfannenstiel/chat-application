@@ -6,3 +6,7 @@
     margin: 1rem;
     scale: 1.2;
 }
+
+.back:hover {
+    cursor: pointer;
+}

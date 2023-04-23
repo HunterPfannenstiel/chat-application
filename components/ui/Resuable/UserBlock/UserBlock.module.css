@@ -6,8 +6,8 @@
     padding-top: 1rem;
     padding-bottom: 1rem;
     background-color: white;
-    margin: 1rem;
     border-radius: .5rem;
+    width: 400px;
 }
 
 .user-block p {
