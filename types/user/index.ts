@@ -10,6 +10,8 @@ export type UserDetails = {
   followingCount: number;
   followerCount: number;
   userId?: number;
+  bio?: string;
+  isFollowing?: string;
 } & UserInfo;
 
 export type UserFeed = {

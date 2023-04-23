@@ -34,7 +34,7 @@ const fetchUsers = async (searchTerm: string) => {
   const res = await fetch(`/api/search?searchTerm=${searchTerm}`);
   if (res.ok) {
     const data = await res.json();
-    return data.users as ConnectionsDetails[];
+    return data.users as UserDetails[];
   } else {
     console.log("error");
     return [];
