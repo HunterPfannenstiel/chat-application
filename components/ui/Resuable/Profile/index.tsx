@@ -1,9 +1,9 @@
-import { FunctionComponent, ReactNode, useState } from "react";
+import { FunctionComponent, ReactNode } from "react";
 import Banner from "./Banner";
 import classes from "./index.module.css";
 import PurpleButton from "../Icons/PurpleButton";
-import { updateFollowing } from "utils/actions";
 import { UserDetails } from "@_types/user";
+import FollowButton from "../FollowButton/FollowButton";
 
 interface ProfileProps {
   user: UserDetails;
@@ -19,14 +19,9 @@ const Profile: FunctionComponent<ProfileProps> = ({
   dateDisplay,
   aggregateData,
   isUsersProfile,
-  isFollowing,
   toggleEdit,
 }) => {
-  const [follow, setFollow] = useState(!!isFollowing);
-  const followHandler = () => {
-    updateFollowing(user.userId!, follow ? "unfollow" : "follow");
-    setFollow((prevState) => !prevState);
-  };
+  console.log(user);
   return (
     <section>
       <Banner imageUrl={user.userImage} />
@@ -37,9 +32,12 @@ const Profile: FunctionComponent<ProfileProps> = ({
           </PurpleButton>
         )}
         {!isUsersProfile && (
-          <PurpleButton className={classes.button} onClick={followHandler}>
-            {follow ? "Unfollow" : "Follow"}
-          </PurpleButton>
+          <FollowButton
+            isFollowing={
+              user.isFollowing === undefined ? true : user.isFollowing
+            }
+            userId={user.userId!}
+          />
         )}
         <div>
           <h2 className="username">{user.userName}</h2>

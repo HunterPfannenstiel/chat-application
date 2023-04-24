@@ -11,7 +11,7 @@ export type UserDetails = {
   followerCount: number;
   userId?: number;
   bio?: string;
-  isFollowing?: string;
+  isFollowing?: boolean;
 } & UserInfo;
 
 export type UserFeed = {

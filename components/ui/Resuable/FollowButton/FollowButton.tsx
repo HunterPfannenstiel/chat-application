@@ -1,6 +1,7 @@
 import { FunctionComponent, useState } from "react";
 import classes from "./FollowButton.module.css";
 import { updateFollowing } from "utils/actions";
+import PurpleButton from "../Icons/PurpleButton";
 
 interface FollowButtonProps {
   isFollowing: boolean;
@@ -20,9 +21,9 @@ const FollowButton: FunctionComponent<FollowButtonProps> = ({
     setFollowing((prevState) => !prevState);
   };
   return (
-    <button onClick={handleButtonClick} className={classes.button}>
+    <PurpleButton onClick={handleButtonClick} className={classes.button}>
       {buttonText}
-    </button>
+    </PurpleButton>
   );
 };
 
