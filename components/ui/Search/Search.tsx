@@ -8,9 +8,7 @@ interface SearchProps {}
 
 const Search: FunctionComponent<SearchProps> = () => {
   const { users } = useSearch();
-  return (
-    <Connections users={users} />
-  );
+  return <Connections users={users} />;
 };
 
 export default Search;

@@ -38,12 +38,12 @@ const Profile: FunctionComponent<ProfileProps> = ({
     <section>
       <Banner imageUrl={userImage} />
       <div className={classes.user_details}>
-        {isUsersProfile && (
+        {!isUsersProfile && (
           <PurpleButton className={classes.button} onClick={toggleEdit}>
             Edit
           </PurpleButton>
         )}
-        {!isUsersProfile && (
+        {isUsersProfile && (
           <PurpleButton className={classes.button} onClick={followHandler}>
             {follow ? "Unfollow" : "Follow"}
           </PurpleButton>

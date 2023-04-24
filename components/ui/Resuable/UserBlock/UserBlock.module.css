@@ -7,7 +7,9 @@
     padding-bottom: 1rem;
     background-color: white;
     border-radius: .5rem;
-    width: 400px;
+    max-width: 400px;
+    min-width: 300px;
+    width: 100%;
 }
 
 .user-block p {

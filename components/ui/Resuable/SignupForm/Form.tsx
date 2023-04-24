@@ -4,12 +4,14 @@ import Fieldset from "./Fieldset";
 import ImageInput from "./ImageInput";
 import useValidHandle from "@hooks/profile/useValidHandle";
 
+export type FormImage = { blob: Blob | null; imageUrl: string };
+
 interface FormProps {
   handler: (
-    name: string | null,
-    handle: string | null,
-    bio: string | null,
-    image: Blob | null
+    name: string | undefined,
+    handle: string | undefined,
+    bio: string | undefined,
+    image: FormImage | undefined
   ) => Promise<void>;
   initialInput?: { name: string; handle: string; bio: string; image: string };
   buttonDisplay: string;
@@ -19,7 +21,10 @@ const Form: FunctionComponent<FormProps> = ({
   initialInput,
   buttonDisplay,
 }) => {
-  const [image, setImage] = useState<Blob | null>(null);
+  const [image, setImage] = useState<FormImage | undefined>({
+    blob: null,
+    imageUrl: initialInput?.image || "",
+  });
   const { isValid, setHandle } = useValidHandle(initialInput?.handle);
   const [lockButton, setLockButton] = useState(false);
   const handleForm = async (e: FormEvent<HTMLElement>) => {
@@ -34,9 +39,9 @@ const Form: FunctionComponent<FormProps> = ({
       let bio = target[7].value;
       if (isFormValid({ name, handle, bio }) && (image || initialInput)) {
         if (initialInput) {
-          name = initialInput.name !== name ? name : null;
-          handle = initialInput.handle !== handle ? handle : null;
-          bio = initialInput.bio !== bio ? bio : null;
+          name = initialInput.name !== name ? name : undefined;
+          handle = initialInput.handle !== handle ? handle : undefined;
+          bio = initialInput.bio !== bio ? bio : undefined;
         }
         try {
           await handler(name, handle, bio, image);
@@ -82,10 +87,7 @@ const Form: FunctionComponent<FormProps> = ({
               : ""
           }
         />
-        <ImageInput
-          onImageSelected={setImage}
-          initialImage={initialInput?.image}
-        />
+        <ImageInput onImageSelected={setImage} imageUrl={image?.imageUrl} />
         <fieldset>
           <label htmlFor="description">Describe Yourself</label>
           <textarea

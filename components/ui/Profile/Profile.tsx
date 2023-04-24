@@ -9,6 +9,7 @@ import useAnimateModal from "@hooks/animation/useAnimateModal";
 import UserPosts from "./UserPosts/UserPosts";
 import { createFormData } from "utils/form";
 import { UpdateUser } from "@_types/user";
+import { FormImage } from "@ui/Resuable/SignupForm/Form";
 
 interface ProfilePageProps {
   profile: UserP;
@@ -18,6 +19,8 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({ profile }) => {
   const { user, isUsersProfile } = profile;
   const { playAnimation, showModal, toggle } = useAnimateModal(300);
   const [updatedUser, setUpdatedUser] = useState<UpdateUser | undefined>();
+  //Create a variable that holds updatedUser/user info
+  //Update user profile posts to reflect changes
   return (
     <>
       <Header userName={user.userName} />
@@ -76,10 +79,10 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({ profile }) => {
 const handleForm =
   (setUpdatedUser: (user: UpdateUser) => void) =>
   async (
-    name: string | null,
-    handle: string | null,
-    bio: string | null,
-    image: Blob | null
+    name: string | undefined,
+    handle: string | undefined,
+    bio: string | undefined,
+    image: FormImage | undefined
   ) => {
     const formData = createFormData({
       userName: name,
@@ -94,7 +97,12 @@ const handleForm =
     if (res.ok) {
       const data = await res.json();
       console.log("IS VALID", data);
-      setUpdatedUser(data.user);
+      setUpdatedUser({
+        userName: name,
+        userHandle: handle,
+        bio,
+        imageUrl: image?.imageUrl,
+      });
     }
   };
 

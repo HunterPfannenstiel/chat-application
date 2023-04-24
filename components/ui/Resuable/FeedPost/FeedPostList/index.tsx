@@ -27,6 +27,7 @@ const FeedPostList: FunctionComponent<FeedPostListProps> = ({
         {posts.map((post, i) => {
           return (
             <FeedPost
+              key={post.postId}
               post={post}
               isUsersPost={isUsersFeed}
               onEditPost={onEditPost?.bind(null, i)}

@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import SignupForm from "../Resuable/SignupForm/Form";
+import SignupForm, { FormImage } from "../Resuable/SignupForm/Form";
 import { NextRouter, useRouter } from "next/router";
 import { createFormData } from "utils/form";
 
@@ -18,12 +18,12 @@ const SignUp: FunctionComponent<SignUpProps> = () => {
 const handleForm =
   (router: NextRouter) =>
   async (
-    name: string | null,
-    handle: string | null,
-    bio: string | null,
-    image: Blob | null
+    name: string | undefined,
+    handle: string | undefined,
+    bio: string | undefined,
+    image: FormImage | undefined
   ) => {
-    const formData = createFormData({ name, handle, bio, image });
+    const formData = createFormData({ name, handle, bio, image: image?.blob });
     try {
       const id = await createUser(formData);
       router.push("/");
