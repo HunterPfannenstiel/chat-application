@@ -27,19 +27,23 @@ const IndividualPost: FunctionComponent<IndividualPostProps> = ({
 	};
 	return (
 		<>
-			<FeedPost post={mainPost} />
-			<div className={classes.add_comment}>
-				<button onClick={toggle}>Post a Reply</button>
-			</div>
-			<p className={classes.count}>
-				Replies: <span>{replyCount}</span>
-			</p>
-			{commentPosts.map((post) => {
-				return <FeedPost post={post} />;
-			})}
-			{newComments.map((post) => {
-				return <FeedPost post={post} />;
-			})}
+			<ul className={classes.container}>
+				<div className={classes.main_container}>
+					<FeedPost post={mainPost} />
+					<div className={classes.add_comment}>
+						<button onClick={toggle}>Post a Reply</button>
+					</div>
+					<p className={classes.count}>
+						Replies: <span>{replyCount}</span>
+					</p>
+				</div>
+				{commentPosts.map((post) => {
+					return <FeedPost post={post} />;
+				})}
+				{newComments.map((post) => {
+					return <FeedPost post={post} />;
+				})}
+			</ul>
 			<CreatePostIcon onClick={toggle} />
 			{showModal && (
 				<PostModal

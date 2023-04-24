@@ -11,6 +11,10 @@ body {
   background-color: var(--secondary-purple);
 }
 
+body::-webkit-scrollbar {
+  display: none;
+}
+
 html,
 body {
   padding: 0;

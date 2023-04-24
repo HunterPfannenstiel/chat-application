@@ -1,11 +1,23 @@
 .posts {
-    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    /*max-width: 600px;*/
     margin-inline: auto;
     overflow: scroll;
+<<<<<<< HEAD
 }
 
 @media (min-width: 40em) {
     .posts{
         overflow: hidden;
     }
+=======
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem;
+}
+
+.posts::-webkit-scrollbar {
+    display: none;
+>>>>>>> d6cb00740496ef79db18ccd9c8d4de1517890132
 }

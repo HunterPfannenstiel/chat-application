@@ -18,6 +18,10 @@
     margin-right: auto;
 }
 
+.list::-webkit-scrollbar {
+    display: none;
+}
+
 .selected {
     font-weight: bold;
 }

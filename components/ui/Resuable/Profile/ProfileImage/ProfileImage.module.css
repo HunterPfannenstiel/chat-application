@@ -5,6 +5,10 @@
     overflow: hidden;
 }
 
+.image_container:hover {
+    cursor: pointer;
+}
+
 .image_container img {
     width: 100%;
     height: 100%;
