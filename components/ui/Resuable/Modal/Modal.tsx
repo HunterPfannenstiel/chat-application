@@ -29,6 +29,7 @@ const Modal: FunctionComponent<ModalProps> = ({
         toggle={toggle}
         animateOut={playAnimation}
         animationTime={animationTime}
+        renderOnDesktop
       />
       <section
         className={classes.modal + " " + className}

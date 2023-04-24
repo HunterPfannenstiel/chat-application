@@ -5,6 +5,7 @@ import { UserFeed } from "@_types/user";
 import PostModal from "@ui/Resuable/PostModal/PostModal";
 import CreatePostIcon from "@ui/Resuable/Icons/CreatePostIcon";
 import { createPost } from "utils/actions";
+import { ImageInfo } from "@ui/Resuable/PostModal/types";
 
 interface HomeFeedProps {
   user: UserFeed;
@@ -42,12 +43,20 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({
             animationTime: 300,
           }}
           buttonText="Post"
-          createPostHandler={createPost}
+          createPostHandler={handleCreatePost}
         />
       )}
 
       <CreatePostIcon onClick={toggleCreatePost} />
     </section>
   );
+};
+
+const handleCreatePost = async (
+  content: string,
+  images: ImageInfo[],
+  deleteImage: boolean
+) => {
+  const post = await createPost(content, images);
 };
 export default HomeFeed;

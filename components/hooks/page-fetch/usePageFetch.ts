@@ -47,7 +47,7 @@ const usePageFetch = (
 
   useEffect(() => {
     const scrollingElem = useBodyToScroll
-      ? document.querySelector("main")
+      ? window.document.body
       : scrollElement.current;
     let scrollEvent: any;
     if (scrollingElem) {
