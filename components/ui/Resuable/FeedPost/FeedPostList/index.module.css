@@ -1,5 +1,14 @@
 .posts {
-    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    /*max-width: 600px;*/
     margin-inline: auto;
     overflow: scroll;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem;
+}
+
+.posts::-webkit-scrollbar {
+    display: none;
 }

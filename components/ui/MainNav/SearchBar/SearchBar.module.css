@@ -1,3 +1,7 @@
+.clear:hover {
+    cursor: pointer;
+}
+
 .search {
 	display: flex;
     align-items: center;
