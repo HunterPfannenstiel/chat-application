@@ -17,7 +17,7 @@ const Connections: FunctionComponent<ConnectionsProps> = ({
 	return (
 		<>
 			{heading && <h1 className={classes.heading}>{heading}</h1>}
-			<ul>
+			<ul className={classes.blocks}>
 				{users.map((user) => {
 					return (
 						<UserBlock
