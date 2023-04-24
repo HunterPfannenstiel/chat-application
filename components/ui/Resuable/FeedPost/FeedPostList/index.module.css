@@ -3,3 +3,9 @@
     margin-inline: auto;
     overflow: scroll;
 }
+
+@media (min-width: 40em) {
+    .posts{
+        overflow: hidden;
+    }
+}

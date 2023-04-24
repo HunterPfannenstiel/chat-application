@@ -7,6 +7,7 @@ interface BackgroundProps {
   className?: string;
   animateOut: boolean;
   animationTime: number;
+  renderOnDesktop?: boolean;
 }
 
 const Background: FunctionComponent<BackgroundProps> = ({
@@ -15,9 +16,13 @@ const Background: FunctionComponent<BackgroundProps> = ({
   className,
   animateOut,
   animationTime,
+  renderOnDesktop,
 }) => {
   if (animateOut) {
     className += ` ${classes.animate_out}`;
+  }
+  if (!!!renderOnDesktop) {
+    className += ` ${classes.hide}`;
   }
   return (
     <div

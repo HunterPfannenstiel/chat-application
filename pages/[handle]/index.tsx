@@ -6,7 +6,7 @@ import classes from "./Profile.module.css";
 interface ProfilePageProps {}
 
 const ProfilePage: FunctionComponent<ProfilePageProps> = () => {
-  const { posts, isLoading, error, user } = useProfile();
+  const { posts, isLoading, error } = useProfile();
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
@@ -18,14 +18,8 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = () => {
       </>
     );
   }
-  if (posts && user) {
-    return (
-      <Profile
-        posts={posts}
-        user={user?.user}
-        isUsersProfile={user.isUsersProfile}
-      />
-    );
+  if (posts) {
+    return <Profile posts={posts} />;
   }
   return <h1>Profile Page!</h1>;
 };

@@ -3,14 +3,11 @@ import Banner from "./Banner";
 import classes from "./index.module.css";
 import PurpleButton from "../Icons/PurpleButton";
 import { updateFollowing } from "utils/actions";
+import { UserDetails } from "@_types/user";
 
 interface ProfileProps {
-  userImage: string;
-  userName: string;
-  userHandle: string;
-  userId: number;
+  user: UserDetails;
   dateDisplay?: ReactNode;
-  bio?: ReactNode;
   aggregateData?: ReactNode;
   isUsersProfile: boolean;
   isFollowing?: boolean;
@@ -18,12 +15,8 @@ interface ProfileProps {
 }
 
 const Profile: FunctionComponent<ProfileProps> = ({
-  userImage,
-  userName,
-  userHandle,
-  userId,
+  user,
   dateDisplay,
-  bio,
   aggregateData,
   isUsersProfile,
   isFollowing,
@@ -31,29 +24,29 @@ const Profile: FunctionComponent<ProfileProps> = ({
 }) => {
   const [follow, setFollow] = useState(!!isFollowing);
   const followHandler = () => {
-    updateFollowing(userId, follow ? "unfollow" : "follow");
+    updateFollowing(user.userId!, follow ? "unfollow" : "follow");
     setFollow((prevState) => !prevState);
   };
   return (
     <section>
-      <Banner imageUrl={userImage} />
+      <Banner imageUrl={user.userImage} />
       <div className={classes.user_details}>
-        {!isUsersProfile && (
+        {isUsersProfile && (
           <PurpleButton className={classes.button} onClick={toggleEdit}>
             Edit
           </PurpleButton>
         )}
-        {isUsersProfile && (
+        {!isUsersProfile && (
           <PurpleButton className={classes.button} onClick={followHandler}>
             {follow ? "Unfollow" : "Follow"}
           </PurpleButton>
         )}
         <div>
-          <h2 className="username">{userName}</h2>
-          <p className="handle">{`@${userHandle}`}</p>
+          <h2 className="username">{user.userName}</h2>
+          <p className="handle">{`@${user.userHandle}`}</p>
         </div>
         {dateDisplay}
-        {bio}
+        {user.bio}
         {aggregateData}
       </div>
     </section>

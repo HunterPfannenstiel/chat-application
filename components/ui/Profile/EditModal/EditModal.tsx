@@ -3,10 +3,10 @@ import classes from "./EditModal.module.css";
 import Modal from "@ui/Resuable/Modal/Modal";
 import { ModalProps } from "@_types/ui";
 import Form, { FormImage } from "@ui/Resuable/SignupForm/Form";
-import { UserInfo } from "@_types/user";
+import { UserDetails } from "@_types/user";
 
 interface EditModalProps extends ModalProps {
-  userInfo: UserInfo & { bio: string };
+  userInfo: UserDetails;
   handleForm: (
     name: string | undefined,
     handle: string | undefined,
@@ -35,7 +35,7 @@ const EditModal: FunctionComponent<EditModalProps> = ({
           name: userInfo.userName,
           handle: userInfo.userHandle,
           image: userInfo.userImage,
-          bio: userInfo.bio,
+          bio: userInfo.bio!,
         }}
         buttonDisplay="Update Account"
       />

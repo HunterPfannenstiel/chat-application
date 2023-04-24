@@ -22,6 +22,10 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
     else setRender(false);
     if (showModal) toggle();
   }, [pathname]);
+  let showSideBar = render;
+  if (render) {
+    if (screen.width < 640) showSideBar = showModal;
+  }
   return (
     <>
       {render && (
@@ -35,9 +39,10 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
         </nav>
       )}
       <div className={classes.page_content}>
-        {showModal && render && (
+        <></>
+        {showSideBar && (
           <Menu
-            showModal={showModal}
+            showModal={showSideBar}
             playAnimation={playAnimation}
             user={user}
             toggleModal={toggle}
@@ -45,6 +50,7 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
           />
         )}
         {children}
+        <></>
       </div>
     </>
   );

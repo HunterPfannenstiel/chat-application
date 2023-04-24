@@ -17,3 +17,10 @@
     align-items: center;
     justify-content: center;
 }
+
+@media (min-width: 40em) {
+    .page_content {
+        display: grid;
+        grid-template-columns: 25% 50% 25%;
+    }
+}

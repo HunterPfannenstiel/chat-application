@@ -94,7 +94,6 @@ const handler: NextApiHandler = async (req, res) => {
       return sendErrorResponse(error, res);
     }
   } else if (req.method === "PUT") {
-    // return res.status(200).json({ message: "Updated" });
     let publicId;
     try {
       const session = await getUserSession(req);
@@ -102,10 +101,12 @@ const handler: NextApiHandler = async (req, res) => {
       const fileReq = req as any;
       const { userName, userHandle, bio } = req.body;
       let imageUrl;
+      let aspectRatio;
       if (fileReq.file) {
-        const imageInfo = await uploadImage(fileReq.file.buffer);
+        const imageInfo = await uploadImage(fileReq.file.buffer, true);
         imageUrl = imageInfo.imageUrl;
         publicId = imageInfo.publicId;
+        aspectRatio = imageInfo.aspectRatio;
         if (!imageUrl) {
           const error = createError("Image url not returned", 500);
           throw error;
@@ -115,25 +116,24 @@ const handler: NextApiHandler = async (req, res) => {
           throw error;
         }
       }
-      console.log("Updated contents", { userName, userHandle, bio });
-      const oldImageId = await User.update(session.user.userId, {
-        userName,
-        userHandle,
-        bio,
-        imageUrl,
-        publicId,
-      });
+      let newImage;
+      if (imageUrl && publicId && aspectRatio) {
+        newImage = { imageUrl, publicId, aspectRatio };
+      }
+
+      const oldImageId = await User.update(
+        session.user.userId,
+        {
+          userName: userName === "null" ? null : userName,
+          userHandle: userHandle === "null" ? null : userHandle,
+          bio: bio === "null" ? null : bio,
+        },
+        newImage
+      );
       if (oldImageId) {
         deleteImage(oldImageId);
       }
-      const updatedUser: UpdateUser = {};
-      updatedUser.userHandle = userHandle === "null" ? undefined : userHandle;
-      updatedUser.userName = userName === "null" ? undefined : userName;
-      updatedUser.bio = bio === "null" ? undefined : bio;
-      updatedUser.imageUrl = imageUrl;
-      return res
-        .status(200)
-        .json({ message: "Upated User!", user: updatedUser });
+      return res.status(200).json({ message: "Upated User!" });
     } catch (error: any) {
       if (publicId) {
         console.log("deleted image", publicId);

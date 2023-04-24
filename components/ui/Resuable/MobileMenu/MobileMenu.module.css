@@ -26,6 +26,12 @@
     margin-bottom: 1rem;
 }
 
+@media (min-width: 40em) {
+    .menu{
+        position: unset;
+    }
+}
+
 @keyframes animateIn {
     0%{
         transform: translatex(-100%);

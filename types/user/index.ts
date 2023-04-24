@@ -45,3 +45,9 @@ export type ConnectionsDetails = {
   userId: number;
   isFollowing?: number;
 } & UserInfo;
+
+export type UserImage = {
+  imageUrl: string;
+  publicId: string;
+  aspectRatio: number;
+};

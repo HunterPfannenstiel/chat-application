@@ -1,10 +1,16 @@
-import { UpdateUser, ConnectionsDetails, CreateUser } from "@_types/user";
+import {
+  UpdateUser,
+  ConnectionsDetails,
+  CreateUser,
+  UserImage,
+} from "@_types/user";
 import { UserProfile } from "@_types/user/profile";
 import { mockProfiles } from "mock-data/profiles";
 import { useDB } from "utils/db/helpers";
 import {
   execCreateUser,
   execFollowUser,
+  execUpdateUser,
   fetchUserDetials,
   fetchUserPosts,
   fetchUserProfileByHandle,
@@ -40,8 +46,12 @@ export class User {
     return execCreateUser(profile);
   }
 
-  static update(userId: number, updates: UpdateUser): Promise<string | null> {
-    throw new Error("Method not implemented.");
+  static update(
+    userId: number,
+    updates: UpdateUser,
+    image: UserImage | undefined
+  ): Promise<string | null> {
+    return execUpdateUser(userId, updates, image);
   }
 
   static follow(

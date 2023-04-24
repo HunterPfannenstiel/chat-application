@@ -16,16 +16,7 @@ const useProfile = () => {
     queryFn: fetchPosts.bind(null, handle),
   });
 
-  const {
-    data: user,
-    isLoading: userLoading,
-    error: userError,
-  } = useQuery({
-    queryKey: ["userProfile", handle],
-    queryFn: fetchUser.bind(null, handle),
-  });
-
-  return { posts: data, isLoading, error, user };
+  return { posts: data, isLoading, error };
 };
 
 type Profile = { user: UserProfile; isUsersProfile: boolean };
@@ -44,18 +35,5 @@ const fetchPosts = async (
   }
   console.log("undef");
   return null;
-};
-
-const fetchUser = async (handle: string) => {
-  const res = await fetch(`/api/user/profile?handle=${handle}`);
-  if (res.ok) {
-    const user = (await res.json()) as {
-      user: UserDetails;
-      isUsersProfile: boolean;
-    };
-    return user;
-  } else {
-    console.log("ERROR");
-  }
 };
 export default useProfile;

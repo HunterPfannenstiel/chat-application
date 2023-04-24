@@ -1,11 +1,12 @@
-import { CreateUser } from "@_types/user";
+import { CreateUser, UpdateUser, UserImage } from "@_types/user";
 import {
   createDatabaseRequest,
+  createImageTableInput,
   executeFunction,
   executeProcedure,
   useDB,
 } from "./helpers";
-import sql, { ConnectionPool } from "mssql/msnodesqlv8";
+import sql, { ConnectionPool, MAX } from "mssql/msnodesqlv8";
 import { ProcedureParam } from "@_types/db";
 
 export const execCreateUser = (profile: CreateUser) =>
@@ -27,6 +28,37 @@ export const execCreateUser = (profile: CreateUser) =>
     const request = createDatabaseRequest(db, params);
     const res = await executeProcedure("Chat.CreateUser", request);
     return res.output.userId as number;
+  });
+
+export const execUpdateUser = (
+  userId: number,
+  user: UpdateUser,
+  image: UserImage | undefined
+) =>
+  useDB(async (db) => {
+    const params: ProcedureParam[] = [
+      { paramName: "userId", isInput: true, value: userId },
+      { paramName: "bio", isInput: true, value: user.bio },
+      { paramName: "handle", isInput: true, value: user.userHandle },
+      { paramName: "name", isInput: true, value: user.userName },
+      {
+        paramName: "deletedImage",
+        isInput: false,
+        outputType: sql.NVarChar(MAX),
+      },
+    ];
+    if (image) {
+      params.push({
+        paramName: "image",
+        isInput: true,
+        value: createImageTableInput([image]),
+      });
+    }
+
+    const request = createDatabaseRequest(db, params);
+    const res = await executeProcedure("Chat.UpdateUser", request);
+    console.log("Update user output", res);
+    return res.output.deletedImage;
   });
 
 export const fetchUserPosts = (handle: string, userId?: number) =>

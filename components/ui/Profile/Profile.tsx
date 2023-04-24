@@ -1,6 +1,5 @@
 import Profile from "@ui/Resuable/Profile";
-import { Profile as UserP, UserProfile } from "@_types/user/profile";
-import { FunctionComponent, useState } from "react";
+import { Dispatch, FunctionComponent, SetStateAction } from "react";
 import ProfileNav from "./ProfileNav";
 import Links from "./UserDetails/Links";
 import Header from "./Header/Header";
@@ -8,87 +7,71 @@ import EditModal from "./EditModal/EditModal";
 import useAnimateModal from "@hooks/animation/useAnimateModal";
 import UserPosts from "./UserPosts/UserPosts";
 import { createFormData } from "utils/form";
-import { UpdateUser, UserDetails } from "@_types/user";
+import { UserDetails } from "@_types/user";
 import { FormImage } from "@ui/Resuable/SignupForm/Form";
 import { FeedPost } from "@_types/post/feed-post";
+import useUserDetails from "@hooks/profile/useUserDetails";
 
 interface ProfilePageProps {
   posts: FeedPost[];
-  user: UserDetails;
-  isUsersProfile: boolean;
 }
 
-const ProfilePage: FunctionComponent<ProfilePageProps> = ({
-  posts,
-  user,
-  isUsersProfile,
-}) => {
+const ProfilePage: FunctionComponent<ProfilePageProps> = ({ posts }) => {
+  const { user, isUsersProfile, setUser } = useUserDetails();
   const { playAnimation, showModal, toggle } = useAnimateModal(300);
-  const [updatedUser, setUpdatedUser] = useState<UpdateUser | undefined>();
   //What if user updates profile twice? Old user info is displayed
-  const currUser = {
-    userName: updatedUser?.userName || user.userName,
-    userHandle: updatedUser?.userHandle || user.userHandle,
-    userImage: updatedUser?.imageUrl || user.userImage,
-    bio: updatedUser?.bio || (user.bio as string),
-  };
-  return (
-    <>
-      <Header userName={user.userName} />
-      <Profile
-        userImage={currUser.userImage}
-        userHandle={currUser.userHandle}
-        userName={currUser.userName}
-        userId={user.userId || 0}
-        isUsersProfile={isUsersProfile}
-        toggleEdit={toggle}
-        bio={<p>{currUser.bio}</p>}
-        aggregateData={
-          <Links
-            linkInfo={[
-              {
-                href: `/${
-                  updatedUser?.userHandle || user.userHandle
-                }/following`,
-                count: user.followingCount,
-                label: "Following",
-              },
-              {
-                href: `/${
-                  updatedUser?.userHandle || user.userHandle
-                }/followers`,
-                count: user.followerCount,
-                label: "Followers",
-              },
-            ]}
-          ></Links>
-        }
-      />
-      <ProfileNav />
-      <UserPosts
-        posts={posts}
-        isUsersProfile={isUsersProfile}
-        user={{
-          userName: currUser.userName,
-          userHandle: currUser.userHandle,
-          userImage: currUser.userImage,
-        }}
-      />
-      {showModal && (
-        <EditModal
-          playAnimation={playAnimation}
-          toggle={toggle}
-          animationTime={300}
-          userInfo={currUser}
-          handleForm={handleForm(setUpdatedUser)}
+  if (user) {
+    return (
+      <>
+        <Header userName={user.userName} />
+        <Profile
+          user={user}
+          isUsersProfile={!!isUsersProfile}
+          toggleEdit={toggle}
+          aggregateData={
+            <Links
+              linkInfo={[
+                {
+                  href: `/${user.userHandle}/following`,
+                  count: user.followingCount,
+                  label: "Following",
+                },
+                {
+                  href: `/${user.userHandle}/followers`,
+                  count: user.followerCount,
+                  label: "Followers",
+                },
+              ]}
+            ></Links>
+          }
         />
-      )}
-    </>
-  );
+        <ProfileNav />
+        <UserPosts
+          posts={posts}
+          isUsersProfile={!!isUsersProfile}
+          user={{
+            userName: user.userName,
+            userHandle: user.userHandle,
+            userImage: user.userImage,
+          }}
+        />
+        {showModal && (
+          <EditModal
+            playAnimation={playAnimation}
+            toggle={toggle}
+            animationTime={300}
+            userInfo={user}
+            handleForm={handleForm(setUser)}
+          />
+        )}
+      </>
+    );
+  }
+  return <p>Show loading!</p>;
 };
 
 const handleForm =
-  (setUpdatedUser: (user: UpdateUser) => void) =>
+  (setUpdatedUser: Dispatch<SetStateAction<UserDetails | undefined>>) =>
   async (
     name: string | undefined,
     handle: string | undefined,
@@ -96,10 +79,10 @@ const handleForm =
     image: FormImage | undefined
   ) => {
     const formData = createFormData({
-      userName: name,
-      userHandle: handle,
-      bio,
-      image,
+      userName: name || null,
+      userHandle: handle || null,
+      bio: bio || null,
+      image: image?.blob || null,
     });
     const res = await fetch("/api/user/create", {
       method: "PUT",
@@ -108,12 +91,18 @@ const handleForm =
     if (res.ok) {
       const data = await res.json();
       console.log("IS VALID", data);
-      setUpdatedUser({
-        userName: name,
-        userHandle: handle,
-        bio,
-        imageUrl: image?.imageUrl,
+      setUpdatedUser((prevState) => {
+        const newUser: UserDetails = {
+          ...prevState!,
+          userHandle: handle || prevState!.userHandle,
+          userName: name || prevState!.userName,
+          userImage: image?.imageUrl || prevState!.userImage,
+          bio: bio || prevState!.bio,
+        };
+        return newUser;
       });
+    } else {
+      console.log("Update user error!");
     }
   };
 
