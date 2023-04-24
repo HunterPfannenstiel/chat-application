@@ -6,22 +6,12 @@ import classes from "./Profile.module.css";
 interface ProfilePageProps {}
 
 const ProfilePage: FunctionComponent<ProfilePageProps> = () => {
-  const { posts, isLoading, error } = useProfile();
-  if (isLoading) {
+  const { posts } = useProfile();
+  if (!posts) {
     return <h1>Loading...</h1>;
-  }
-  if (error) {
-    return (
-      <>
-        <h1>{`ERROR: ${error}`}</h1>
-        <p>Please try again!</p>
-      </>
-    );
-  }
-  if (posts) {
+  } else {
     return <Profile posts={posts} />;
   }
-  return <h1>Profile Page!</h1>;
 };
 
 export default ProfilePage;

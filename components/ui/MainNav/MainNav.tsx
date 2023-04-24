@@ -22,12 +22,14 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
     else setRender(false);
     if (showModal) toggle();
   }, [pathname]);
+
   let showSideBar = render;
-  if (render) {
-    if (screen.width < 640) showSideBar = showModal;
-  }
+  // if (render) {
+  //   if (window && window.innerWidth < 640) showSideBar = showModal;
+  // }
+
   return (
-    <>
+    <main>
       {render && (
         <nav className={classes.nav}>
           <ProfileImage
@@ -38,7 +40,7 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
           {(pathname.includes("/search") && <SearchBar />) || <FeedNav />}
         </nav>
       )}
-      <div className={classes.page_content}>
+      <div className={`${showSideBar ? classes.page_content : ""}`}>
         <></>
         {showSideBar && (
           <Menu
@@ -52,7 +54,7 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
         {children}
         <></>
       </div>
-    </>
+    </main>
   );
 };
 

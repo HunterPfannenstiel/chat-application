@@ -54,11 +54,12 @@ const Menu: FunctionComponent<MenuProps> = ({
             },
           ]}
         />
+        <Link href="/">
+          <PurpleButton>Home</PurpleButton>
+        </Link>
         <Link href={`/${user.userHandle}`}>
           <PurpleButton>Profile</PurpleButton>
         </Link>
-
-        {/* <PurpleButton>Communities</PurpleButton> */}
         <PurpleButton
           onClick={() => {
             if (!isSignedIn) {

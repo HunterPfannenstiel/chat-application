@@ -27,8 +27,14 @@
 }
 
 @media (min-width: 40em) {
-    .menu{
+    .menu {
         position: unset;
+        overflow: hidden;
+        width: 90%;
+        margin-inline: auto;
+        margin-block: 1rem;
+        max-height: 748px;
+        border-radius: 16px;
     }
 }
 

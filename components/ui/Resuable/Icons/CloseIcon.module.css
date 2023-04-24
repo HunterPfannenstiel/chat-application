@@ -34,3 +34,9 @@
     rotate: -45deg;
 }
 
+@media (min-width: 40em) {
+    .hide {
+        display: none;
+    }
+}
+

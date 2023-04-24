@@ -31,7 +31,7 @@ export class User {
     return followers;
   }
 
-  static async fetchDetails(userId: number, handle?: string) {
+  static async fetchDetails(userId: number) {
     return fetchUserDetials(userId);
   }
 

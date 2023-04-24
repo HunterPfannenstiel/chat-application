@@ -20,7 +20,7 @@ const ImageDisplay: FunctionComponent<ImageDisplayProps> = ({
 }) => {
   return (
     <ul className={classes.images}>
-      {displayRemove && <CloseIcon onClose={onRemoveImages} />}
+      {displayRemove && <CloseIcon onClose={onRemoveImages} displayOnDesktop />}
       {images.map((image, i) => (
         <div
           className={classes.image_container}

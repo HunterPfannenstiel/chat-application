@@ -5,15 +5,20 @@ interface CloseIconProps {
   diameter?: number;
   className?: string;
   onClose?: () => void;
+  displayOnDesktop?: boolean;
 }
 
 const CloseIcon: FunctionComponent<CloseIconProps> = ({
   diameter,
   className,
   onClose,
+  displayOnDesktop,
 }) => {
+  let classN = `${classes.close_button} ${
+    !!!displayOnDesktop ? classes.hide : ""
+  } ${className ? className : ""}`;
   return (
-    <div className={classes.close_button + " " + className}>
+    <div className={classN}>
       <div className={classes.container} onClick={onClose}>
         <div />
         <div />

@@ -8,12 +8,12 @@
     padding-bottom: .5rem;
 }
 
-.list li:first-child {
+.list a:first-child {
     padding-left: 1rem;
     margin-left: auto;
 }
 
-.list li:last-child {
+.list a:last-child {
     padding-right: 1rem;
     margin-right: auto;
 }

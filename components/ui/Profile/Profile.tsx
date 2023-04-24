@@ -45,7 +45,7 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({ posts }) => {
             ></Links>
           }
         />
-        <ProfileNav />
+        <ProfileNav handle={user.userHandle} />
         <UserPosts
           posts={posts}
           isUsersProfile={!!isUsersProfile}
