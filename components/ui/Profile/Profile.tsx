@@ -1,5 +1,5 @@
 import Profile from "@ui/Resuable/Profile";
-import { Profile as UserP } from "@_types/user/profile";
+import { Profile as UserP, UserProfile } from "@_types/user/profile";
 import { FunctionComponent, useState } from "react";
 import ProfileNav from "./ProfileNav";
 import Links from "./UserDetails/Links";
@@ -8,30 +8,41 @@ import EditModal from "./EditModal/EditModal";
 import useAnimateModal from "@hooks/animation/useAnimateModal";
 import UserPosts from "./UserPosts/UserPosts";
 import { createFormData } from "utils/form";
-import { UpdateUser } from "@_types/user";
+import { UpdateUser, UserDetails } from "@_types/user";
 import { FormImage } from "@ui/Resuable/SignupForm/Form";
+import { FeedPost } from "@_types/post/feed-post";
 
 interface ProfilePageProps {
-  profile: UserP;
+  posts: FeedPost[];
+  user: UserDetails;
+  isUsersProfile: boolean;
 }
 
-const ProfilePage: FunctionComponent<ProfilePageProps> = ({ profile }) => {
-  const { user, isUsersProfile } = profile;
+const ProfilePage: FunctionComponent<ProfilePageProps> = ({
+  posts,
+  user,
+  isUsersProfile,
+}) => {
   const { playAnimation, showModal, toggle } = useAnimateModal(300);
   const [updatedUser, setUpdatedUser] = useState<UpdateUser | undefined>();
-  //Create a variable that holds updatedUser/user info
-  //Update user profile posts to reflect changes
+  //What if user updates profile twice? Old user info is displayed
+  const currUser = {
+    userName: updatedUser?.userName || user.userName,
+    userHandle: updatedUser?.userHandle || user.userHandle,
+    userImage: updatedUser?.imageUrl || user.userImage,
+    bio: updatedUser?.bio || (user.bio as string),
+  };
   return (
     <>
       <Header userName={user.userName} />
       <Profile
-        userImage={updatedUser?.imageUrl || user.userImage}
-        userHandle={updatedUser?.userHandle || user.userHandle}
-        userName={updatedUser?.userName || user.userName}
-        userId={user.userId}
+        userImage={currUser.userImage}
+        userHandle={currUser.userHandle}
+        userName={currUser.userName}
+        userId={user.userId || 0}
         isUsersProfile={isUsersProfile}
         toggleEdit={toggle}
-        bio={<p>{updatedUser?.bio || user.bio}</p>}
+        bio={<p>{currUser.bio}</p>}
         aggregateData={
           <Links
             linkInfo={[
@@ -55,12 +66,12 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({ profile }) => {
       />
       <ProfileNav />
       <UserPosts
-        posts={user.posts}
+        posts={posts}
         isUsersProfile={isUsersProfile}
         user={{
-          userName: user.userName,
-          userHandle: user.userHandle,
-          userImage: user.userImage,
+          userName: currUser.userName,
+          userHandle: currUser.userHandle,
+          userImage: currUser.userImage,
         }}
       />
       {showModal && (
@@ -68,7 +79,7 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({ profile }) => {
           playAnimation={playAnimation}
           toggle={toggle}
           animationTime={300}
-          userInfo={{ ...user }}
+          userInfo={currUser}
           handleForm={handleForm(setUpdatedUser)}
         />
       )}

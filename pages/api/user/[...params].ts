@@ -11,13 +11,8 @@ const handler: NextApiHandler = async (req, res) => {
         if (params?.length === 1) {
           const userId = (await getUserSession(req))?.user?.userId;
 
-          const user = await User.fetchProfile(params[0], userId);
-          if (user.posts) {
-            user.posts = await JSON.parse(user.posts);
-          }
-          return res
-            .status(200)
-            .json({ user, isUsersProfile: userId == +params[0] });
+          const posts = await User.fetchPosts(params[0], userId);
+          return res.status(200).json({ posts });
         } else if (params?.length === 2) {
           const detail = params[0];
           const handle = params[1];

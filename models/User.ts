@@ -6,15 +6,16 @@ import {
   execCreateUser,
   execFollowUser,
   fetchUserDetials,
-  fetchUserProfile,
+  fetchUserPosts,
+  fetchUserProfileByHandle,
   getFollow,
   searchForUsers,
 } from "utils/db/user-commands";
 
 export class User {
-  static fetchProfile(handle: string, userId?: number) {
+  static fetchPosts(handle: string, userId?: number) {
     //Query for profile with 'userId'
-    return fetchUserProfile(handle, userId);
+    return fetchUserPosts(handle, userId);
   }
 
   static async fetchFollowers(
@@ -24,7 +25,7 @@ export class User {
     return followers;
   }
 
-  static async fetchDetails(userId: number) {
+  static async fetchDetails(userId: number, handle?: string) {
     return fetchUserDetials(userId);
   }
 
@@ -53,5 +54,9 @@ export class User {
 
   static search(searchTerm: string, userId: number) {
     return searchForUsers(searchTerm, userId);
+  }
+
+  static fetchByHandle(handle: string, userId?: number) {
+    return fetchUserProfileByHandle(handle, userId);
   }
 }

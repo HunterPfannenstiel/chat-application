@@ -7,6 +7,7 @@ import { UserDetails } from "@_types/user";
 const handler: NextApiHandler = async (req, res) => {
   try {
     if (req.method === "GET") {
+      const { handle } = req.query;
       const user = (await getSession({ req })) as SessionToken | null;
       let userDetails: UserDetails;
       if (user?.user.userId) {

@@ -29,14 +29,19 @@ export const execCreateUser = (profile: CreateUser) =>
     return res.output.userId as number;
   });
 
-export const fetchUserProfile = (handle: string, userId?: number) =>
+export const fetchUserPosts = (handle: string, userId?: number) =>
   useDB(async (db) => {
     const request = createDatabaseRequest(db, [
       { paramName: "userHandle", isInput: true, value: handle },
       { paramName: "queryUserId", isInput: true, value: userId },
     ]);
-    const res = await executeProcedure("Chat.FetchUserProfile", request);
-    return res.recordset[0];
+    const res = await executeProcedure("Chat.FetchUserPosts", request);
+    if (res.recordset.length > 0) {
+      res.recordset.forEach(async (post) => {
+        if (post.images) post.images = await JSON.parse(post.images);
+      });
+    }
+    return res.recordset;
   });
 
 export const isValidHandle = (handle: string) =>
@@ -125,4 +130,18 @@ export const searchForUsers = (searchTerm: string, userId: number) =>
       request
     );
     return res.recordset;
+  });
+
+export const fetchUserProfileByHandle = (handle: string, userId?: number) =>
+  useDB(async (db) => {
+    const request = createDatabaseRequest(db, [
+      { paramName: "handle", isInput: true, value: handle },
+      { paramName: "queryUserId", isInput: true, value: userId },
+    ]);
+
+    const res = await executeProcedure("Chat.FetchUserDetails", request);
+    if (res.recordset.length > 0) {
+      return res.recordset[0];
+    }
+    return [];
   });

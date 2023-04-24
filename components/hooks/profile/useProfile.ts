@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { UserProfile } from "@_types/user/profile";
 import { useRouter } from "next/router";
+import { UserDetails } from "@_types/user";
+import { FeedPost } from "@_types/post/feed-post";
 
 const useProfile = () => {
   const router = useRouter();
@@ -11,22 +13,31 @@ const useProfile = () => {
   console.log("ROUTER", router.query);
   const { data, isLoading, error } = useQuery({
     queryKey: ["profile", handle],
-    queryFn: fetchProfile.bind(null, handle),
+    queryFn: fetchPosts.bind(null, handle),
   });
 
-  return { profile: data, isLoading, error };
+  const {
+    data: user,
+    isLoading: userLoading,
+    error: userError,
+  } = useQuery({
+    queryKey: ["userProfile", handle],
+    queryFn: fetchUser.bind(null, handle),
+  });
+
+  return { posts: data, isLoading, error, user };
 };
 
 type Profile = { user: UserProfile; isUsersProfile: boolean };
 
-const fetchProfile = async (
-  userId: string | undefined
-): Promise<Profile | null> => {
-  if (userId) {
-    const res = await fetch(`/api/user/${userId}`);
+const fetchPosts = async (
+  handle: string | undefined
+): Promise<FeedPost[] | null> => {
+  if (handle) {
+    const res = await fetch(`/api/user/${handle}`);
     if (res.ok) {
-      const data = (await res.json()) as Profile;
-      return data;
+      const data = (await res.json()) as { posts: FeedPost[] };
+      return data.posts;
     } else {
       throw new Error("No profile found");
     }
@@ -35,4 +46,16 @@ const fetchProfile = async (
   return null;
 };
 
+const fetchUser = async (handle: string) => {
+  const res = await fetch(`/api/user/profile?handle=${handle}`);
+  if (res.ok) {
+    const user = (await res.json()) as {
+      user: UserDetails;
+      isUsersProfile: boolean;
+    };
+    return user;
+  } else {
+    console.log("ERROR");
+  }
+};
 export default useProfile;
