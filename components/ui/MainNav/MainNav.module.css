@@ -21,6 +21,19 @@
 @media (min-width: 40em) {
     .page_content {
         display: grid;
-        grid-template-columns: 1fr auto 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+        justify-content: center;
+    }
+
+    .children {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 87em) {
+    .page_content {
+        display: grid;
+        grid-template-columns: auto auto;
+        justify-content: center;
     }
 }

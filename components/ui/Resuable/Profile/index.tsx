@@ -23,7 +23,7 @@ const Profile: FunctionComponent<ProfileProps> = ({
 }) => {
   console.log(user);
   return (
-    <section>
+    <section className={classes.profile}>
       <Banner imageUrl={user.userImage} />
       <div className={classes.user_details}>
         {isUsersProfile && (
