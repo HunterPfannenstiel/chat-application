@@ -12,6 +12,7 @@ export type UserDetails = {
   userId?: number;
   bio?: string;
   isFollowing?: boolean;
+  isSignedIn?: boolean;
 } & UserInfo;
 
 export type UserFeed = {
@@ -50,4 +51,15 @@ export type UserImage = {
   imageUrl: string;
   publicId: string;
   aspectRatio: number;
+};
+
+export const defaultUser: UserDetails = {
+  userHandle: "defaultuser",
+  userName: "DefaultUser",
+  userImage:
+    "https://res.cloudinary.com/dwg1i9w2u/image/upload/v1682219857/DefaultUser_ou2hrg.jpg",
+  followerCount: 0,
+  followingCount: 0,
+  userId: 0,
+  isSignedIn: false,
 };

@@ -54,7 +54,7 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
             playAnimation={playAnimation}
             user={user}
             toggleModal={toggle}
-            isSignedIn={!!(user.userId && user.userId !== 0)}
+            isSignedIn={!!user.isSignedIn}
           />
         )}
         <div className={classes.children}>{children}</div>

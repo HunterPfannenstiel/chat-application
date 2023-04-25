@@ -1,4 +1,4 @@
-import { UpdateUser, UserDetails } from "@_types/user";
+import { UpdateUser, UserDetails, defaultUser } from "@_types/user";
 import { Dispatch } from "react";
 
 export type UserContext = UserDetails & {
@@ -36,6 +36,8 @@ export const getInitialUser = (): UserDetails => {
 //update username, handle, bio, image
 
 export const initializeUser: UserDelegate<UserDetails> = (user) => (state) => {
+  if (user.userId === 0) user.isSignedIn = false;
+  else user.isSignedIn = true;
   return user;
 };
 
@@ -53,4 +55,8 @@ export const updateDetails: UserDelegate<UpdateUser> = (details) => (state) => {
   if (details.imageUrl) copyState.userImage = details.imageUrl;
   if (details.bio) copyState.bio = details.bio;
   return copyState;
+};
+
+export const signoutUser: UserDelegate<void> = () => (state) => {
+  return defaultUser;
 };

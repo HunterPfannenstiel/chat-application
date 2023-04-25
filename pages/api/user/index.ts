@@ -21,6 +21,7 @@ const handler: NextApiHandler = async (req, res) => {
           followerCount: 0,
           followingCount: 0,
           userId: 0,
+          isSignedIn: false,
         };
       }
       return res.status(200).json({ userDetails });
