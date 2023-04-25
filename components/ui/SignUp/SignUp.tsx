@@ -2,6 +2,7 @@ import { FunctionComponent } from "react";
 import SignupForm, { FormImage } from "../Resuable/SignupForm/Form";
 import { NextRouter, useRouter } from "next/router";
 import { createFormData } from "utils/form";
+import classes from "./SignUp.module.css";
 
 interface SignUpProps {}
 
@@ -9,7 +10,7 @@ const SignUp: FunctionComponent<SignUpProps> = () => {
   const router = useRouter();
   return (
     <section>
-      <h1>PROFILE</h1>
+      <h1 className={classes.header}>PROFILE</h1>
       <SignupForm handler={handleForm(router)} buttonDisplay="Create Account" />
     </section>
   );

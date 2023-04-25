@@ -6,6 +6,7 @@
     transform: translate(-50%, -50%);
     animation: fade_in var(--animationTime) ease-in-out;
     z-index: 2;
+    max-width: 600px;
 }
 
 .animate {

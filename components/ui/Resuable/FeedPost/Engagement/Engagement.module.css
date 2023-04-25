@@ -2,3 +2,13 @@
     display: flex;
     gap: 2rem;
 }
+
+.edit {
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
+}
+
+.edit svg:hover {
+    cursor: pointer;
+}

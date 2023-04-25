@@ -4,6 +4,7 @@ import classes from "./index.module.css";
 import PurpleButton from "../Icons/PurpleButton";
 import { UserDetails } from "@_types/user";
 import FollowButton from "../FollowButton/FollowButton";
+import EditButton from "../Icons/EditButton";
 
 interface ProfileProps {
   user: UserDetails;
@@ -27,9 +28,10 @@ const Profile: FunctionComponent<ProfileProps> = ({
       <Banner imageUrl={user.userImage} />
       <div className={classes.user_details}>
         {isUsersProfile && (
-          <PurpleButton className={classes.button} onClick={toggleEdit}>
+          /*<PurpleButton className={classes.button} onClick={toggleEdit}>
             Edit
-          </PurpleButton>
+          </PurpleButton>*/
+          <EditButton className={classes.edit_button} onClick={toggleEdit}/>
         )}
         {!isUsersProfile && (
           <FollowButton
