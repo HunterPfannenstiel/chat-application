@@ -4,12 +4,20 @@ import { getUserSession } from "../utils";
 const handler: NextApiHandler = async (req, res) => {
   try {
     if (req.method === "GET") {
-      const { params } = req.query;
+      const { params, page, date } = req.query;
       if (params) {
         const session = await getUserSession(req);
         //params[0] = postId
         if (params.length === 1 && +params[0]) {
-          const post = await FeedPost.fetch(+params[0], session.user.userId, 0);
+          const pageParams =
+            typeof page === "string" && typeof date === "string"
+              ? { page: +page, createdDateTime: date }
+              : undefined;
+          const post = await FeedPost.fetch(
+            +params[0],
+            session.user.userId,
+            pageParams
+          );
 
           return res.status(200).json({ post });
         } else if (params.length === 2) {

@@ -8,6 +8,7 @@ import type { Image, UpdatePost } from "@_types/post";
 import { ImageInfo } from "@ui/Resuable/PostModal/types";
 import { createFormData } from "utils/form";
 import { UserInfo } from "@_types/user";
+import { useRouter } from "next/router";
 
 interface UserPostsProps {
   posts: FeedPost[];
@@ -20,6 +21,7 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
   isUsersProfile,
   user,
 }) => {
+  const { query } = useRouter();
   const { showModal, playAnimation, toggle } = useAnimateModal(300);
   const [userPosts, setUserPosts] = useState(posts);
   const [editPostIndex, setEditPostIndex] = useState(0);
@@ -71,9 +73,9 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
       <FeedPostList
         posts={posts}
         emptyPostDisplay={<p>No posts to show here!</p>}
-        isUsersFeed={true}
+        isUsersFeed={isUsersProfile}
         onEditPost={onEditPost}
-        userDetails={user}
+        userDetails={query.category === "likes" ? undefined : user}
       />
       {showModal && (
         <PostModal

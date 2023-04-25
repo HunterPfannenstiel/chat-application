@@ -1,7 +1,7 @@
 import sql from "mssql/msnodesqlv8";
 import { CreatePost } from "@_types/post";
 import { ConnectionPool } from "mssql/msnodesqlv8";
-import { DBDelegate, ProcedureParam } from "@_types/db";
+import { DBDelegate, PageProcedureParams, ProcedureParam } from "@_types/db";
 import { getDB } from "./connect";
 
 //@userId INT, @content NVARCHAR(280), @replyToPostId INT, @communityId INT, @isPinned BIT, @images IMAGES READONLY, @postId INT OUTPUT
@@ -67,4 +67,32 @@ export const useDB = async (command: DBDelegate) => {
   } finally {
     if (db) db.close();
   }
+};
+
+export const appendPageParams = (
+  params: PageProcedureParams,
+  request: ProcedureParam[],
+  includeQueryUser: boolean
+) => {
+  const pageParams: ProcedureParam[] = [
+    { paramName: "page", isInput: true, value: params.page },
+    {
+      paramName: "createdDateTime",
+      isInput: true,
+      value: params.createdDateTime,
+    },
+  ];
+  if (includeQueryUser)
+    pageParams.push({
+      paramName: "queryUserId",
+      isInput: true,
+      value: params.queryUserId,
+    });
+  return [...request, ...pageParams];
+};
+
+export const parseImages = (posts: any[]) => {
+  posts.forEach(async (post) => {
+    if (post.images) post.images = await JSON.parse(post.images);
+  });
 };

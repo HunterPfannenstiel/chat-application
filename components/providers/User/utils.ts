@@ -36,7 +36,6 @@ export const getInitialUser = (): UserDetails => {
 //update username, handle, bio, image
 
 export const initializeUser: UserDelegate<UserDetails> = (user) => (state) => {
-  console.log("User", user);
   return user;
 };
 

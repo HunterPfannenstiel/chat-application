@@ -8,17 +8,25 @@ import {
   execUpdatePost,
   fetchFeedPage,
   fetchGlobalFeed,
+  getInitialPost,
   getPostComments,
 } from "utils/db/post-commands";
 import { DBFeed, UserFeed } from "@_types/user";
 import { PageProcedureParams } from "@_types/db";
 
 export class FeedPost {
-  static fetch(postId: number, userId: number, page: number): Promise<Post> {
+  static fetch(
+    postId: number,
+    userId: number,
+    params?: PageProcedureParams
+  ): Promise<Post> {
     //Make query to database
     //Check if post was returned
     //Make new post a return
-    return useDB(getPostComments(postId, userId, page));
+    if (!params) {
+      return getInitialPost(postId, userId);
+    }
+    return getPostComments(postId, userId, params);
   }
 
   static feedPage(
