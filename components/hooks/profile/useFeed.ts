@@ -1,39 +1,38 @@
 import { UserFeed } from "@_types/user";
 import usePageFetch from "@hooks/page-fetch/usePageFetch";
-import { useQuery } from "@tanstack/react-query";
+import { FeedPost } from "@_types/post/feed-post";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { ParsedUrlQuery } from "querystring";
+import { useState } from "react";
 
 const useFeed = () => {
-  const [fetchGlobal, setFetchGlobal] = useState(false);
-  const { scrollElement } = usePageFetch(fetchFeedPage, false, true, 20);
   const { query } = useRouter();
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["feed", fetchGlobal],
-    queryFn: fetchFeed.bind(null, fetchGlobal),
-  });
-  useEffect(() => {
+  const [isSignedIn, setIsSignedIn] = useState();
+  const fetchFeed = async (
+    page: number,
+    date: string,
+    query: ParsedUrlQuery
+  ) => {
+    let url = `/api/feed?page=${page}&date=${date}`;
     if (query.feed) {
-      setFetchGlobal(true);
-    } else {
-      setFetchGlobal(false);
+      url += "&global=true";
     }
-  }, [query]);
-  return { feed: data, isLoading, isError, scrollElement };
-};
+    const res = await fetch(url);
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message);
+    }
+    if (isSignedIn == undefined) setIsSignedIn(data.isSignedIn);
+    return data.posts as FeedPost[];
+  };
+  const { scrollElement, pageContent } = usePageFetch(
+    fetchFeed,
+    true,
+    10,
+    query
+  );
 
-const fetchFeed = async (global: boolean) => {
-  const res = await fetch(`/api/feed${global ? "?global=true" : ""}`);
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.message);
-  }
-  return data as { user: UserFeed; isSignedIn: boolean };
-};
-
-const fetchFeedPage = async () => {
-  console.log("Fetch Page");
-  return [];
+  return { posts: pageContent, scrollElement };
 };
 
 export default useFeed;

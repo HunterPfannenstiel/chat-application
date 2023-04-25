@@ -7,21 +7,12 @@ import useFeed from "@hooks/profile/useFeed";
 const Home: NextPage = () => {
   const { connectWallet, address } = useAddress();
   const { network } = useNetwork();
-  const { feed, isLoading, isError, scrollElement } = useFeed();
-  if (isLoading) {
+  const { posts, scrollElement } = useFeed();
+  if (!posts) {
     return <h1>Loading...</h1>;
-  } else if (isError) {
-    return <h1>An error has occurred</h1>;
-  } else if (feed) {
-    return (
-      <HomeFeed
-        user={feed.user}
-        isSignedIn={feed.isSignedIn}
-        scrollElement={scrollElement}
-      />
-    );
+  } else {
+    return <HomeFeed posts={posts} scrollElement={scrollElement} />;
   }
-  return <p>Invalid state</p>;
 };
 
 export default Home;

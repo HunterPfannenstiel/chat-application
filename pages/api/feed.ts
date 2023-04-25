@@ -12,24 +12,29 @@ const handler: NextApiHandler = async (req, res) => {
       //GET USER
       //CHECK PAGINATION QUERY
       //MAKE DB QUERY
-      const { global } = req.query;
-      if (global || !session || !session.user.userId) {
-        const posts = await FeedPost.fetchGlobal(0, session?.user?.userId);
-        // if (user.posts) {
+      const { global, page, date } = req.query;
+      if (typeof page === "string" && typeof date === "string") {
+        if (global || !session || !session.user.userId) {
+          const posts = await FeedPost.fetchGlobal(
+            { page: +page, createdDateTime: date },
+            session?.user?.userId
+          );
+          // if (user.posts) {
 
-        //   user.posts = JSON.parse(user.posts);
-        // }
+          //   user.posts = JSON.parse(user.posts);
+          // }
 
-        return res.status(200).send({ user: { posts }, isSignedIn: !!session });
-      } else if (session) {
-        //session.user.userId
-        const user = await FeedPost.fetchFeed(session?.user.userId || 1);
-        if (user.posts) {
-          user.posts = JSON.parse(user.posts);
+          return res.status(200).send({ posts, isSignedIn: !!session });
+        } else if (session) {
+          //session.user.userId
+          const posts = await FeedPost.feedPage(session.user.userId, {
+            page: +page,
+            createdDateTime: date,
+          });
+          return res.status(200).send({ posts, isSignedIn: true });
+        } else {
+          return res.status(400).json({ message: "Please sign-in" });
         }
-        return res.status(200).send({ user, isSignedIn: true });
-      } else {
-        return res.status(400).json({ message: "Please sign-in" });
       }
     } else {
       return res.status(400).end();

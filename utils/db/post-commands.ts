@@ -6,42 +6,42 @@ import {
   executeFunction,
   useDB,
 } from "./helpers";
-import { ProcedureParam } from "@_types/db";
+import { PageProcedureParams, ProcedureParam } from "@_types/db";
 import sql from "mssql/msnodesqlv8";
 import { CreatePost, UpdatePost } from "@_types/post";
 import { FeedPost } from "@_types/post/feed-post";
 
-export const execFetchFeed = (userId: number) =>
-  useDB(async (db) => {
-    const params: ProcedureParam[] = [
-      { paramName: "userId", isInput: true, value: userId },
-    ];
-    const request = createDatabaseRequest(db, params);
-    const res = await executeProcedure("Chat.FetchFeed", request);
-    return res.recordset[0];
-  });
-
-export const fetchFeedPage = (userId: number, page: number) =>
+export const fetchFeedPage = (userId: number, params: PageProcedureParams) =>
   useDB(async (db) => {
     const request = createDatabaseRequest(db, [
       { paramName: "userId", isInput: true, value: userId },
-      { paramName: "page", isInput: true, value: page },
+      { paramName: "page", isInput: true, value: params.page },
+      {
+        paramName: "createdDateTime",
+        isInput: true,
+        value: params.createdDateTime,
+      },
     ]);
     const res = await executeFunction(
-      "SELECT * FROM Chat.FetchFeedPage(@userId, @page)",
+      "SELECT * FROM Chat.FetchFeedPage(@userId, @page, @createdDateTime)",
       request
     );
-    return res.recordset[0];
+    return res.recordset;
   });
 
-export const fetchGlobalFeed = (page: number, userId?: number) =>
+export const fetchGlobalFeed = (props: PageProcedureParams, userId?: number) =>
   useDB(async (db) => {
     const request = createDatabaseRequest(db, [
-      { paramName: "page", isInput: true, value: page },
+      { paramName: "page", isInput: true, value: props.page },
       { paramName: "userId", isInput: true, value: userId },
+      {
+        paramName: "createdDateTime",
+        isInput: true,
+        value: props.createdDateTime,
+      },
     ]);
     const res = await executeFunction(
-      "SELECT * FROM Chat.FetchGlobalFeed(@page, @userId)",
+      "SELECT * FROM Chat.FetchGlobalFeed(@page, @userId, @createdDateTime)",
       request
     );
     if (res.recordset.length > 0) {

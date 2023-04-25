@@ -1,35 +1,44 @@
 import { useEffect, useRef, useState } from "react";
 
 const usePageFetch = (
-  pageFetcher: (page: number) => Promise<any>,
+  pageFetcher: (page: number, date: string, dependency?: any) => Promise<any>,
   isInitialFetcher: boolean,
-  useBodyToScroll: boolean,
+  pageSize: number,
+
   fetchDependency?: any,
-  percentTillFetch = 20
+  percentTillFetch = 1
 ) => {
-  const page = useRef(1);
+  const page = useRef(0);
   const [fetchPage, setFetchPage] = useState(false);
   const [pageContent, setPageContent] = useState<any[]>();
   const isFetching = useRef(false);
-  const initialFetch = useRef(new Date());
+  const initialFetch = useRef(generateDatetimeOffset());
   const scrollElement = useRef<HTMLUListElement>(null);
+  const endOfContent = useRef(false);
 
   useEffect(() => {
     if (fetchPage) {
       setFetchPage(false);
-      async () => {
-        const res = await pageFetcher(page.current);
-        if (res.ok) {
-          const data = await res.json();
-          if (pageContent && data) {
-            setPageContent([...pageContent, data]);
-            page.current += 1;
-          } else if (data) {
-            setPageContent(data);
-            page.current += 1;
-          }
+      const pageFetch = async () => {
+        const data = await pageFetcher(
+          page.current,
+          initialFetch.current,
+          fetchDependency
+        );
+        console.log(`Fetching page ${page.current}`);
+
+        console.log("fetch data", data);
+        if (pageContent && data.length > 0) {
+          setPageContent([...pageContent, ...data]);
+          page.current += 1;
+        } else if (data.length > 0) {
+          setPageContent(data);
+          page.current += 1;
         }
+        if (data.length < pageSize) endOfContent.current = true;
+        isFetching.current = false;
       };
+      pageFetch();
     }
   }, [fetchPage]);
 
@@ -37,7 +46,11 @@ const usePageFetch = (
     if (isInitialFetcher && !!fetchDependency) {
       console.log(fetchDependency);
       const initializer = async () => {
-        const data = await pageFetcher(0);
+        const data = await pageFetcher(
+          0,
+          initialFetch.current,
+          fetchDependency
+        );
         setPageContent(data);
         page.current = 1;
       };
@@ -46,48 +59,33 @@ const usePageFetch = (
   }, [fetchDependency]);
 
   useEffect(() => {
-    const scrollingElem = useBodyToScroll
-      ? window.document.body
-      : scrollElement.current;
+    const scrollingElem = scrollElement.current;
     let scrollEvent: any;
     if (scrollingElem) {
       const containerHeight = scrollingElem.clientHeight;
-      const sHeight = scrollingElem.scrollHeight;
-
       scrollEvent = () => {
-        const bottomDistance =
-          sHeight - scrollingElem.scrollTop - containerHeight;
-        if ((bottomDistance / containerHeight) * 100 <= percentTillFetch) {
-          if (!isFetching.current) {
-            setFetchPage(true);
-            console.log("FETCH");
-            fetch(
-              `/api/test?initialFetch=${initialFetch.current.toLocaleString()}&page=${
-                page.current
-              }`
-            );
-            isFetching.current = true;
-            setTimeout(() => {
-              isFetching.current = false;
-              page.current = page.current + 1;
-              console.log("Done fetching!");
-            }, 5000);
+        if (!endOfContent.current) {
+          const bottomDistance =
+            scrollingElem.scrollHeight -
+            scrollingElem.scrollTop -
+            containerHeight;
+          if ((bottomDistance / containerHeight) * 100 <= percentTillFetch) {
+            if (!isFetching.current) {
+              setFetchPage(true);
+              console.log("FETCH");
+              isFetching.current = true;
+            }
           }
         }
       };
-      // if (useBodyToScroll) {
-      //   scrollingElem.onscroll = scrollEvent;
-      // } else {
+
       scrollingElem.addEventListener("scroll", scrollEvent);
-      // }
-      console.log({ scrollingElem });
     }
 
     return () => {
-      if (!useBodyToScroll)
-        scrollingElem?.removeEventListener("scroll", scrollEvent);
+      scrollingElem?.removeEventListener("scroll", scrollEvent);
     };
-  }, [scrollElement]);
+  }, [scrollElement.current]);
 
   const resetPageContent = () => {
     page.current = 1;
@@ -95,6 +93,29 @@ const usePageFetch = (
   };
 
   return { scrollElement, resetPageContent, pageContent };
+};
+
+const generateDatetimeOffset = () => {
+  const date = new Date();
+  const timezoneOffset = date.getTimezoneOffset();
+  const offsetHours = Math.abs(Math.floor(timezoneOffset / 60));
+  const offsetSign = timezoneOffset < 0 ? "+" : "-";
+  const locale = date.toLocaleTimeString();
+  const timeOfDay = locale.slice(-2);
+  let addValue = 0;
+  if (timeOfDay === "PM") addValue = 12;
+  const hours = +locale.slice(0, locale.indexOf(":")) + addValue;
+  const time = hours + ":" + locale.slice(locale.indexOf(":") + 1, 7);
+  const day = date.toLocaleDateString().replace(/\//g, "-");
+  let dateTimeOffset =
+    day + " " + time + offsetSign + pad(offsetHours) + ":" + "00";
+  dateTimeOffset = dateTimeOffset.replace("T", " ");
+  dateTimeOffset = dateTimeOffset.replace("Z", " ");
+  return dateTimeOffset;
+};
+
+const pad = (val: number) => {
+  return val.toString().padStart(2, "0");
 };
 
 export default usePageFetch;
