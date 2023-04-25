@@ -43,7 +43,7 @@ const Engagement: FunctionComponent<EngagementProps> = ({
         action={() => {
           console.log("IMPLMENT: BRING UP CREATE COMMENT PAGE");
         }}
-        icon={<CommentIcon fillColor="" />}
+        icon={<CommentIcon />}
       />
     </div>
   );

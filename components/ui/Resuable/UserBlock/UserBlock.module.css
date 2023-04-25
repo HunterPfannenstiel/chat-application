@@ -22,6 +22,21 @@
     gap: 1rem;
 }
 
+.link {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+}
+
+.link p {
+    width: fit-content;
+    margin: 0;
+}
+
+.link p:hover {
+    color: var(--primary-purple);
+}
+
 .name p:first-child {
     font-weight: bold;
 }

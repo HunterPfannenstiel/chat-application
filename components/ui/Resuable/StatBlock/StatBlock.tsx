@@ -2,25 +2,29 @@ import { FunctionComponent, ReactNode } from "react";
 import classes from "./StatBlock.module.css";
 
 interface StatBlockProps {
-	count: number;
-	heading: string;
-	imageIcon?: ReactNode;
+	headings: string[];
+	counts: number[];
+	imageIcons: ReactNode[];
 }
 
 const StatBlock: FunctionComponent<StatBlockProps> = ({
-	count,
-	heading,
-	imageIcon,
+	headings,
+	counts,
+	imageIcons,
 }) => {
 	return (
-		<div className={classes.stat_container}>
-			{imageIcon && (
-				<div className={classes.icon}>
-					{imageIcon}
-				</div>
-			)}
-			<p className={classes.count}>{count}</p>
-			<p className={classes.heading}>{heading}</p>
+		<div className={classes.container}>
+			<div className={classes.names}>
+				{headings.map((heading) => (
+					<p>{heading}</p>
+				))}
+			</div>
+			<div className={classes.counts}>
+				{counts.map((count) => (
+					<p>{count}</p>
+				))}
+			</div>
+			<div className={classes.icons}>{imageIcons.map((icon) => icon)}</div>
 		</div>
 	);
 };

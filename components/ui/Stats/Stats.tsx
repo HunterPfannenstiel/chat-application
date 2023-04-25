@@ -9,6 +9,7 @@ import CommentIcon from "@ui/Resuable/Icons/CommentIcon";
 import UserBlock from "@ui/Resuable/UserBlock/UserBlock";
 import { UserDetails } from "@_types/user";
 import FollowButton from "@ui/Resuable/FollowButton/FollowButton";
+import StatUserBlock from "@ui/Resuable/UserBlock/StatUserBlock/StatUserBlock";
 
 interface StatsProps {
 	userDetails: UserDetails;
@@ -29,7 +30,7 @@ const Stats: FunctionComponent<StatsProps> = ({
 
 	return (
 		<div className={classes.container}>
-			<UserBlock
+			<StatUserBlock
 				user={userDetails}
 				button={
 					<FollowButton
@@ -39,34 +40,30 @@ const Stats: FunctionComponent<StatsProps> = ({
 				}
 			/>
 			<StatBlock
-				count={userDetails.followerCount}
-				heading="Followers"
-				imageIcon={<FollowerIcon />}
-			/>
-			<StatBlock
-				count={userDetails.followingCount}
-				heading="Following"
-				imageIcon={<FollowerIcon />}
-			/>
-			<StatBlock
-				count={likesReceived}
-				heading="Likes"
-				imageIcon={<LikeIcon liked={true} />}
-			/>
-			<StatBlock
-				count={likesGiven}
-				heading="Likes Given"
-				imageIcon={<LikeIcon liked={false} />}
-			/>
-			<StatBlock
-				count={postsMade}
-				heading="Posts Created"
-				imageIcon={<CommentIcon fillColor="#492AA1" />}
-			/>
-			<StatBlock
-				count={repliesReceived}
-				heading="Replies Received"
-				imageIcon={<CommentIcon fillColor="#492AA1" />}
+				headings={[
+					"Following",
+					"Followers",
+					"Likes Given",
+					"Likes Received",
+					"Posts Created",
+					"Replies Received",
+				]}
+				counts={[
+					userDetails.followingCount,
+					userDetails.followerCount,
+					likesGiven,
+					likesReceived,
+					postsMade,
+					repliesReceived,
+				]}
+				imageIcons={[
+					<FollowerIcon filled={true}/>,
+					<FollowerIcon />,
+					<LikeIcon liked={true} />,
+					<LikeIcon liked={false} />,
+					<CommentIcon filled={true} />,
+					<CommentIcon  />,
+				]}
 			/>
 		</div>
 	);
