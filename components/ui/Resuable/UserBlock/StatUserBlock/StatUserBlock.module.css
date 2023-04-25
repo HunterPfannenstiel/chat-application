@@ -1,0 +1,26 @@
+.user-block {
+    display: flex;
+    flex-direction: column;
+    padding-inline: 1rem;
+    gap: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: white;
+    border-radius: .5rem;
+    max-width: 500px;
+    min-width: 200px;
+}
+
+.user-block p {
+    font-size: .85rem;
+}
+
+.pfp-name-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.name p:first-child {
+    font-weight: bold;
+}
