@@ -107,7 +107,14 @@ const generateDatetimeOffset = () => {
   const timeOfDay = locale.slice(-2);
   let addValue = 0;
   if (timeOfDay === "PM") addValue = 12;
-  const hours = +locale.slice(0, locale.indexOf(":")) + addValue;
+  let hours = +locale.slice(0, locale.indexOf(":"));
+  if (hours === 12) {
+    if (addValue === 0) {
+      hours = 0;
+    }
+  } else {
+    hours += addValue;
+  }
   const time = hours + ":" + locale.slice(locale.indexOf(":") + 1, 7);
   const day = date.toLocaleDateString().replace(/\//g, "-");
   let dateTimeOffset =
