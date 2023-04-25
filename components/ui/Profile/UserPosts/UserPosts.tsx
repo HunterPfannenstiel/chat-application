@@ -68,12 +68,13 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
       }
     }
   };
+
   return (
     <>
       <FeedPostList
         posts={posts}
         emptyPostDisplay={<p>No posts to show here!</p>}
-        isUsersFeed={isUsersProfile}
+        isUsersFeed={query.category === "likes" ? false : isUsersProfile}
         onEditPost={onEditPost}
         userDetails={query.category === "likes" ? undefined : user}
       />
