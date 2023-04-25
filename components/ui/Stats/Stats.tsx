@@ -6,11 +6,12 @@ import { useRouter } from "next/router";
 import LikeIcon from "@ui/Resuable/Icons/LikeIcon";
 import FollowerIcon from "@ui/Resuable/Icons/FollowerIcon";
 import CommentIcon from "@ui/Resuable/Icons/CommentIcon";
+import UserBlock from "@ui/Resuable/UserBlock/UserBlock";
+import { UserDetails } from "@_types/user";
+import FollowButton from "@ui/Resuable/FollowButton/FollowButton";
 
 interface StatsProps {
-	image: string;
-	followerCount: number;
-	followingCount: number;
+	userDetails: UserDetails;
 	likesReceived: number;
 	likesGiven: number;
 	postsMade: number;
@@ -18,9 +19,7 @@ interface StatsProps {
 }
 
 const Stats: FunctionComponent<StatsProps> = ({
-	image,
-	followerCount,
-	followingCount,
+	userDetails,
 	likesReceived,
 	likesGiven,
 	postsMade,
@@ -30,27 +29,22 @@ const Stats: FunctionComponent<StatsProps> = ({
 
 	return (
 		<div className={classes.container}>
-			<h1>Happi's Statistics</h1>
-			<div className={classes.pfp_handle}>
-				<ProfileImage
-					src={image}
-					className={classes.pfp}
-					onClick={() => {
-						router.push({
-							pathname: "/[handle]",
-							query: { handle: router.query.handle },
-						});
-					}}
-				/>
-				<p>@happithemonkey</p>
-			</div>
+			<UserBlock
+				user={userDetails}
+				button={
+					<FollowButton
+						userId={userDetails.userId || 0}
+						isFollowing={!!userDetails.isFollowing}
+					/>
+				}
+			/>
 			<StatBlock
-				count={followerCount}
+				count={userDetails.followerCount}
 				heading="Followers"
 				imageIcon={<FollowerIcon />}
 			/>
 			<StatBlock
-				count={followingCount}
+				count={userDetails.followingCount}
 				heading="Following"
 				imageIcon={<FollowerIcon />}
 			/>

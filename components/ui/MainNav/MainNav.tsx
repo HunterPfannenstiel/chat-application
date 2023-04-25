@@ -14,7 +14,7 @@ interface MainNavProps {
 
 const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
   const { pathname } = useRouter();
-  const [render, setRender] = useState(true);
+  const [render, setRender] = useState(false);
   const { toggle, showModal, playAnimation } = useAnimateModal(300);
   const user = useUserDetails();
   // useEffect(() => {
