@@ -26,6 +26,11 @@ export const fetchFeedPage = (userId: number, params: PageProcedureParams) =>
       "SELECT * FROM Chat.FetchFeedPage(@userId, @page, @createdDateTime)",
       request
     );
+    if (res.recordset.length > 0) {
+      res.recordset.forEach(async (post) => {
+        if (post.images) post.images = await JSON.parse(post.images);
+      });
+    }
     return res.recordset;
   });
 
