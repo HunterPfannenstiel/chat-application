@@ -26,7 +26,6 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({
   if (user) {
     return (
       <section className={classes.profile} ref={scrollElem}>
-        <Header userName={user.userName} />
         <Profile
           user={user}
           isUsersProfile={!!isUsersProfile}

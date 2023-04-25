@@ -61,18 +61,27 @@ export const execUpdateUser = (
     return res.output.deletedImage;
   });
 
-export const fetchUserPosts = (handle: string, userId?: number) =>
+export const fetchUserPosts = (
+  handle: string,
+  params: PageProcedureParams,
+  category: string | undefined
+) =>
   useDB(async (db) => {
     const request = createDatabaseRequest(db, [
       { paramName: "userHandle", isInput: true, value: handle },
-      { paramName: "queryUserId", isInput: true, value: userId },
+      { paramName: "queryUserId", isInput: true, value: params.queryUserId },
+      { paramName: "page", isInput: true, value: params.page },
+      {
+        paramName: "createdDateTime",
+        isInput: true,
+        value: params.createdDateTime,
+      },
     ]);
-    const res = await executeProcedure("Chat.FetchUserPosts", request);
-    if (res.recordset.length > 0) {
-      res.recordset.forEach(async (post) => {
-        if (post.images) post.images = await JSON.parse(post.images);
-      });
-    }
+    let procedure = "Chat.FetchUserPosts";
+    if (category === "likes") procedure = "Chat.FetchLikedPosts";
+    else if (category === "replies") procedure = "Chat.FetchReplyPosts";
+    const res = await executeProcedure(procedure, request);
+    parseImages(res.recordset);
     return res.recordset;
   });
 
@@ -186,3 +195,9 @@ export const fetchUserProfileByHandle = (handle: string, userId?: number) =>
     }
     return [];
   });
+
+const parseImages = (posts: any[]) => {
+  posts.forEach(async (post) => {
+    if (post.images) post.images = await JSON.parse(post.images);
+  });
+};

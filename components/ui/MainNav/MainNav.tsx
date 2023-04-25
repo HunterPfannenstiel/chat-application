@@ -31,7 +31,7 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
 
   useEffect(() => {
     setWin(window);
-  }, [window]);
+  }, []);
 
   return (
     <main>

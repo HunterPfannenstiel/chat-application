@@ -4,18 +4,18 @@ import usePageFetch from "@hooks/page-fetch/usePageFetch";
 
 const useProfile = () => {
   const router = useRouter();
-  let handle = "";
-  if (router.query.handle) {
-    handle = router.query.handle as string;
-  }
 
   const fetchPosts = async (
     page: number,
     date: string,
-    controller: AbortController
+    controller: AbortController,
+    dependency: any
   ): Promise<FeedPost[] | null> => {
-    if (handle) {
-      const url = `/api/user/${handle}?page=${page}&date=${date}`;
+    if (dependency.handle) {
+      let url = `/api/user/${dependency.handle}?page=${page}&date=${date}`;
+      if (dependency.category) {
+        url += `&category=${dependency.category}`;
+      }
       const res = await fetch(url, { signal: controller.signal });
       if (res.ok) {
         const data = (await res.json()) as { posts: FeedPost[] };
@@ -31,7 +31,7 @@ const useProfile = () => {
     fetchPosts,
     true,
     10,
-    handle
+    router.query
   );
   return { posts: pageContent, scrollElement };
 };
