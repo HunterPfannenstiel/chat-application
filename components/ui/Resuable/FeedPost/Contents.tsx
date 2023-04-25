@@ -22,7 +22,6 @@ const Contents: FunctionComponent<ContentsProps> = ({
     <div>
       <p onClick={onClick}>{text}</p>
       <ImageBox images={images} onClick={toggle} />
-      {/* <ImageDisplay onSelectImage={() => {}} images={images} /> */}
       {showModal && (
         <ImageView
           images={images || []}

@@ -9,11 +9,11 @@ const usePageFetch = (
   ) => Promise<any>,
   isInitialFetcher: boolean,
   pageSize: number,
-
   fetchDependency?: any,
+  initialPageNumber?: number,
   percentTillFetch = 1
 ) => {
-  const page = useRef(0);
+  const page = useRef(initialPageNumber || 0);
   const [fetchPage, setFetchPage] = useState(false);
   const [pageContent, setPageContent] = useState<any[]>();
   const [isLoading, setIsLoading] = useState(isInitialFetcher);
@@ -46,7 +46,10 @@ const usePageFetch = (
             setPageContent(data);
             page.current += 1;
           }
-          if (data.length < pageSize) endOfContent.current = true;
+          if (data.length < pageSize) {
+            console.log("LOCK");
+            endOfContent.current = true;
+          }
           setIsError(false);
         } catch (error) {
           if (!abortController.signal.aborted) {
@@ -97,6 +100,7 @@ const usePageFetch = (
       initializer();
     }
     return () => {
+      if (endOfContent.current) endOfContent.current = false;
       abortController.abort();
     };
   }, [fetchDependency]);
@@ -104,9 +108,11 @@ const usePageFetch = (
   useEffect(() => {
     const scrollingElem = scrollElement.current;
     let scrollEvent: any;
+    console.log(scrollingElem);
     if (scrollingElem) {
       const containerHeight = scrollingElem.clientHeight;
       scrollEvent = () => {
+        console.log(endOfContent.current);
         if (!endOfContent.current) {
           const bottomDistance =
             scrollingElem.scrollHeight -

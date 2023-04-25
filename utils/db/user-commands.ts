@@ -4,6 +4,7 @@ import {
   createImageTableInput,
   executeFunction,
   executeProcedure,
+  parseImages,
   useDB,
 } from "./helpers";
 import sql, { ConnectionPool, MAX } from "mssql/msnodesqlv8";
@@ -195,9 +196,3 @@ export const fetchUserProfileByHandle = (handle: string, userId?: number) =>
     }
     return [];
   });
-
-const parseImages = (posts: any[]) => {
-  posts.forEach(async (post) => {
-    if (post.images) post.images = await JSON.parse(post.images);
-  });
-};

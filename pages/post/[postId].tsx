@@ -1,25 +1,18 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { FeedPost } from "@_types/post/feed-post";
-import classes from "./SinglePostPage.module.css";
+import { FunctionComponent } from "react";
+
 import IndividualPost from "@ui/IndividualPost/IndividualPost";
-import { fetchPostComments } from "utils/actions";
-import { useRouter } from "next/router";
 import usePostComments from "@hooks/feed-post/usePostComments";
 
 const SinglePostPage: FunctionComponent = () => {
-  const { post, isLoading, isError } = usePostComments();
+  const { post, scrollElement } = usePostComments();
+  console.log({ post });
 
-  if (isLoading) {
-    return <>Loading</>;
-  }
-  if (isError) {
-    return <>Error</>;
-  }
-  if (!post) {
-    return <h1>No post exists</h1>;
-  }
   return (
-    <IndividualPost mainPost={post.mainPost} commentPosts={post.comments} />
+    <IndividualPost
+      mainPost={post.mainPost!}
+      commentPosts={post.replies!}
+      scrollElement={scrollElement}
+    />
   );
 };
 
