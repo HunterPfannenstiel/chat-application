@@ -13,10 +13,6 @@
     overflow: scroll;
 }
 
-.posts::-webkit-scrollbar {
-    display: none;
-}
-
 @media (min-width: 40em) {
     .posts {
         margin: 0;

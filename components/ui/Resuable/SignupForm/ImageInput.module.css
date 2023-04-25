@@ -7,16 +7,23 @@
 .image_selector {
     width: 100px;
     height: 100px;
-    background-color: var(--input-color);
+    background-color: white;
     border-radius: 9px;
     margin-inline: auto;
-    overflow: hidden;
+    overflow: hidden;   
 }
 
 .image_label {
     width: 100%;
     height: 100%;
     position: relative;
+    cursor: pointer;
+}
+
+.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .image_label > div {

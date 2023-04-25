@@ -4,6 +4,7 @@ import { NextRouter, useRouter } from "next/router";
 import { createFormData } from "utils/form";
 import { useUserDetails } from "components/providers/User/User";
 import { initializeUser } from "components/providers/User/utils";
+import classes from "./SignUp.module.css";
 
 interface SignUpProps {}
 
@@ -12,7 +13,7 @@ const SignUp: FunctionComponent<SignUpProps> = () => {
   const router = useRouter();
   return (
     <section>
-      <h1>PROFILE</h1>
+      <h1 className={classes.header}>PROFILE</h1>
       <SignupForm
         handler={handleForm(router, dispatchUser)}
         buttonDisplay="Create Account"

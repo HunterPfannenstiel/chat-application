@@ -13,7 +13,7 @@
 .fieldset input {
     padding: 0.5em 0.5em;
     border-radius: 9px;
-    background-color: var(--input-color);
+    background-color: white;
     border: none;
     font-size: 1rem;
     font-weight: 600;

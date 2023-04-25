@@ -1,4 +1,9 @@
 .profile {
     max-height: 90vh;
     overflow-y: scroll;
+    padding: 0 .5rem;
+}
+
+.profile ul::-webkit-scrollbar {
+    display: none;
 }

@@ -27,7 +27,6 @@ const FeedPost: FunctionComponent<FeedPostProps> = ({
   };
   return (
     <div className={classes.feed_post}>
-      {isUsersPost && <EditButton onClick={onEditPost} />}
       <div className={classes.user_details}>
         <UserDetails
           imageUrl={userDetails?.userImage || post.userImage}
@@ -47,6 +46,8 @@ const FeedPost: FunctionComponent<FeedPostProps> = ({
           commentCount={post.commentCount}
           isLiked={post.isLiked == 1}
           postId={post.postId}
+          isUsersProfile={isUsersPost}
+          editPost={onEditPost}
         />
       </div>
     </div>
