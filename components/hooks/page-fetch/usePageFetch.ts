@@ -43,7 +43,10 @@ const usePageFetch = (
   }, [fetchPage]);
 
   useEffect(() => {
-    if (isInitialFetcher && !!fetchDependency) {
+    if (
+      isInitialFetcher &&
+      (fetchDependency === undefined || !!fetchDependency)
+    ) {
       console.log(fetchDependency);
       const initializer = async () => {
         const data = await pageFetcher(

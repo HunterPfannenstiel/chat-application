@@ -10,7 +10,7 @@ import classes from "./HomeFeed.module.css";
 import { FeedPost } from "@_types/post/feed-post";
 
 interface HomeFeedProps {
-  posts: FeedPost[];
+  posts: FeedPost[] | undefined;
   scrollElement: RefObject<HTMLUListElement>;
 }
 

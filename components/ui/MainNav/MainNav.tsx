@@ -17,11 +17,11 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
   const [render, setRender] = useState(true);
   const { toggle, showModal, playAnimation } = useAnimateModal(300);
   const user = useUserDetails();
-  useEffect(() => {
-    if (navPages.includes(pathname)) setRender(true);
-    else setRender(false);
-    if (showModal) toggle();
-  }, [pathname]);
+  // useEffect(() => {
+  //   if (navPages.includes(pathname)) setRender(true);
+  //   else setRender(false);
+  //   if (showModal) toggle();
+  // }, [pathname]);
 
   let showSideBar = render;
   // if (render) {
@@ -51,7 +51,7 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
             isSignedIn={!!(user.userId && user.userId !== 0)}
           />
         )}
-        {children}
+        <div className={classes.children}>{children}</div>
         <></>
       </div>
     </main>

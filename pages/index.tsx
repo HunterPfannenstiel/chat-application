@@ -8,11 +8,7 @@ const Home: NextPage = () => {
   const { connectWallet, address } = useAddress();
   const { network } = useNetwork();
   const { posts, scrollElement } = useFeed();
-  if (!posts) {
-    return <h1>Loading...</h1>;
-  } else {
-    return <HomeFeed posts={posts} scrollElement={scrollElement} />;
-  }
+  return <HomeFeed posts={posts} scrollElement={scrollElement} />;
 };
 
 export default Home;

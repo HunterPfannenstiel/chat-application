@@ -25,3 +25,10 @@
 .selected {
     font-weight: bold;
 }
+
+@media (min-width: 40em) {
+    .list {
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+}

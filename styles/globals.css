@@ -8,7 +8,7 @@ body {
   --primary-purple-rgb: 90, 60, 210;
   --primary-purple: rgb(var(--primary-purple-rgb));
   --secondary-purple: #E9E5FF;
-  background-color: var(--secondary-purple);
+  background: linear-gradient(173.8deg, #E9E6FF 5.7%, #D5CEFF 73.03%, #B4A8FF 89.15%);
 }
 
 body::-webkit-scrollbar {

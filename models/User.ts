@@ -1,3 +1,4 @@
+import { PageProcedureParams } from "@_types/db";
 import {
   UpdateUser,
   ConnectionsDetails,
@@ -25,9 +26,10 @@ export class User {
   }
 
   static async fetchFollowers(
-    userHandle: string
+    userHandle: string,
+    params: PageProcedureParams
   ): Promise<ConnectionsDetails[]> {
-    const followers = await useDB(getFollow(userHandle, 0, "Followers"));
+    const followers = getFollow(userHandle, "Followers", params);
     return followers;
   }
 
@@ -36,9 +38,10 @@ export class User {
   }
 
   static async fetchFollowing(
-    userHandle: string
+    userHandle: string,
+    params: PageProcedureParams
   ): Promise<ConnectionsDetails[]> {
-    const following = await useDB(getFollow(userHandle, 0, "Following"));
+    const following = await getFollow(userHandle, "Following", params);
     return following;
   }
 

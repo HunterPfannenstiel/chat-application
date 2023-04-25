@@ -31,10 +31,12 @@
         position: unset;
         overflow: hidden;
         width: 90%;
-        margin-inline: auto;
+        min-width: 250px;
+        margin-left: auto;
         margin-block: 1rem;
-        max-height: 748px;
+        height: 90%;
         border-radius: 16px;
+        max-width: 300px;
     }
 }
 

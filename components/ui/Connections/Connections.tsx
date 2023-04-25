@@ -25,7 +25,7 @@ const Connections: FunctionComponent<ConnectionsProps> = ({
               button={
                 <FollowButton
                   userId={user.userId || 0}
-                  isFollowing={user.isFollowing === undefined ? true : false}
+                  isFollowing={!!user.isFollowing}
                 />
               }
             />

@@ -32,7 +32,7 @@ const useFeed = () => {
     query
   );
 
-  return { posts: pageContent, scrollElement };
+  return { posts: pageContent, scrollElement, isSignedIn };
 };
 
 export default useFeed;
