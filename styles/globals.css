@@ -21,6 +21,7 @@ body {
   margin: 0;
   font-family: 'Fira Sans', sans-serif;
   height: 100%;
+  overflow: hidden;
 }
 
 main {

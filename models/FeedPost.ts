@@ -4,13 +4,14 @@ import { CreatePost } from "@_types/post";
 import { useDB } from "utils/db/helpers";
 import {
   execCreatePost,
-  execFetchFeed,
   execLikePost,
   execUpdatePost,
+  fetchFeedPage,
   fetchGlobalFeed,
   getPostComments,
 } from "utils/db/post-commands";
 import { DBFeed, UserFeed } from "@_types/user";
+import { PageProcedureParams } from "@_types/db";
 
 export class FeedPost {
   static fetch(postId: number, userId: number, page: number): Promise<Post> {
@@ -20,12 +21,15 @@ export class FeedPost {
     return useDB(getPostComments(postId, userId, page));
   }
 
-  static fetchFeed(userId: number): Promise<DBFeed> {
-    return execFetchFeed(userId);
+  static feedPage(
+    userId: number,
+    params: PageProcedureParams
+  ): Promise<DBFeed> {
+    return fetchFeedPage(userId, params);
   }
 
-  static fetchGlobal(page: number, userId?: number) {
-    return fetchGlobalFeed(page, userId);
+  static fetchGlobal(params: PageProcedureParams, userId?: number) {
+    return fetchGlobalFeed(params, userId);
   }
 
   static fetchLikes(postId: string): Promise<PostLike[]> {

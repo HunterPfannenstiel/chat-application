@@ -18,3 +18,9 @@ type OutputData = {
 export type ProcedureParam = InputData | OutputData;
 
 export type DBDelegate = (db: ConnectionPool) => Promise<any>;
+
+export type PageProcedureParams = {
+  queryUserId?: number;
+  page: number;
+  createdDateTime: string;
+};

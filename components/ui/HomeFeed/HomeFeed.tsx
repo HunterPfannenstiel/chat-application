@@ -6,14 +6,16 @@ import PostModal from "@ui/Resuable/PostModal/PostModal";
 import CreatePostIcon from "@ui/Resuable/Icons/CreatePostIcon";
 import { createPost } from "utils/actions";
 import { ImageInfo } from "@ui/Resuable/PostModal/types";
+import classes from "./HomeFeed.module.css";
+import { FeedPost } from "@_types/post/feed-post";
 
 interface HomeFeedProps {
-  user: UserFeed;
+  posts: FeedPost[];
   scrollElement: RefObject<HTMLUListElement>;
 }
 
 const HomeFeed: FunctionComponent<HomeFeedProps> = ({
-  user,
+  posts,
   scrollElement,
 }) => {
   const {
@@ -26,7 +28,7 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({
     <section>
       <FeedPostList
         scrollElement={scrollElement}
-        posts={user.posts}
+        posts={posts}
         emptyPostDisplay={
           <p>
             No one you follow has posted! Follow more people or view the
