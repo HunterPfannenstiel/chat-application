@@ -1,4 +1,5 @@
 .modal {
+    max-width: 600px;
     width: 90%;
     text-align: center;
     background-color: #FFFFFF;

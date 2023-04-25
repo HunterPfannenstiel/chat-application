@@ -6,7 +6,10 @@
     background-color: white;
 }
 
-.button {
-    width: 25%;
+.edit_button {
     margin-left: auto;
+}
+
+.edit_button:hover {
+    cursor: pointer;
 }
