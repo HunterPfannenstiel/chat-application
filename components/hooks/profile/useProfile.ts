@@ -17,9 +17,13 @@ const useProfile = () => {
   //   queryFn: fetchPosts.bind(null, handle),
   // });
 
-  const fetchPosts = async (page: number): Promise<FeedPost[] | null> => {
+  const fetchPosts = async (
+    page: number,
+    date: string
+  ): Promise<FeedPost[] | null> => {
     if (handle) {
-      const res = await fetch(`/api/user/${handle}?page=${page}`);
+      const url = `/api/user/${handle}?page=${page}&date=${date}`;
+      const res = await fetch(url);
       if (res.ok) {
         const data = (await res.json()) as { posts: FeedPost[] };
         return data.posts;
@@ -30,14 +34,14 @@ const useProfile = () => {
     console.log("undef");
     return null;
   };
-  const { resetPageContent, pageContent } = usePageFetch(
+  const { resetPageContent, pageContent, scrollElement } = usePageFetch(
     fetchPosts,
     true,
-    true,
+    10,
     handle
   );
   console.log({ pageContent });
-  return { posts: pageContent };
+  return { posts: pageContent, scrollElement };
 };
 
 type Profile = { user: UserProfile; isUsersProfile: boolean };

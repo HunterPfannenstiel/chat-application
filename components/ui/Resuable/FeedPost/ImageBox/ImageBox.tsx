@@ -9,7 +9,8 @@ interface ImageBoxProps {
 }
 
 const ImageBox: FunctionComponent<ImageBoxProps> = ({ images, onClick }) => {
-  if (images) {
+  if (images && images !== null) {
+    console.log(images);
     return (
       <ul className={classes.images}>
         {images.map((image) => {

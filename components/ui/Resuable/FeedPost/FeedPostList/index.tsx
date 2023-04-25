@@ -23,7 +23,10 @@ const FeedPostList: FunctionComponent<FeedPostListProps> = ({
 }) => {
   if (posts) {
     return (
-      <ul className={classes.posts} ref={scrollElement}>
+      <ul
+        className={`${classes.posts} ${scrollElement ? classes.scroll : ""}`}
+        ref={scrollElement}
+      >
         {posts.map((post, i) => {
           return (
             <FeedPost
