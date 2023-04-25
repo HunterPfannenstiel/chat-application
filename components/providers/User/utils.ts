@@ -1,6 +1,10 @@
 import { UpdateUser, UserDetails } from "@_types/user";
+import { Dispatch } from "react";
 
-export type UserContext = UserDetails & { isLoading: boolean };
+export type UserContext = UserDetails & {
+  isLoading: boolean;
+  dispatchUser: Dispatch<(state: UserDetails) => UserDetails>;
+};
 
 export type UserDelegate<T> = (
   params: T
@@ -14,6 +18,7 @@ export const getInitialContext = (): UserContext => {
     followerCount: 0,
     followingCount: 0,
     isLoading: true,
+    dispatchUser: () => {},
   };
 };
 

@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 
 const usePageFetch = (
-  pageFetcher: (page: number, date: string, dependency?: any) => Promise<any>,
+  pageFetcher: (
+    page: number,
+    date: string,
+    abortController: AbortController,
+    dependency?: any
+  ) => Promise<any>,
   isInitialFetcher: boolean,
   pageSize: number,
 
@@ -11,54 +16,89 @@ const usePageFetch = (
   const page = useRef(0);
   const [fetchPage, setFetchPage] = useState(false);
   const [pageContent, setPageContent] = useState<any[]>();
+  const [isLoading, setIsLoading] = useState(isInitialFetcher);
+  const [isError, setIsError] = useState(false);
   const isFetching = useRef(false);
   const initialFetch = useRef(generateDatetimeOffset());
   const scrollElement = useRef<HTMLUListElement>(null);
   const endOfContent = useRef(false);
 
   useEffect(() => {
+    const abortController = new AbortController();
     if (fetchPage) {
       setFetchPage(false);
+      setIsLoading(true);
       const pageFetch = async () => {
-        const data = await pageFetcher(
-          page.current,
-          initialFetch.current,
-          fetchDependency
-        );
-        console.log(`Fetching page ${page.current}`);
+        try {
+          const data = await pageFetcher(
+            page.current,
+            initialFetch.current,
+            abortController,
+            fetchDependency
+          );
+          console.log(`Fetching page ${page.current}`);
 
-        console.log("fetch data", data);
-        if (pageContent && data.length > 0) {
-          setPageContent([...pageContent, ...data]);
-          page.current += 1;
-        } else if (data.length > 0) {
-          setPageContent(data);
-          page.current += 1;
+          console.log("fetch data", data);
+          if (pageContent && data.length > 0) {
+            setPageContent([...pageContent, ...data]);
+            page.current += 1;
+          } else if (data.length > 0) {
+            setPageContent(data);
+            page.current += 1;
+          }
+          if (data.length < pageSize) endOfContent.current = true;
+          setIsError(false);
+        } catch (error) {
+          if (!abortController.signal.aborted) {
+            setIsError(true);
+          } else {
+            console.log("Aborted Fetch!");
+          }
+        } finally {
+          isFetching.current = false;
+          setIsLoading(false);
         }
-        if (data.length < pageSize) endOfContent.current = true;
-        isFetching.current = false;
       };
       pageFetch();
     }
+    return () => {
+      // if (!abortController.signal.aborted) abortController.abort();
+    };
   }, [fetchPage]);
 
   useEffect(() => {
+    const abortController = new AbortController();
     if (
       isInitialFetcher &&
       (fetchDependency === undefined || !!fetchDependency)
     ) {
-      console.log(fetchDependency);
+      setIsLoading(true);
       const initializer = async () => {
-        const data = await pageFetcher(
-          0,
-          initialFetch.current,
-          fetchDependency
-        );
-        setPageContent(data);
-        page.current = 1;
+        try {
+          const data = await pageFetcher(
+            0,
+            initialFetch.current,
+            abortController,
+            fetchDependency
+          );
+          setPageContent(data);
+          page.current = 1;
+          setIsError(false);
+        } catch (error) {
+          if (!abortController.signal.aborted) {
+            setIsError(true);
+          } else {
+            console.log("Aborted Fetch!");
+          }
+        } finally {
+          setIsLoading(false);
+        }
       };
       initializer();
     }
+    return () => {
+      abortController.abort();
+    };
   }, [fetchDependency]);
 
   useEffect(() => {
@@ -95,7 +135,7 @@ const usePageFetch = (
     setPageContent([]);
   };
 
-  return { scrollElement, resetPageContent, pageContent };
+  return { scrollElement, resetPageContent, pageContent, isLoading, isError };
 };
 
 const generateDatetimeOffset = () => {

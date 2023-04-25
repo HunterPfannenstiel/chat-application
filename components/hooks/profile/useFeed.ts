@@ -11,13 +11,14 @@ const useFeed = () => {
   const fetchFeed = async (
     page: number,
     date: string,
+    controller: AbortController,
     query: ParsedUrlQuery
   ) => {
     let url = `/api/feed?page=${page}&date=${date}`;
     if (query.feed) {
       url += "&global=true";
     }
-    const res = await fetch(url);
+    const res = await fetch(url, { signal: controller.signal });
     const data = await res.json();
     if (!res.ok) {
       throw new Error(data.message);
