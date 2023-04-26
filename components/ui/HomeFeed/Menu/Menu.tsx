@@ -25,6 +25,8 @@ const Menu: FunctionComponent<MenuProps> = ({
   isSignedIn,
 }) => {
   const router = useRouter();
+  const homeSelected = router.pathname === "/";
+  const profileSelected = router.pathname === "/[handle]";
   return (
     <MobileMenu
       title="Account"
@@ -55,10 +57,16 @@ const Menu: FunctionComponent<MenuProps> = ({
           ]}
         />
         <Link href="/">
-          <PurpleButton>Home</PurpleButton>
+          <PurpleButton className={`${homeSelected ? classes.selected : ""}`}>
+            Home
+          </PurpleButton>
         </Link>
         <Link href={`/${user.userHandle}`}>
-          <PurpleButton>Profile</PurpleButton>
+          <PurpleButton
+            className={`${profileSelected ? classes.selected : ""}`}
+          >
+            Profile
+          </PurpleButton>
         </Link>
         <PurpleButton
           onClick={() => {

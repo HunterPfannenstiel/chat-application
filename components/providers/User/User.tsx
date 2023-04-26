@@ -54,7 +54,4 @@ const UserProvider: FunctionComponent<{ children: ReactNode }> = ({
 
 export default UserProvider;
 
-export const useUserDetails = () => {
-  const userDetails = useContext(User);
-  return userDetails;
-};
+export const useUserDetails = () => useContext(User);

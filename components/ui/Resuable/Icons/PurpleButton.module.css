@@ -5,4 +5,14 @@
     border-radius: 8px;
     border: none;
     color: white;
+    transition: all 500ms ease;
+    border: 1px solid white;
+}
+
+.button:hover {
+    /* font-weight: bold; */
+    background-color: transparent;
+    color: var(--primary-purple);
+    border: 1px solid var(--primary-purple);
+    transition: all 500ms ease;
 }

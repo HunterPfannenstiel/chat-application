@@ -16,16 +16,18 @@ const FadeImage: FunctionComponent<FadeImageProps> = ({
   height,
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  return (
-    <Image
-      src={src}
-      alt={alt}
-      width={width}
-      height={height}
-      onLoadingComplete={setImageLoaded.bind(null, true)}
-      className={imageLoaded ? classes.image_loaded : ""}
-    />
-  );
+  if (src) {
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        onLoadingComplete={setImageLoaded.bind(null, true)}
+        className={imageLoaded ? classes.image_loaded : ""}
+      />
+    );
+  } else return <></>;
 };
 
 export default FadeImage;

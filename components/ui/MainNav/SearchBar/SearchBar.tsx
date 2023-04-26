@@ -14,7 +14,12 @@ const SearchBar: FunctionComponent<SearchBarProps> = ({}) => {
   };
 
   return (
-    <form className={classes.search}>
+    <form
+      className={classes.search}
+      onSubmit={(e) => {
+        e.preventDefault();
+      }}
+    >
       <input
         type="text"
         onChange={(e) => {

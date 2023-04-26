@@ -11,35 +11,6 @@ body {
   background: linear-gradient(173.8deg, #E9E6FF 5.7%, #D5CEFF 73.03%, #B4A8FF 89.15%);
 }
 
-body::-webkit-scrollbar {
-  display: none;
-}
-
-::-webkit-scrollbar {
-  width: 5px;
-  
-}
-
-/* Track 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}*/
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 1rem;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-::-webkit-scrollbar-corner, ::-webkit-scrollbar:horizontal {
-  display: none;
-}
-
 html,
 body {
   padding: 0;
@@ -98,6 +69,37 @@ button {
   body {
     color: white;
     background: black;
+  }
+}
+
+@media (min-width: 40em) {
+  body::-webkit-scrollbar {
+    display: none;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 5px;
+    
+  }
+  
+  /* Track 
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }*/
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 1rem;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  
+  ::-webkit-scrollbar-corner, ::-webkit-scrollbar:horizontal {
+    display: none;
   }
 }
 /* 

@@ -8,35 +8,39 @@ import FollowerIcon from "@ui/Resuable/Icons/FollowerIcon";
 import FollowButton from "@ui/Resuable/FollowButton/FollowButton";
 
 interface StatUserBlockProps {
-	user: UserDetails;
-	buttonText?: string;
-	button?: ReactNode;
+  user: UserDetails;
+  buttonText?: string;
+  button?: ReactNode;
 }
 
 const StatUserBlock: FunctionComponent<StatUserBlockProps> = ({
-	user,
-	buttonText,
-	button,
+  user,
+  buttonText,
+  button,
 }) => {
-	return (
-		<div className={classes["user-block"]}>
-			<div className={classes["pfp-name-container"]}>
-				<ProfileImage
-					src={user.userImage}
-					circleDiameter="2rem"
-					onClick={() => {
-						router.push(`/${user.userHandle}`);
-					}}
-				/>
-				<div className={classes.name}>
-					<p>{user.userName}</p>
-					<p>{`@${user.userHandle}`}</p>
-				</div>
-                <FollowButton isFollowing={user.isFollowing || false} userId={user.userId!}/>
-			</div>
-			<p>{user.bio}</p>
-		</div>
-	);
+  console.log(user);
+  return (
+    <div className={classes["user-block"]}>
+      <div className={classes["pfp-name-container"]}>
+        <ProfileImage
+          src={user.userImage}
+          circleDiameter="2rem"
+          onClick={() => {
+            router.push(`/${user.userHandle}`);
+          }}
+        />
+        <div className={classes.name}>
+          <p>{user.userName}</p>
+          <p>{`@${user.userHandle}`}</p>
+        </div>
+        <FollowButton
+          isFollowing={user.isFollowing || false}
+          userId={user.userId!}
+        />
+      </div>
+      <p>{user.bio}</p>
+    </div>
+  );
 };
 
 export default StatUserBlock;

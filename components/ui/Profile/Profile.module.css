@@ -2,8 +2,18 @@
     max-height: 90vh;
     overflow-y: scroll;
     width: 100%;
+    animation: fade_in 300ms ease forwards;
 }
 
 .profile ul::-webkit-scrollbar {
     display: none;
+}
+
+@keyframes fade_in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }

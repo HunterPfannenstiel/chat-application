@@ -61,7 +61,7 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
           />
         )}
         <div className={classes.children}>{children}</div>
-        <DesktopSearch />
+        {!pathname.includes("/search") && <DesktopSearch />}
       </div>
     </main>
   );

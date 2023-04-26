@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { CSSProperties, FunctionComponent } from "react";
 import Contents from "./Contents";
 import Engagement from "./Engagement/Engagement";
 import classes from "./FeedPost.module.css";
@@ -13,6 +13,7 @@ interface FeedPostProps {
   isUsersPost?: boolean;
   onEditPost?: () => void;
   userDetails?: UserInfo;
+  i?: number;
 }
 
 const FeedPost: FunctionComponent<FeedPostProps> = ({
@@ -20,13 +21,17 @@ const FeedPost: FunctionComponent<FeedPostProps> = ({
   isUsersPost,
   onEditPost,
   userDetails,
+  i,
 }) => {
   const router = useRouter();
   const viewComments = () => {
     router.push(`/post/${post.postId}`);
   };
   return (
-    <div className={classes.feed_post}>
+    <div
+      className={classes.feed_post}
+      style={{ "--delayFactor": i || 0 } as CSSProperties}
+    >
       <div className={classes.user_details}>
         <UserDetails
           imageUrl={userDetails?.userImage || post.userImage}

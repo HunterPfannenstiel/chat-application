@@ -1,9 +1,11 @@
 .feed_post {
     /* padding: 0.5rem 1.5rem; */
+    --delayFactor: 1;
     position: relative;
     max-width: 550px;
     min-width: 200px;
     width: 100%;
+    animation: fade_in 500ms ease forwards;
 }
 
 .user_details {
@@ -20,4 +22,13 @@
     background-color: white;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
+}
+
+@keyframes fade_in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }

@@ -14,12 +14,14 @@ interface IndividualPostProps {
   mainPost: FeedPosts | undefined;
   commentPosts: FeedPosts[] | undefined;
   setScorllEvent: SetScrollEvent;
+  updateCommentCount: () => void;
 }
 
 const IndividualPost: FunctionComponent<IndividualPostProps> = ({
   mainPost,
   commentPosts,
   setScorllEvent,
+  updateCommentCount,
 }) => {
   const [newComments, setNewComments] = useState<FeedPosts[]>([]);
   const { showModal, playAnimation, toggle } = useAnimateModal(300);
@@ -59,7 +61,8 @@ const IndividualPost: FunctionComponent<IndividualPostProps> = ({
           modalTitle="Create a Comment"
           createPostHandler={createCommentHandler(
             mainPost.postId,
-            addNewComment
+            addNewComment,
+            updateCommentCount
           )}
           buttonText="Add Comment"
         />
@@ -69,16 +72,23 @@ const IndividualPost: FunctionComponent<IndividualPostProps> = ({
 };
 
 const createCommentHandler =
-  (postId: number, newComment: (comment: FeedPosts) => void) =>
+  (
+    postId: number,
+    newComment: (comment: FeedPosts) => void,
+    updateCommentCount: () => void
+  ) =>
   async (content: string, images: ImageInfo[]) => {
     const comment = await createPost(content, images, postId);
     if (!comment.images) comment.images = [];
     newComment({
       ...comment,
+      likeCount: 0,
+      commentCount: 0,
       images: images.map((image) => {
         return { imageUrl: image.imageUrl, aspectRatio: image.aspectRatio };
       }),
     });
+    updateCommentCount();
   };
 
 export default IndividualPost;

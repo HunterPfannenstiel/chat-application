@@ -17,6 +17,7 @@ import { FeedPost } from "@_types/post/feed-post";
 import { SetScrollEvent } from "@hooks/page-fetch/types";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
+import LoadingIcon from "@ui/Resuable/Loading/LoadingIcon";
 
 interface HomeFeedProps {
   posts: FeedPost[] | undefined;
@@ -44,12 +45,7 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({
         scroll
         setScrollEvent={setScrollEvent}
         posts={posts}
-        emptyPostDisplay={
-          <p>
-            No one you follow has posted! Follow more people or view the
-            'Global' page!
-          </p>
-        }
+        emptyPostDisplay={<></>}
       />
       {showPost && (
         <PostModal

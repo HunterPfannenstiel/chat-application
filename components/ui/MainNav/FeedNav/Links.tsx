@@ -6,12 +6,13 @@ import { useRouter } from "next/router";
 interface LinksProps {}
 
 const Links: FunctionComponent<LinksProps> = ({}) => {
-  const { query } = useRouter();
+  const { asPath } = useRouter();
   return (
     <ul className={classes.links}>
       {links.map((link) => {
+        const bold = link.href === asPath;
         return (
-          <li key={link.href}>
+          <li key={link.href} className={`${bold ? classes.bold : ""}`}>
             <Link href={link.href}>{link.label}</Link>
           </li>
         );
@@ -22,7 +23,7 @@ const Links: FunctionComponent<LinksProps> = ({}) => {
 
 const links = [
   { label: "Following", href: "/" },
-  { label: "Global", href: "/?feed=global" },
+  { label: "Global", href: "/?feed=global", value: "global" },
 ];
 
 export default Links;

@@ -24,7 +24,21 @@ const usePostComments = () => {
     }
   }, [postId]);
 
-  return { post: { mainPost, replies: pageContent }, setScrollEvent };
+  const updateMainPostCommentCount = () => {
+    setMainPost((prevState) => {
+      if (prevState) {
+        const copy = { ...prevState };
+        if (copy?.commentCount) copy.commentCount++;
+        return copy;
+      }
+    });
+  };
+
+  return {
+    post: { mainPost, replies: pageContent },
+    setScrollEvent,
+    updateMainPostCommentCount,
+  };
 };
 
 export default usePostComments;

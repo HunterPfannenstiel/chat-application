@@ -10,6 +10,7 @@ import useUserDetails from "@hooks/profile/useUserDetails";
 import useUpdateUser from "@hooks/profile/useUpdateUser";
 import classes from "./Profile.module.css";
 import { SetScrollEvent } from "@hooks/page-fetch/types";
+import LoadingIcon from "@ui/Resuable/Loading/LoadingIcon";
 
 interface ProfilePageProps {
   posts: FeedPost[];
@@ -69,7 +70,7 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({
       </section>
     );
   }
-  return <p>Show loading!</p>;
+  return <></>;
 };
 
 export default ProfilePage;

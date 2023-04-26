@@ -33,6 +33,7 @@ const FeedPostList: FunctionComponent<FeedPostListProps> = ({
         {posts.map((post, i) => {
           return (
             <FeedPost
+              i={i + 1}
               key={post.postId}
               post={post}
               isUsersPost={isUsersFeed}

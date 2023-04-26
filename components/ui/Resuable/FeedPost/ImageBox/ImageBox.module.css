@@ -13,6 +13,7 @@
     background-color: white;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .image_container img {
