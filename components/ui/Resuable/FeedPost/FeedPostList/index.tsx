@@ -3,6 +3,7 @@ import { FunctionComponent, ReactNode, RefObject } from "react";
 import FeedPost from "../FeedPost";
 import classes from "./index.module.css";
 import { UserInfo } from "@_types/user";
+import { SetScrollEvent } from "@hooks/page-fetch/types";
 
 interface FeedPostListProps {
   posts: FeedPostT[] | undefined;
@@ -10,7 +11,8 @@ interface FeedPostListProps {
   isUsersFeed?: boolean;
   onEditPost?: (index: number) => void;
   userDetails?: UserInfo;
-  scrollElement?: RefObject<HTMLUListElement>;
+  setScrollEvent?: SetScrollEvent;
+  scroll?: boolean;
 }
 
 const FeedPostList: FunctionComponent<FeedPostListProps> = ({
@@ -19,13 +21,14 @@ const FeedPostList: FunctionComponent<FeedPostListProps> = ({
   isUsersFeed,
   onEditPost,
   userDetails,
-  scrollElement,
+  setScrollEvent,
+  scroll,
 }) => {
   if (posts) {
     return (
       <ul
-        className={`${classes.posts} ${scrollElement ? classes.scroll : ""}`}
-        ref={scrollElement}
+        className={`${classes.posts} ${scroll ? classes.scroll : ""}`}
+        ref={setScrollEvent}
       >
         {posts.map((post, i) => {
           return (

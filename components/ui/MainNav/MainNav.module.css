@@ -1,3 +1,7 @@
+.background {
+    background-color: var(--primary-purple);
+}
+
 .nav {
     display: flex;
     justify-content: space-between;
@@ -18,13 +22,23 @@
 }
 
 @media (min-width: 40em) {
-    .page_content {
-        height: calc(100% - 67px);
-        display: grid;
-        grid-template-columns: 1fr 50% 1fr;
-        justify-content: center;
-        max-width: 1335px;
+    .nav {
+        max-width: 1170px;
         margin-inline: auto;
+        padding: 0;
+        padding-block: 0.5rem;
+    }
+
+    .page_content {
+        --grid-height: calc(100% - 67px);
+        height: var(--grid-height);
+        display: grid;
+        grid-template-columns: 1fr 60% 1fr;
+        grid-template-rows: auto;
+        justify-content: center;
+        max-width: 1500px;
+        margin-inline: auto;
+        margin-top: 1rem;
     }
 
     
@@ -36,8 +50,8 @@
 
     .children {
         padding: 1rem;
+        padding-top: 0;
         height: 100%;
-        position: relative;
     }
 }
 

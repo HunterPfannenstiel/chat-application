@@ -53,11 +53,10 @@ export type UserImage = {
   aspectRatio: number;
 };
 
-
 export type UserStats = {
   likesGiven: number;
   likesReceived: number;
-  postsMade: number;
+  postsCreated: number;
   repliesReceived: number;
 } & UserDetails;
 

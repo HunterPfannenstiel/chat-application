@@ -1,18 +1,23 @@
 import { ConnectionsDetails, UserDetails } from "@_types/user";
+import usePageFetch from "@hooks/page-fetch/usePageFetch";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 const useUserSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [fetchSearchTerm, setFetchSearchTerm] = useState("");
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["search", fetchSearchTerm],
-    queryFn: fetchUsers.bind(null, fetchSearchTerm),
-  });
+  // const { data, isLoading, isError } = useQuery({
+  //   queryKey: ["search", fetchSearchTerm],
+  //   queryFn: fetchUsers.bind(null, fetchSearchTerm),
+  // });
+  const { pageContent, isError, isLoading, setScrollEvent, resetPageContent } =
+    usePageFetch(fetchUsers, true, 5, fetchSearchTerm);
   useEffect(() => {
     let timer: NodeJS.Timeout;
     timer = setTimeout(() => {
-      if (searchTerm !== fetchSearchTerm) setFetchSearchTerm(searchTerm);
+      if (searchTerm !== fetchSearchTerm) {
+        setFetchSearchTerm(searchTerm);
+      }
     }, 1000);
 
     return () => {
@@ -24,14 +29,28 @@ const useUserSearch = () => {
     setSearchTerm,
     searchTerm,
     instantFetch: setFetchSearchTerm,
-    users: data || [],
+    users: pageContent || [],
     isLoading,
     isError,
+    setScrollEvent,
   };
 };
 
-const fetchUsers = async (searchTerm: string) => {
-  const res = await fetch(`/api/search?searchTerm=${searchTerm}`);
+const fetchUsers = async (
+  page: number,
+  date: string,
+  controller: AbortController,
+  searchTerm: string
+) => {
+  // if (searchTerm === "") {
+  //   console.log("Top users");
+  //   return [];
+  // }
+  console.log("Searchterm", searchTerm);
+  const res = await fetch(
+    `/api/search?searchTerm=${searchTerm}&page=${page}&date=${date}`,
+    { signal: controller.signal }
+  );
   if (res.ok) {
     const data = await res.json();
     return data.users as UserDetails[];

@@ -7,5 +7,6 @@ export const getInitialSearch = () => {
     setSearchTerm: (term: string) => {},
     searchTerm: "",
     instantFetch: (term: string) => {},
+    setScrollEvent: (e: HTMLElement | null) => {},
   };
 };

@@ -1,8 +1,7 @@
 import Profile from "@ui/Resuable/Profile";
-import { FunctionComponent, RefObject } from "react";
+import { FunctionComponent } from "react";
 import ProfileNav from "./ProfileNav";
 import Links from "./UserDetails/Links";
-import Header from "./Header/Header";
 import EditModal from "./EditModal/EditModal";
 import useAnimateModal from "@hooks/animation/useAnimateModal";
 import UserPosts from "./UserPosts/UserPosts";
@@ -10,22 +9,23 @@ import { FeedPost } from "@_types/post/feed-post";
 import useUserDetails from "@hooks/profile/useUserDetails";
 import useUpdateUser from "@hooks/profile/useUpdateUser";
 import classes from "./Profile.module.css";
+import { SetScrollEvent } from "@hooks/page-fetch/types";
 
 interface ProfilePageProps {
   posts: FeedPost[];
-  scrollElem: RefObject<HTMLElement>;
+  setScrollEvent: SetScrollEvent;
 }
 
 const ProfilePage: FunctionComponent<ProfilePageProps> = ({
   posts,
-  scrollElem,
+  setScrollEvent,
 }) => {
-  const { user, isUsersProfile, setUser } = useUserDetails();
-  const handleForm = useUpdateUser(setUser);
   const { playAnimation, showModal, toggle } = useAnimateModal(300);
+  const { user, isUsersProfile, setUser } = useUserDetails();
+  const handleForm = useUpdateUser(setUser, toggle);
   if (user) {
     return (
-      <section className={classes.profile} ref={scrollElem}>
+      <section className={classes.profile} ref={setScrollEvent}>
         <Profile
           user={user}
           isUsersProfile={!!isUsersProfile}

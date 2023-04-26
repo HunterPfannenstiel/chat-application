@@ -6,11 +6,11 @@ import classes from "./Profile.module.css";
 interface ProfilePageProps {}
 
 const ProfilePage: FunctionComponent<ProfilePageProps> = () => {
-  const { posts, scrollElement } = useProfile();
+  const { posts, setScrollEvent } = useProfile();
   if (!posts) {
     return <h1>Loading...</h1>;
   } else {
-    return <Profile posts={posts} scrollElem={scrollElement} />;
+    return <Profile posts={posts} setScrollEvent={setScrollEvent} />;
   }
 };
 

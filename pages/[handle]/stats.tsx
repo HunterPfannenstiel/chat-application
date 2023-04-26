@@ -22,10 +22,11 @@ const StatsPage: FunctionComponent<StatsPageProps> = () => {
           followerCount: data.followerCount,
           followingCount: data.followingCount,
           isFollowing: data.isFollowing,
+          bio: data.bio,
         }}
         likesGiven={data.likesGiven}
         likesReceived={data.likesReceived}
-        postsMade={data.postsMade}
+        postsMade={data.postsCreated}
         repliesReceived={data.repliesReceived}
       />
     );

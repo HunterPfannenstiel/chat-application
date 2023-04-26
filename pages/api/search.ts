@@ -5,13 +5,19 @@ import { getSession } from "next-auth/react";
 const handler: NextApiHandler = async (req, res) => {
   try {
     if (req.method === "GET") {
-      const { searchTerm } = req.query;
+      const { searchTerm, page, date } = req.query;
       const term = typeof searchTerm === "string" ? searchTerm : "";
       const session = (await getSession({ req })) as SessionToken | null;
-      if (session?.user.userId) {
-        const users = await User.search(term, session.user.userId);
+      if (typeof page === "string" && typeof date === "string") {
+        const users = await User.search(
+          term,
+          { page: +page, createdDateTime: date },
+          session?.user.userId
+        );
         return res.status(200).json({ users });
       }
+
+      return;
     } else {
       return res.status(400).json({ message: "Invalid method" });
     }

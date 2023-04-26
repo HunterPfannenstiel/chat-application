@@ -1,0 +1,14 @@
+.search {
+    display: none;
+}
+
+@media (min-width: 40em) {
+    .users {
+        max-height: 30vh !important;
+        overflow: scroll;
+    }
+    .search {
+        display: block;
+        margin-inline: 14px;
+    }
+}

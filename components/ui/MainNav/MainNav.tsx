@@ -7,6 +7,8 @@ import Menu from "@ui/HomeFeed/Menu/Menu";
 import FeedNav from "./FeedNav/FeedNav";
 import SearchBar from "./SearchBar/SearchBar";
 import { useRouter } from "next/router";
+import DesktopSearch from "./DesktopSearch/DesktopSearch";
+import FadeImage from "@ui/Resuable/FadeImage/FadeImage";
 
 interface MainNavProps {
   children: ReactNode;
@@ -36,18 +38,19 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
   return (
     <main>
       {render && (
-        <nav className={classes.nav}>
-          <ProfileImage
-            src={user.userImage}
-            circleDiameter="50px"
-            onClick={toggle}
-            className={classes.image}
-          />
-          {(pathname.includes("/search") && <SearchBar />) || <FeedNav />}
-        </nav>
+        <div className={classes.background}>
+          <nav className={classes.nav}>
+            <ProfileImage
+              src={user.userImage}
+              circleDiameter="50px"
+              onClick={toggle}
+              className={classes.image}
+            />
+            {(pathname.includes("/search") && <SearchBar />) || <FeedNav />}
+          </nav>
+        </div>
       )}
       <div className={`${showSideBar ? classes.page_content : ""}`}>
-        <></>
         {showSideBar && (
           <Menu
             showModal={showSideBar}
@@ -58,7 +61,7 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
           />
         )}
         <div className={classes.children}>{children}</div>
-        <></>
+        <DesktopSearch />
       </div>
     </main>
   );

@@ -67,8 +67,12 @@ export class User {
     return execFollowUser(userId, followedUserId, action === "follow" ? 1 : 0);
   }
 
-  static search(searchTerm: string, userId: number) {
-    return searchForUsers(searchTerm, userId);
+  static search(
+    searchTerm: string,
+    params: PageProcedureParams,
+    userId?: number
+  ) {
+    return searchForUsers(searchTerm, params, userId);
   }
 
   static fetchByHandle(handle: string, userId?: number) {

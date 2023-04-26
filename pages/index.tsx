@@ -7,8 +7,8 @@ import useFeed from "@hooks/profile/useFeed";
 const Home: NextPage = () => {
   const { connectWallet, address } = useAddress();
   const { network } = useNetwork();
-  const { posts, scrollElement } = useFeed();
-  return <HomeFeed posts={posts} scrollElement={scrollElement} />;
+  const { posts, setScrollEvent } = useFeed();
+  return <HomeFeed posts={posts} setScrollEvent={setScrollEvent} />;
 };
 
 export default Home;

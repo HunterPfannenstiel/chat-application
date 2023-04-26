@@ -27,13 +27,13 @@ const useProfile = () => {
     console.log("undef");
     return null;
   };
-  const { resetPageContent, pageContent, scrollElement } = usePageFetch(
+  const { resetPageContent, pageContent, setScrollEvent } = usePageFetch(
     fetchPosts,
     true,
     10,
     router.query
   );
-  return { posts: pageContent, scrollElement };
+  return { posts: pageContent, setScrollEvent };
 };
 
 export default useProfile;

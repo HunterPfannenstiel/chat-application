@@ -8,7 +8,7 @@ import { fetchComments, fetchPost } from "utils/actions";
 const usePostComments = () => {
   const { postId } = useRouter().query;
   const [mainPost, setMainPost] = useState<FeedPost>();
-  const { pageContent, scrollElement } = usePageFetch(
+  const { pageContent, setScrollEvent } = usePageFetch(
     fetchComments,
     true,
     15,
@@ -24,7 +24,7 @@ const usePostComments = () => {
     }
   }, [postId]);
 
-  return { post: { mainPost, replies: pageContent }, scrollElement };
+  return { post: { mainPost, replies: pageContent }, setScrollEvent };
 };
 
 export default usePostComments;

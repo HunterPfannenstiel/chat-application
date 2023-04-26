@@ -1,5 +1,6 @@
 import { CreateUser, UpdateUser, UserImage } from "@_types/user";
 import {
+  appendPageParams,
   createDatabaseRequest,
   createImageTableInput,
   executeFunction,
@@ -170,14 +171,25 @@ export const fetchUserDetials = (userId: number) =>
     throw new Error("No user found!");
   });
 
-export const searchForUsers = (searchTerm: string, userId: number) =>
+export const searchForUsers = (
+  searchTerm: string,
+  params: PageProcedureParams,
+  userId?: number
+) =>
   useDB(async (db) => {
-    const request = createDatabaseRequest(db, [
-      { paramName: "searcher", isInput: true, value: userId },
-      { paramName: "filter", isInput: true, value: searchTerm },
-    ]);
+    const request = createDatabaseRequest(
+      db,
+      appendPageParams(
+        params,
+        [
+          { paramName: "searcher", isInput: true, value: userId },
+          { paramName: "filter", isInput: true, value: searchTerm },
+        ],
+        false
+      )
+    );
     const res = await executeFunction(
-      "SELECT * FROM Chat.FilterUsers(@searcher, @filter)",
+      "SELECT * FROM Chat.FilterUsers(@searcher, @filter, @page, @createdDateTime)",
       request
     );
     return res.recordset;

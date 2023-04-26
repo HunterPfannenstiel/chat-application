@@ -12,9 +12,12 @@ interface SearchProviderProps {
 const SearchProvider: FunctionComponent<SearchProviderProps> = ({
   children,
 }) => {
-  const { searchTerm, setSearchTerm, instantFetch, users } = useUserSearch();
+  const { searchTerm, setSearchTerm, instantFetch, users, setScrollEvent } =
+    useUserSearch();
   return (
-    <Search.Provider value={{ searchTerm, setSearchTerm, instantFetch, users }}>
+    <Search.Provider
+      value={{ searchTerm, setSearchTerm, instantFetch, users, setScrollEvent }}
+    >
       {children}
     </Search.Provider>
   );

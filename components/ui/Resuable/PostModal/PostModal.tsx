@@ -7,6 +7,7 @@ import useAnimateModal from "@hooks/animation/useAnimateModal";
 import ImageView from "../ImageView/ImageView";
 import useCreateFeedPost from "@hooks/feed-post/useCreateFeedPost";
 import { CreatePostHandler, Image } from "@_types/post";
+import { useLoading } from "components/providers/Loading/Loading";
 
 interface PostModalProps {
   modalProps: ModalProps;
@@ -23,6 +24,7 @@ const PostModal: FunctionComponent<PostModalProps> = ({
   createPostHandler,
   initialContents = { content: "", imageUrls: [] },
 }) => {
+  const { toggle } = useLoading();
   const post = useCreateFeedPost(createPostHandler, initialContents);
   const [initialIndex, setInitialIndex] = useState(0);
   const imageViewModal = useAnimateModal(300);

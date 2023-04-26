@@ -8,15 +8,16 @@ import { createPost } from "utils/actions";
 import { ImageInfo } from "@ui/Resuable/PostModal/types";
 import classes from "./HomeFeed.module.css";
 import { FeedPost } from "@_types/post/feed-post";
+import { SetScrollEvent } from "@hooks/page-fetch/types";
 
 interface HomeFeedProps {
   posts: FeedPost[] | undefined;
-  scrollElement: RefObject<HTMLUListElement>;
+  setScrollEvent: SetScrollEvent;
 }
 
 const HomeFeed: FunctionComponent<HomeFeedProps> = ({
   posts,
-  scrollElement,
+  setScrollEvent,
 }) => {
   const {
     toggle: toggleCreatePost,
@@ -27,7 +28,8 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({
   return (
     <section>
       <FeedPostList
-        scrollElement={scrollElement}
+        scroll
+        setScrollEvent={setScrollEvent}
         posts={posts}
         emptyPostDisplay={
           <p>

@@ -26,14 +26,14 @@ const useFeed = () => {
     if (isSignedIn == undefined) setIsSignedIn(data.isSignedIn);
     return data.posts as FeedPost[];
   };
-  const { scrollElement, pageContent } = usePageFetch(
+  const { setScrollEvent, pageContent } = usePageFetch(
     fetchFeed,
     true,
     10,
     query
   );
 
-  return { posts: pageContent, scrollElement, isSignedIn };
+  return { posts: pageContent, setScrollEvent, isSignedIn };
 };
 
 export default useFeed;

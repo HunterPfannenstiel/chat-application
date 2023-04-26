@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import UserProvider from "components/providers/User/User";
 import MainNav from "@ui/MainNav/MainNav";
 import SearchProvider from "components/providers/Search/Search";
+import LoadingProvider from "components/providers/Loading/Loading";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false } },
@@ -18,9 +19,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <SessionProvider>
           <UserProvider>
             <SearchProvider>
-              <MainNav>
-                <Component {...pageProps} />
-              </MainNav>
+              <LoadingProvider>
+                <MainNav>
+                  <Component {...pageProps} />
+                </MainNav>
+              </LoadingProvider>
             </SearchProvider>
           </UserProvider>
         </SessionProvider>

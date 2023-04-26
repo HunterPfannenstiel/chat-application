@@ -1,0 +1,51 @@
+.loading {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    transform: translateX(-50%);
+    left: 50%;
+    background-color: var(--primary-purple);
+    border-radius: 50%;
+    border-top-right-radius: 0;
+    animation: pop_in 1s ease forwards, spin 1s linear infinite;
+    transform-origin: left;
+    z-index: 10;
+}
+
+.animate_out {
+    animation: pop_out 1s ease forwards, spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0%{
+        rotate: 0deg
+    }
+    100%{
+        rotate: 360deg
+    }
+}
+
+@keyframes pop_in {
+    0%{
+        bottom: -50%;
+
+    }
+    75%{
+        bottom: 55%;
+    }
+    95%{
+        bottom: 49%;
+    }
+    100%{
+        bottom: 50%;
+    }
+}
+
+@keyframes pop_out {
+    0%{
+        bottom: 50%;
+    }
+    100%{
+        bottom: -50%;
+    }
+}

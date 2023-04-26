@@ -1,4 +1,6 @@
+import { useLoading } from "components/providers/Loading/Loading";
 import { useEffect, useRef, useState } from "react";
+import { generateDatetimeOffset, getScrollHandler } from "utils/page-fetch";
 
 const usePageFetch = (
   pageFetcher: (
@@ -18,10 +20,35 @@ const usePageFetch = (
   const [pageContent, setPageContent] = useState<any[]>();
   const [isLoading, setIsLoading] = useState(isInitialFetcher);
   const [isError, setIsError] = useState(false);
+  const scrollHandler = useRef<any>(null);
   const isFetching = useRef(false);
   const initialFetch = useRef(generateDatetimeOffset());
-  const scrollElement = useRef<HTMLUListElement>(null);
+  const scrollElement = useRef<HTMLElement | null>(null);
   const endOfContent = useRef(false);
+
+  const setScrollEvent = (e: HTMLElement | null) => {
+    if (e) {
+      console.log("Setting listener");
+      scrollElement.current = e;
+      scrollHandler.current = getScrollHandler(
+        e,
+        percentTillFetch,
+        isFetching,
+        setFetchPage,
+        endOfContent
+      );
+      scrollElement.current.addEventListener("scroll", scrollHandler.current);
+    }
+    if (!e && !!scrollElement.current) {
+      console.log("Removing listener");
+      scrollElement.current.removeEventListener(
+        "scroll",
+        scrollHandler.current
+      );
+      scrollElement.current = null;
+      scrollHandler.current = null;
+    }
+  };
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -38,7 +65,6 @@ const usePageFetch = (
           );
           console.log(`Fetching page ${page.current}`);
 
-          console.log("fetch data", data);
           if (pageContent && data.length > 0) {
             setPageContent([...pageContent, ...data]);
             page.current += 1;
@@ -73,9 +99,12 @@ const usePageFetch = (
     const abortController = new AbortController();
     if (
       isInitialFetcher &&
-      (fetchDependency === undefined || !!fetchDependency)
+      (fetchDependency === undefined ||
+        !!fetchDependency ||
+        fetchDependency === "")
     ) {
       setIsLoading(true);
+
       const initializer = async () => {
         try {
           const data = await pageFetcher(
@@ -91,7 +120,7 @@ const usePageFetch = (
           if (!abortController.signal.aborted) {
             setIsError(true);
           } else {
-            console.log("Aborted Fetch!");
+            console.log("Aborted Fetch! initial");
           }
         } finally {
           setIsLoading(false);
@@ -105,73 +134,41 @@ const usePageFetch = (
     };
   }, [fetchDependency]);
 
-  useEffect(() => {
-    const scrollingElem = scrollElement.current;
-    let scrollEvent: any;
-    console.log(scrollingElem);
-    if (scrollingElem) {
-      const containerHeight = scrollingElem.clientHeight;
-      scrollEvent = () => {
-        console.log(endOfContent.current);
-        if (!endOfContent.current) {
-          const bottomDistance =
-            scrollingElem.scrollHeight -
-            scrollingElem.scrollTop -
-            containerHeight;
-          if ((bottomDistance / containerHeight) * 100 <= percentTillFetch) {
-            if (!isFetching.current) {
-              setFetchPage(true);
-              console.log("FETCH");
-              isFetching.current = true;
-            }
-          }
-        }
-      };
+  // useEffect(() => {
+  //   const scrollingElem = scrollElement.current;
+  //   let scrollEvent: any;
+  //   if (scrollingElem) {
+  //     const containerHeight = scrollingElem.clientHeight;
+  //     scrollEvent = () => {
+  //       if (!endOfContent.current) {
+  //         const bottomDistance =
+  //           scrollingElem.scrollHeight -
+  //           scrollingElem.scrollTop -
+  //           containerHeight;
+  //         if ((bottomDistance / containerHeight) * 100 <= percentTillFetch) {
+  //           if (!isFetching.current) {
+  //             setFetchPage(true);
+  //             console.log("FETCH");
+  //             isFetching.current = true;
+  //           }
+  //         }
+  //       }
+  //     };
 
-      scrollingElem.addEventListener("scroll", scrollEvent);
-    }
+  //     scrollingElem.addEventListener("scroll", scrollEvent);
+  //   }
 
-    return () => {
-      scrollingElem?.removeEventListener("scroll", scrollEvent);
-    };
-  }, [scrollElement.current]);
+  //   return () => {
+  //     scrollingElem?.removeEventListener("scroll", scrollEvent);
+  //   };
+  // }, [scrollElement.current]);
 
   const resetPageContent = () => {
     page.current = 1;
     setPageContent([]);
   };
 
-  return { scrollElement, resetPageContent, pageContent, isLoading, isError };
-};
-
-const generateDatetimeOffset = () => {
-  const date = new Date();
-  const timezoneOffset = date.getTimezoneOffset();
-  const offsetHours = Math.abs(Math.floor(timezoneOffset / 60));
-  const offsetSign = timezoneOffset < 0 ? "+" : "-";
-  const locale = date.toLocaleTimeString();
-  const timeOfDay = locale.slice(-2);
-  let addValue = 0;
-  if (timeOfDay === "PM") addValue = 12;
-  let hours = +locale.slice(0, locale.indexOf(":"));
-  if (hours === 12) {
-    if (addValue === 0) {
-      hours = 0;
-    }
-  } else {
-    hours += addValue;
-  }
-  const time = hours + ":" + locale.slice(locale.indexOf(":") + 1, 7);
-  const day = date.toLocaleDateString().replace(/\//g, "-");
-  let dateTimeOffset =
-    day + " " + time + offsetSign + pad(offsetHours) + ":" + "00";
-  dateTimeOffset = dateTimeOffset.replace("T", " ");
-  dateTimeOffset = dateTimeOffset.replace("Z", " ");
-  return dateTimeOffset;
-};
-
-const pad = (val: number) => {
-  return val.toString().padStart(2, "0");
+  return { setScrollEvent, resetPageContent, pageContent, isLoading, isError };
 };
 
 export default usePageFetch;
