@@ -2,29 +2,34 @@ import { FunctionComponent } from "react";
 import classes from "./StatsPage.module.css";
 import Stats from "@ui/Stats/Stats";
 import { UserDetails } from "@_types/user";
+import useStats from "@hooks/stats/useStats";
 
 interface StatsPageProps {}
 
 const StatsPage: FunctionComponent<StatsPageProps> = () => {
-	const details: UserDetails = {
-		followerCount: 93803,
-		followingCount: 1,
-		userImage: "https://upload.wikimedia.org/wikipedia/en/6/6a/Mike_Wazowski.png",
-		userName: "happi",
-		userHandle: "isHappi123",
-		userId: 7,
-		isFollowing: false,
-		bio: "awesome"
-	}
-	return (
-		<Stats
-			userDetails={details}
-            likesGiven={3}
-            likesReceived={984824}
-            postsMade={1}
-            repliesReceived={98328}
-		/>
-	);
+  const { data } = useStats();
+  if (!data) {
+    return <>Loading</>;
+  } else {
+    console.log(data);
+    return (
+      <Stats
+        userDetails={{
+          userHandle: data.userHandle,
+          userName: data.userName,
+          userImage: data.userImage,
+          userId: data.userId,
+          followerCount: data.followerCount,
+          followingCount: data.followingCount,
+          isFollowing: data.isFollowing,
+        }}
+        likesGiven={data.likesGiven}
+        likesReceived={data.likesReceived}
+        postsMade={data.postsMade}
+        repliesReceived={data.repliesReceived}
+      />
+    );
+  }
 };
 
 export default StatsPage;

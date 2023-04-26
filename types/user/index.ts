@@ -51,3 +51,10 @@ export type UserImage = {
   publicId: string;
   aspectRatio: number;
 };
+
+export type UserStats = {
+  likesGiven: number;
+  likesReceived: number;
+  postsMade: number;
+  repliesReceived: number;
+} & UserDetails;

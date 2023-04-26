@@ -186,3 +186,14 @@ export const fetchUserProfileByHandle = (handle: string, userId?: number) =>
     }
     return [];
   });
+
+export const fetchUserAnalytics = (handle: string, userId?: number) =>
+  useDB(async (db) => {
+    const request = createDatabaseRequest(db, [
+      { paramName: "userHandle", isInput: true, value: handle },
+      { paramName: "queryUserId", isInput: true, value: userId },
+    ]);
+    const res = await executeProcedure("Chat.FetchUserStats", request);
+    if (res.recordset.length > 0) return res.recordset[0];
+    return res.recordset;
+  });
