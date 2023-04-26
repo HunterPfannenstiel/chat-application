@@ -51,7 +51,7 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
         </div>
       )}
       <div className={`${showSideBar ? classes.page_content : ""}`}>
-        {showSideBar && (
+        {render && (
           <Menu
             showModal={showSideBar}
             playAnimation={playAnimation}

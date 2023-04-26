@@ -16,10 +16,8 @@ export const config = {
 let imageParser = multer({
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith("image/")) {
-      console.log("FILE MULT", file);
       cb(null, true);
     } else {
-      console.log("NOT MULT", file);
       cb(null, false);
     }
   },
@@ -57,9 +55,6 @@ const handler: NextApiHandler = async (req, res) => {
       }
 
       const removeImages = deleteImages !== "false";
-      // !!(deleteImages && deleteImages === "false") ||
-      // !!(files && files.length > 0);
-      console.log("DELETE IMAGES?", removeImages);
 
       let images;
       if (files) {
@@ -83,7 +78,6 @@ const handler: NextApiHandler = async (req, res) => {
         .status(201)
         .json({ message: "Updated post!", post: { content, images } });
     } else if (req.method === "DELETE") {
-      console.log("DELETE POST");
       const session = await getUserSession(req);
       const { postId } = req.body;
       if (!postId) {

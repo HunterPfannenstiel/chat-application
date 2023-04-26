@@ -25,6 +25,7 @@ const ImageDisplay: FunctionComponent<ImageDisplayProps> = ({
         <div
           className={classes.image_container}
           onClick={onSelectImage.bind(null, i)}
+          key={image.imageUrl}
         >
           <Image
             src={image.imageUrl}

@@ -14,7 +14,11 @@ const ImageBox: FunctionComponent<ImageBoxProps> = ({ images, onClick }) => {
       <ul className={classes.images}>
         {images.map((image) => {
           return (
-            <div className={classes.image_container} onClick={onClick}>
+            <div
+              className={classes.image_container}
+              onClick={onClick}
+              key={image.imageUrl}
+            >
               <Image
                 src={image.imageUrl}
                 alt="post image"

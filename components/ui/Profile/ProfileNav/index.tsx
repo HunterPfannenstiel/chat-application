@@ -18,7 +18,7 @@ const ProfileNav: FunctionComponent<ProfileNavProps> = ({ handle }) => {
       <ul className={classes.list}>
         {navLinks.map((link) => {
           return (
-            <Link href={link.href}>
+            <Link href={link.href} key={link.href}>
               <li
                 className={selectedLink === link.text ? classes.selected : ""}
                 onClick={setSelectedLink.bind(null, link.text)}

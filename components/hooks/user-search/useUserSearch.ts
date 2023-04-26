@@ -11,7 +11,7 @@ const useUserSearch = () => {
   //   queryFn: fetchUsers.bind(null, fetchSearchTerm),
   // });
   const { pageContent, isError, isLoading, setScrollEvent, resetPageContent } =
-    usePageFetch(fetchUsers, true, 5, fetchSearchTerm);
+    usePageFetch(fetchUsers, true, 11, fetchSearchTerm);
   useEffect(() => {
     let timer: NodeJS.Timeout;
     timer = setTimeout(() => {
@@ -46,7 +46,6 @@ const fetchUsers = async (
   //   console.log("Top users");
   //   return [];
   // }
-  console.log("Searchterm", searchTerm);
   const res = await fetch(
     `/api/search?searchTerm=${searchTerm}&page=${page}&date=${date}`,
     { signal: controller.signal }

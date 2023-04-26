@@ -33,16 +33,15 @@ const useUpdateUser = (
     });
     if (res.ok) {
       const data = await res.json();
-      console.log("IS VALID", data);
-      console.log("SHould be image", image);
       setUpdatedUser((prevState) => {
-        const newUser: UserDetails = {
+        const newUser: UserDetails & { imageUrl?: string } = {
           ...prevState!,
           userHandle: handle || prevState!.userHandle,
           userName: name || prevState!.userName,
           userImage: image?.imageUrl || prevState!.userImage,
           bio: bio || prevState!.bio,
         };
+        newUser.imageUrl = image?.imageUrl;
         dispatchUser(updateDetails(newUser));
         toggleModal();
         return newUser;

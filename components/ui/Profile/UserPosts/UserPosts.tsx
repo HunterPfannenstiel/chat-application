@@ -36,7 +36,6 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
     deleteImages: boolean
   ) => {
     const initialContent = userPosts[editPostIndex];
-    console.log("delte", deleteImages);
     if (
       deleteImages ||
       content !== initialContent.content ||
@@ -50,7 +49,6 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
       );
       const res = await fetch("/api/post", { method: "PUT", body: formData });
       if (res.ok) {
-        console.log("OK");
         let newImages = initialContent.images;
         if (deleteImages) {
           newImages = images.map((image) => {
@@ -58,9 +56,15 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
           });
         }
         setUserPosts((prevState) => {
-          const copyState = [...prevState];
+          let copyState = [...prevState];
+          if (copyState[editPostIndex].images) {
+            copyState[editPostIndex].images = [
+              ...copyState[editPostIndex].images!,
+            ];
+          }
           copyState[editPostIndex].content = content;
           copyState[editPostIndex].images = newImages;
+
           return copyState;
         });
       } else {

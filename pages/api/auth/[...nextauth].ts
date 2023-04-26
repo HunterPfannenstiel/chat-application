@@ -88,17 +88,16 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         } else {
           session.user.isNew = false;
         }
-        console.log("SESSION", session);
         return session;
       },
       async signIn({ account, profile }) {
         if (account?.provider === "google" && profile) {
-          if (profile.email_verified) return profile.email_verified;
+          const prof = profile as any;
+          if (prof.email_verified) return prof.email_verified;
         }
         return true;
       },
       jwt: async ({ token, account, isNewUser, profile }) => {
-        console.log("QUERY", req.query);
         if (req.query.createUser) {
           if (token.isWeb3) {
             token.userId = await fetchUserId(token.sub as string, true);

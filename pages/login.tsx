@@ -16,7 +16,6 @@ export default Login;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession({ req: context.req });
-  console.log("Session", session);
   if (!session) {
     return { props: {} };
   } else {

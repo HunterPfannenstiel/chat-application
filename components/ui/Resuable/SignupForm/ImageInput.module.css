@@ -24,6 +24,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0;
+}
+
+.display {
+    opacity: 1;
 }
 
 .image_label > div {

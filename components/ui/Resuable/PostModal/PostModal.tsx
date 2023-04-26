@@ -36,7 +36,6 @@ const PostModal: FunctionComponent<PostModalProps> = ({
       console.log("ERROR");
     }
   };
-  console.log("SHOW IMAGES", imageViewModal.showModal);
   const onSelectImage = (index: number) => {
     setInitialIndex(index);
     imageViewModal.toggle();

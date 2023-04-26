@@ -22,16 +22,12 @@ const Profile: FunctionComponent<ProfileProps> = ({
   isUsersProfile,
   toggleEdit,
 }) => {
-  console.log(user);
   return (
     <section className={classes.profile}>
       <Banner imageUrl={user.userImage} />
       <div className={classes.user_details}>
         {isUsersProfile && (
-          /*<PurpleButton className={classes.button} onClick={toggleEdit}>
-            Edit
-          </PurpleButton>*/
-          <EditButton className={classes.edit_button} onClick={toggleEdit}/>
+          <EditButton className={classes.edit_button} onClick={toggleEdit} />
         )}
         {!isUsersProfile && (
           <FollowButton

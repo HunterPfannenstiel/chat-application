@@ -13,7 +13,7 @@ const usePageFetch = (
   pageSize: number,
   fetchDependency?: any,
   initialPageNumber?: number,
-  percentTillFetch = 1
+  percentTillFetch = 20
 ) => {
   const page = useRef(initialPageNumber || 0);
   const [fetchPage, setFetchPage] = useState(false);
@@ -28,7 +28,6 @@ const usePageFetch = (
 
   const setScrollEvent = (e: HTMLElement | null) => {
     if (e) {
-      console.log("Setting listener");
       scrollElement.current = e;
       scrollHandler.current = getScrollHandler(
         e,
@@ -40,7 +39,6 @@ const usePageFetch = (
       scrollElement.current.addEventListener("scroll", scrollHandler.current);
     }
     if (!e && !!scrollElement.current) {
-      console.log("Removing listener");
       scrollElement.current.removeEventListener(
         "scroll",
         scrollHandler.current
@@ -63,7 +61,6 @@ const usePageFetch = (
             abortController,
             fetchDependency
           );
-          console.log(`Fetching page ${page.current}`);
 
           if (pageContent && data.length > 0) {
             setPageContent([...pageContent, ...data]);
@@ -80,8 +77,6 @@ const usePageFetch = (
         } catch (error) {
           if (!abortController.signal.aborted) {
             setIsError(true);
-          } else {
-            console.log("Aborted Fetch!");
           }
         } finally {
           isFetching.current = false;
@@ -114,13 +109,12 @@ const usePageFetch = (
             fetchDependency
           );
           setPageContent(data);
+          if (data.length < pageSize) endOfContent.current = true;
           page.current = 1;
           setIsError(false);
         } catch (error) {
           if (!abortController.signal.aborted) {
             setIsError(true);
-          } else {
-            console.log("Aborted Fetch! initial");
           }
         } finally {
           setIsLoading(false);
@@ -133,35 +127,6 @@ const usePageFetch = (
       abortController.abort();
     };
   }, [fetchDependency]);
-
-  // useEffect(() => {
-  //   const scrollingElem = scrollElement.current;
-  //   let scrollEvent: any;
-  //   if (scrollingElem) {
-  //     const containerHeight = scrollingElem.clientHeight;
-  //     scrollEvent = () => {
-  //       if (!endOfContent.current) {
-  //         const bottomDistance =
-  //           scrollingElem.scrollHeight -
-  //           scrollingElem.scrollTop -
-  //           containerHeight;
-  //         if ((bottomDistance / containerHeight) * 100 <= percentTillFetch) {
-  //           if (!isFetching.current) {
-  //             setFetchPage(true);
-  //             console.log("FETCH");
-  //             isFetching.current = true;
-  //           }
-  //         }
-  //       }
-  //     };
-
-  //     scrollingElem.addEventListener("scroll", scrollEvent);
-  //   }
-
-  //   return () => {
-  //     scrollingElem?.removeEventListener("scroll", scrollEvent);
-  //   };
-  // }, [scrollElement.current]);
 
   const resetPageContent = () => {
     page.current = 1;

@@ -8,19 +8,19 @@ import { ImageInfo } from "@ui/Resuable/PostModal/types";
 import { createPost } from "utils/actions";
 import CommentIcon from "@ui/Resuable/Icons/CommentIcon";
 import CreatePostIcon from "@ui/Resuable/Icons/CreatePostIcon";
+import { SetScrollEvent } from "@hooks/page-fetch/types";
 
 interface IndividualPostProps {
   mainPost: FeedPosts | undefined;
   commentPosts: FeedPosts[] | undefined;
-  scrollElement: RefObject<HTMLUListElement>;
+  setScorllEvent: SetScrollEvent;
 }
 
 const IndividualPost: FunctionComponent<IndividualPostProps> = ({
   mainPost,
   commentPosts,
-  scrollElement,
+  setScorllEvent,
 }) => {
-  console.log(mainPost);
   const [newComments, setNewComments] = useState<FeedPosts[]>([]);
   const { showModal, playAnimation, toggle } = useAnimateModal(300);
   let replyCount = newComments.length;
@@ -33,7 +33,7 @@ const IndividualPost: FunctionComponent<IndividualPostProps> = ({
   };
   return (
     <>
-      <ul className={classes.container} ref={scrollElement}>
+      <ul className={classes.container} ref={setScorllEvent}>
         {mainPost && (
           <div className={classes.main_container}>
             <FeedPost post={mainPost} />
@@ -46,10 +46,10 @@ const IndividualPost: FunctionComponent<IndividualPostProps> = ({
           </div>
         )}
         {commentPosts?.map((post) => {
-          return <FeedPost post={post} />;
+          return <FeedPost post={post} key={post.postId} />;
         })}
         {newComments.map((post) => {
-          return <FeedPost post={post} />;
+          return <FeedPost post={post} key={post.postId} />;
         })}
       </ul>
       <CreatePostIcon onClick={toggle} />

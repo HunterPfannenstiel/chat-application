@@ -39,45 +39,6 @@ export const setCookie = (
   res.setHeader("Set-Cookie", serialize(name, stringValue, options));
 };
 
-// export const addressCheckMiddleware = async (
-//   req: NextApiRequest,
-//   res: NextApiResponse
-// ) => {
-//   return new Promise((resolve, reject) => {
-//     const verification = req.session.verification;
-//     console.log("VERIFICATION", verification);
-//     if (verification) {
-//       const { address, signature } = req.body;
-//       if (address && signature) {
-//         let nonce: string | Buffer =
-//           "\x19Ethereum Signed Message:\n" +
-//           verification.message.length +
-//           verification.message;
-
-//         nonce = util.keccak(Buffer.from(nonce, "utf-8"));
-//         const { v, r, s } = util.fromRpcSig(signature);
-//         const pubKey = util.ecrecover(util.toBuffer(nonce), v, r, s);
-//         const addrBuffer = util.publicToAddress(pubKey);
-//         const addr = util.bufferToHex(addrBuffer);
-
-//         console.log(addr);
-//         console.log("Nonce", nonce);
-//         if (addr === address) {
-//           req.session.isVerified = true; //Fetch db for user address and set 'user'
-//           req.session.save();
-//           resolve(address);
-//         } else {
-//           reject("Wrong Address");
-//         }
-//       } else {
-//         reject("Invalid request body.");
-//       }
-//     } else {
-//       reject("Invalid Cookie. Please sign in again!");
-//     }
-//   });
-// };
-
 export const verifySignature = async (
   verification: SigningChallenge,
   address: string,

@@ -20,7 +20,6 @@ const userReducer: Reducer<UserDetails, (state: UserDetails) => UserDetails> = (
   state,
   action
 ) => {
-  console.log("dispatch");
   return action(state);
 };
 

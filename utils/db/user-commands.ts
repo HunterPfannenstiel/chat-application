@@ -59,7 +59,6 @@ export const execUpdateUser = (
 
     const request = createDatabaseRequest(db, params);
     const res = await executeProcedure("Chat.UpdateUser", request);
-    console.log("Update user output", res);
     return res.output.deletedImage;
   });
 
@@ -93,13 +92,11 @@ export const isValidHandle = (handle: string) =>
       { paramName: "handle", isInput: true, value: handle },
     ]);
     const res = await executeProcedure("Chat.IsValidHandle", request);
-    console.log("is valid res", res);
     return res.recordset[0].isValidHandle;
   });
 
 export const getUserId =
   (name: string, isWeb3: boolean) => async (db: ConnectionPool) => {
-    console.log("NAME", name);
     let res: any;
     let request: any;
     let query: string;
@@ -115,7 +112,6 @@ export const getUserId =
       query = "SELECT * FROM Chat.FetchEmailUser(@email)";
     }
     res = await executeFunction(query, request);
-    console.log("USER ID", res);
     if (res.recordset.length > 0) return res.recordset[0].userId;
     return "";
   };
@@ -138,7 +134,6 @@ export const getFollow = (
     ]);
 
     const res = await executeProcedure(`Chat.Fetch${followParam}`, request);
-    console.log("RES", res);
     return res.recordset;
   });
 
@@ -177,6 +172,13 @@ export const searchForUsers = (
   userId?: number
 ) =>
   useDB(async (db) => {
+    if (searchTerm === "") {
+      const request = createDatabaseRequest(db, [
+        { paramName: "queryUserId", isInput: true, value: userId },
+      ]);
+      const res = await executeProcedure("Chat.FetchMostActiveUsers", request);
+      return res.recordset;
+    }
     const request = createDatabaseRequest(
       db,
       appendPageParams(

@@ -24,7 +24,6 @@ const useProfile = () => {
         throw new Error("No profile found");
       }
     }
-    console.log("undef");
     return null;
   };
   const { resetPageContent, pageContent, setScrollEvent } = usePageFetch(

@@ -7,7 +7,6 @@ const handler: NextApiHandler = async (req, res) => {
     if (req.method === "GET") {
       //VERIFY JWT
       const session = (await getSession({ req })) as SessionToken | null;
-      console.log("API SESSION", session);
 
       //GET USER
       //CHECK PAGINATION QUERY

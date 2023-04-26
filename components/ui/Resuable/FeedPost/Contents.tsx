@@ -20,7 +20,9 @@ const Contents: FunctionComponent<ContentsProps> = ({
   const { showModal, playAnimation, toggle } = useAnimateModal(300);
   return (
     <div>
-      <p onClick={onClick}>{text}</p>
+      <p onClick={onClick} className={classes.content}>
+        {text}
+      </p>
       <ImageBox images={images} onClick={toggle} />
       {showModal && (
         <ImageView

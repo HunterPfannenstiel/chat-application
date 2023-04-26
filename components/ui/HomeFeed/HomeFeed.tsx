@@ -1,4 +1,10 @@
-import { FunctionComponent, RefObject } from "react";
+import {
+  Dispatch,
+  FunctionComponent,
+  RefObject,
+  SetStateAction,
+  useState,
+} from "react";
 import FeedPostList from "@ui/Resuable/FeedPost/FeedPostList";
 import useAnimateModal from "@hooks/animation/useAnimateModal";
 import { UserFeed } from "@_types/user";
@@ -9,6 +15,8 @@ import { ImageInfo } from "@ui/Resuable/PostModal/types";
 import classes from "./HomeFeed.module.css";
 import { FeedPost } from "@_types/post/feed-post";
 import { SetScrollEvent } from "@hooks/page-fetch/types";
+import { useRouter } from "next/router";
+import { ParsedUrlQuery } from "querystring";
 
 interface HomeFeedProps {
   posts: FeedPost[] | undefined;
@@ -19,12 +27,17 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({
   posts,
   setScrollEvent,
 }) => {
+  const [newPosts, setNewPosts] = useState<FeedPost[]>([]);
   const {
     toggle: toggleCreatePost,
     showModal: showPost,
     playAnimation: playPost,
   } = useAnimateModal(300);
+  // const { query } = useRouter();
   // useTensionScroll();
+  // let viewPosts: FeedPost[] = [];
+  // if (query.feed) viewPosts = newPosts;
+  // if (posts) viewPosts = [...viewPosts, ...posts];
   return (
     <section>
       <FeedPostList
@@ -47,7 +60,7 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({
             animationTime: 300,
           }}
           buttonText="Post"
-          createPostHandler={handleCreatePost}
+          createPostHandler={handleCreatePost(setNewPosts)}
         />
       )}
 
@@ -56,11 +69,17 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({
   );
 };
 
-const handleCreatePost = async (
-  content: string,
-  images: ImageInfo[],
-  deleteImage: boolean
-) => {
-  const post = await createPost(content, images);
-};
+const handleCreatePost =
+  (setNewPosts: Dispatch<SetStateAction<FeedPost[]>>) =>
+  async (content: string, images: ImageInfo[], deleteImage: boolean) => {
+    try {
+      const post = await createPost(content, images);
+
+      setNewPosts((prevPosts) => {
+        return [post, ...prevPosts];
+      });
+    } catch (error) {
+      console.log("Error creating post");
+    }
+  };
 export default HomeFeed;

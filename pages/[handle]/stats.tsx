@@ -11,7 +11,6 @@ const StatsPage: FunctionComponent<StatsPageProps> = () => {
   if (!data) {
     return <>Loading</>;
   } else {
-    console.log(data);
     return (
       <Stats
         userDetails={{

@@ -30,7 +30,6 @@ const validateHandler = async (handle: string) => {
     const res = await fetch(`/api/user/verify?handle=${handle}`);
     if (res.ok) {
       const data = await res.json();
-      console.log("IS VALID", data.isValidHandle);
       return data.isValidHandle as boolean;
     } else {
       return false;

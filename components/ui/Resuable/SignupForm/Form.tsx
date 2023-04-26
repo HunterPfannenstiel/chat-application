@@ -29,11 +29,9 @@ const Form: FunctionComponent<FormProps> = ({
   const [lockButton, setLockButton] = useState(false);
   const handleForm = async (e: FormEvent<HTMLElement>) => {
     e.preventDefault();
-    console.log(e);
     if (e.target) {
       setLockButton(true);
       const target = e.target as any;
-      console.log(e.target);
       let name = target[1].value;
       let handle = target[3].value;
       let bio = target[7].value;
@@ -55,7 +53,6 @@ const Form: FunctionComponent<FormProps> = ({
       }
     }
   };
-  console.log("Is valid", isValid);
   return (
     <form className={classes.form} onSubmit={handleForm}>
       <div className={classes.form_content}>
@@ -64,6 +61,7 @@ const Form: FunctionComponent<FormProps> = ({
           type="text"
           label="Choose a display name"
           placeholder="user123"
+          maxLength={30}
           required
           defaultValue={initialInput?.name}
         />
@@ -73,6 +71,7 @@ const Form: FunctionComponent<FormProps> = ({
           label="Choose a handle"
           placeholder="@123user"
           required
+          maxLength={30}
           onChange={(e) => {
             setHandle(e.target.value);
           }}
@@ -93,7 +92,7 @@ const Form: FunctionComponent<FormProps> = ({
           <textarea
             cols={1}
             rows={10}
-            maxLength={280}
+            maxLength={150}
             placeholder="I am new and ready to chat!"
             id="description"
             className={classes.description}

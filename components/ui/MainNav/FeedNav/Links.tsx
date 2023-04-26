@@ -11,7 +11,7 @@ const Links: FunctionComponent<LinksProps> = ({}) => {
     <ul className={classes.links}>
       {links.map((link) => {
         return (
-          <li>
+          <li key={link.href}>
             <Link href={link.href}>{link.label}</Link>
           </li>
         );

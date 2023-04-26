@@ -4,14 +4,13 @@ import IndividualPost from "@ui/IndividualPost/IndividualPost";
 import usePostComments from "@hooks/feed-post/usePostComments";
 
 const SinglePostPage: FunctionComponent = () => {
-  const { post, scrollElement } = usePostComments();
-  console.log({ post });
+  const { post, setScrollEvent } = usePostComments();
 
   return (
     <IndividualPost
       mainPost={post.mainPost!}
       commentPosts={post.replies!}
-      scrollElement={scrollElement}
+      setScorllEvent={setScrollEvent}
     />
   );
 };

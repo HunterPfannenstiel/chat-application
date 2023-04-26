@@ -56,7 +56,7 @@ export const fetchGlobalFeed = (props: PageProcedureParams, userId?: number) =>
         if (post.images) post.images = await JSON.parse(post.images);
       });
     }
-    console.log(res);
+
     return res.recordset;
   });
 
@@ -74,6 +74,7 @@ export const execCreatePost =
       },
     ]);
     const res = await request.execute("Chat.CreatePost");
+    parseImages(res.recordset);
     return res.recordset[0] as FeedPost;
   };
 
@@ -115,7 +116,6 @@ export const getInitialPost = (postId: number, userId: number) =>
     const query = "SELECT * FROM Chat.FetchPost(@postId, @userId)";
     const res = await executeFunction(query, request);
     if (res.recordset.length > 0) {
-      console.log("comments", res.recordset);
       const posts = res.recordset as FeedPost[];
       parseImages(posts);
     }
@@ -161,6 +161,6 @@ export const execLikePost = (
     ]);
 
     const res = await executeProcedure("Chat.LikePost", request);
-    console.log("RES", res);
+
     return res;
   });

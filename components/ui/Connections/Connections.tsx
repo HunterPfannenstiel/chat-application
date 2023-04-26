@@ -18,7 +18,6 @@ const Connections: FunctionComponent<ConnectionsProps> = ({
   className,
   setScrollEvent,
 }) => {
-  console.log("users", users);
   return (
     <>
       {heading && <h1 className={classes.heading}>{heading}</h1>}
@@ -29,6 +28,7 @@ const Connections: FunctionComponent<ConnectionsProps> = ({
         {users.map((user) => {
           return (
             <UserBlock
+              key={user.userHandle}
               user={user}
               button={
                 <FollowButton

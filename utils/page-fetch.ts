@@ -44,7 +44,6 @@ export const getScrollHandler = (
       if ((bottomDistance / containerHeight) * 100 <= percentTillFetch) {
         if (!isFetching.current) {
           setFetchPage(true);
-          console.log("FETCH");
           isFetching.current = true;
         }
       }
