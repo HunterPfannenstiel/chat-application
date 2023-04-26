@@ -1,0 +1,48 @@
+.container {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	padding: 1rem;
+	gap: 2rem;
+	width: 100%;
+    margin-top: 1rem;
+    background-color: white;
+    border-radius: 1rem;
+}
+
+.container p {
+    margin: 0;
+}
+
+.names {
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.counts {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    gap: 1rem;
+}
+
+.counts p {
+    font-weight: bold;
+}
+
+.icons {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+/*Have to make the svg take up the same height the text does*/
+.icons svg {
+    height: 19px;
+}

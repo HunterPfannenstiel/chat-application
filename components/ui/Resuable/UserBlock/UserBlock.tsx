@@ -4,6 +4,7 @@ import { UserDetails } from "@_types/user";
 import ProfileImage from "../Profile/ProfileImage/ProfileImage";
 import { useRouter } from "next/router";
 import UserBlockButton from "./UserBlockButton";
+import Link from "next/link";
 
 interface UserBlockProps {
 	user: UserDetails;
@@ -31,6 +32,12 @@ const UserBlock: FunctionComponent<UserBlockProps> = ({
 				<div className={classes.name}>
 					<p>{user.userName}</p>
 					<p>{`@${user.userHandle}`}</p>
+				</div>
+				<div className={classes.link}>
+					<Link
+					href={`/${user.userHandle}/stats`}
+					children={<p>View Stats</p>}
+				/>
 				</div>
 			</div>
 			<p>{user.bio}</p>

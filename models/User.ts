@@ -9,6 +9,7 @@ import {
   execCreateUser,
   execFollowUser,
   execUpdateUser,
+  fetchUserAnalytics,
   fetchUserDetials,
   fetchUserPosts,
   fetchUserProfileByHandle,
@@ -72,5 +73,9 @@ export class User {
 
   static fetchByHandle(handle: string, userId?: number) {
     return fetchUserProfileByHandle(handle, userId);
+  }
+
+  static fetchAnalytics(handle: string, userId?: number) {
+    return fetchUserAnalytics(handle, userId);
   }
 }

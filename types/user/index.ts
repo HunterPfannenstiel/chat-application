@@ -53,6 +53,14 @@ export type UserImage = {
   aspectRatio: number;
 };
 
+
+export type UserStats = {
+  likesGiven: number;
+  likesReceived: number;
+  postsMade: number;
+  repliesReceived: number;
+} & UserDetails;
+
 export const defaultUser: UserDetails = {
   userHandle: "defaultuser",
   userName: "DefaultUser",
