@@ -33,7 +33,8 @@
         --grid-height: calc(100% - 67px);
         height: var(--grid-height);
         display: grid;
-        grid-template-columns: 1fr 60% 1fr;
+        /*grid-template-columns: 1fr 60% 1fr;*/
+        grid-template-columns: minmax(320px, 400px) minmax(450px, 1fr) minmax(320px, 400px);
         grid-template-rows: auto;
         justify-content: center;
         max-width: 1500px;
