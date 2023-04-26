@@ -4,5 +4,13 @@
     gap: 0.5rem;
     padding: 1rem;
     background-color: white;
+}
 
+.edit_button {
+    margin-left: auto;
+    margin-top: 2rem;
+}
+
+.edit_button:hover {
+    cursor: pointer;
 }

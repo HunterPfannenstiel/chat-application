@@ -1,6 +1,10 @@
 .sign_in {
+    display: flex;
+    flex-direction: column;
     text-align: center;
-    margin-top: auto;
+    height: 100%;
+    margin: 0 2rem;
+    justify-content: center;
 }
 
 .title {
@@ -8,10 +12,17 @@
 }
 
 .button {
-    padding: 0.5em 1.5em;
-    background: #D9D9D9;
+    display: flex;
+    gap: .75rem;
+    justify-content: center;
+    align-items: center;
+    max-width: 350px;
+    width: 100%;
+    padding: 1.5rem 3rem;
+    background: var(--primary-purple);
     border-radius: 9px;
     border: none;
     font-size: 1rem;
-    margin-block: 0.5rem;
+    color: white;
+    margin: 1rem auto;
 }

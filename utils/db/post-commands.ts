@@ -5,6 +5,8 @@ import {
   executeProcedure,
   executeFunction,
   useDB,
+  appendPageParams,
+  parseImages,
 } from "./helpers";
 import { PageProcedureParams, ProcedureParam } from "@_types/db";
 import sql from "mssql/msnodesqlv8";
@@ -104,28 +106,47 @@ export const execUpdatePost = (
     return deletedImages;
   });
 
-export const getPostComments =
-  (postId: number, userId: number, page: number) =>
-  async (db: ConnectionPool) => {
+export const getInitialPost = (postId: number, userId: number) =>
+  useDB(async (db) => {
     const request = createDatabaseRequest(db, [
       { paramName: "postId", value: postId, isInput: true },
       { paramName: "userId", value: userId, isInput: true },
-      { paramName: "page", value: page, isInput: true },
     ]);
-    const query =
-      "SELECT * FROM Chat.FetchPostComments(@postId, @userId, @page)";
+    const query = "SELECT * FROM Chat.FetchPost(@postId, @userId)";
     const res = await executeFunction(query, request);
     if (res.recordset.length > 0) {
       console.log("comments", res.recordset);
       const posts = res.recordset as FeedPost[];
-      posts.forEach(async (post) => {
-        if (post.images) {
-          post.images = await JSON.parse(post.images as any);
-        }
-      });
+      parseImages(posts);
     }
     return res.recordset;
-  };
+  });
+
+export const getPostComments = (
+  postId: number,
+  userId: number,
+  params: PageProcedureParams
+) =>
+  useDB(async (db) => {
+    const request = createDatabaseRequest(
+      db,
+      appendPageParams(
+        params,
+        [
+          { paramName: "postId", value: postId, isInput: true },
+          { paramName: "userId", value: userId, isInput: true },
+        ],
+        false
+      )
+    );
+    const query =
+      "SELECT * FROM Chat.FetchComments(@postId, @userId, @page, @createdDateTime)";
+    const res = await executeFunction(query, request);
+    if (res.recordset.length > 0) {
+      parseImages(res.recordset);
+    }
+    return res.recordset;
+  });
 
 export const execLikePost = (
   userId: number,

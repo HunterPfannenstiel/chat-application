@@ -5,9 +5,6 @@ import {
   CreateUser,
   UserImage,
 } from "@_types/user";
-import { UserProfile } from "@_types/user/profile";
-import { mockProfiles } from "mock-data/profiles";
-import { useDB } from "utils/db/helpers";
 import {
   execCreateUser,
   execFollowUser,
@@ -21,9 +18,13 @@ import {
 } from "utils/db/user-commands";
 
 export class User {
-  static fetchPosts(handle: string, userId?: number) {
+  static fetchPosts(
+    handle: string,
+    params: PageProcedureParams,
+    category?: string
+  ) {
     //Query for profile with 'userId'
-    return fetchUserPosts(handle, userId);
+    return fetchUserPosts(handle, params, category);
   }
 
   static async fetchFollowers(

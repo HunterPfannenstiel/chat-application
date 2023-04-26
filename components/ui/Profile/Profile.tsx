@@ -23,11 +23,9 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({
   const { user, isUsersProfile, setUser } = useUserDetails();
   const handleForm = useUpdateUser(setUser);
   const { playAnimation, showModal, toggle } = useAnimateModal(300);
-  //What if user updates profile twice? Old user info is displayed
   if (user) {
     return (
       <section className={classes.profile} ref={scrollElem}>
-        <Header userName={user.userName} />
         <Profile
           user={user}
           isUsersProfile={!!isUsersProfile}

@@ -47,7 +47,9 @@ const UserProvider: FunctionComponent<{ children: ReactNode }> = ({
     }
   }, [fetchUser]);
   return (
-    <User.Provider value={{ ...user, isLoading }}>{children}</User.Provider>
+    <User.Provider value={{ ...user, isLoading, dispatchUser }}>
+      {children}
+    </User.Provider>
   );
 };
 

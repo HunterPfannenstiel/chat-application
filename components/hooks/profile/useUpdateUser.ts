@@ -1,5 +1,7 @@
 import { UserDetails } from "@_types/user";
 import { FormImage } from "@ui/Resuable/SignupForm/Form";
+import { useUserDetails } from "components/providers/User/User";
+import { updateDetails } from "components/providers/User/utils";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
 import { createFormData } from "utils/form";
@@ -7,6 +9,7 @@ import { createFormData } from "utils/form";
 const useUpdateUser = (
   setUpdatedUser: Dispatch<SetStateAction<UserDetails | undefined>>
 ) => {
+  const { dispatchUser } = useUserDetails();
   const router = useRouter();
   const handleForm = async (
     name: string | undefined,
@@ -35,6 +38,7 @@ const useUpdateUser = (
           userImage: image?.imageUrl || prevState!.userImage,
           bio: bio || prevState!.bio,
         };
+        dispatchUser(updateDetails(newUser));
         return newUser;
       });
       if (handle) router.push(`/${handle}`);

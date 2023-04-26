@@ -9,7 +9,6 @@
     top: 0px;
     background-color: var(--primary-purple);
 }
-
 .search {
     display: flex;
     height: 50px;
@@ -20,20 +19,32 @@
 
 @media (min-width: 40em) {
     .page_content {
+        height: calc(100% - 67px);
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 50% 1fr;
         justify-content: center;
+        max-width: 1335px;
+        margin-inline: auto;
     }
+
+    
+
+    .image img{
+        display: none;
+    }
+    
 
     .children {
         padding: 1rem;
+        height: 100%;
+        position: relative;
     }
 }
 
-@media (max-width: 87em) {
+/* @media (max-width: 87em) {
     .page_content {
         display: grid;
         grid-template-columns: auto auto;
         justify-content: center;
     }
-}
+} */

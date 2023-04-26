@@ -16,6 +16,7 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
   const { pathname } = useRouter();
   const [render, setRender] = useState(true);
   const { toggle, showModal, playAnimation } = useAnimateModal(300);
+  const [win, setWin] = useState<Window & typeof globalThis>();
   const user = useUserDetails();
   // useEffect(() => {
   //   if (navPages.includes(pathname)) setRender(true);
@@ -24,9 +25,13 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
   // }, [pathname]);
 
   let showSideBar = render;
-  // if (render) {
-  //   if (window && window.innerWidth < 640) showSideBar = showModal;
-  // }
+  if (render) {
+    if (win && win.innerWidth < 640) showSideBar = showModal;
+  }
+
+  useEffect(() => {
+    setWin(window);
+  }, []);
 
   return (
     <main>
@@ -36,6 +41,7 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
             src={user.userImage}
             circleDiameter="50px"
             onClick={toggle}
+            className={classes.image}
           />
           {(pathname.includes("/search") && <SearchBar />) || <FeedNav />}
         </nav>
@@ -48,7 +54,7 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
             playAnimation={playAnimation}
             user={user}
             toggleModal={toggle}
-            isSignedIn={!!(user.userId && user.userId !== 0)}
+            isSignedIn={!!user.isSignedIn}
           />
         )}
         <div className={classes.children}>{children}</div>
@@ -58,6 +64,6 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
   );
 };
 
-const navPages = ["/", "/search"];
+const nonNavPages = ["/login"];
 
 export default MainNav;

@@ -1,6 +1,10 @@
-import { UpdateUser, UserDetails } from "@_types/user";
+import { UpdateUser, UserDetails, defaultUser } from "@_types/user";
+import { Dispatch } from "react";
 
-export type UserContext = UserDetails & { isLoading: boolean };
+export type UserContext = UserDetails & {
+  isLoading: boolean;
+  dispatchUser: Dispatch<(state: UserDetails) => UserDetails>;
+};
 
 export type UserDelegate<T> = (
   params: T
@@ -14,6 +18,7 @@ export const getInitialContext = (): UserContext => {
     followerCount: 0,
     followingCount: 0,
     isLoading: true,
+    dispatchUser: () => {},
   };
 };
 
@@ -31,7 +36,8 @@ export const getInitialUser = (): UserDetails => {
 //update username, handle, bio, image
 
 export const initializeUser: UserDelegate<UserDetails> = (user) => (state) => {
-  console.log("User", user);
+  if (user.userId === 0) user.isSignedIn = false;
+  else user.isSignedIn = true;
   return user;
 };
 
@@ -49,4 +55,8 @@ export const updateDetails: UserDelegate<UpdateUser> = (details) => (state) => {
   if (details.imageUrl) copyState.userImage = details.imageUrl;
   if (details.bio) copyState.bio = details.bio;
   return copyState;
+};
+
+export const signoutUser: UserDelegate<void> = () => (state) => {
+  return defaultUser;
 };

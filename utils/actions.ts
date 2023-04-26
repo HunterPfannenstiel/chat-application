@@ -21,28 +21,37 @@ export const updatePostLike = (postId: number, action: "like" | "unlike") => {
   });
 };
 
-export const fetchPostComments = async (
-  postId: string | string[] | undefined,
-  page: number
-) => {
+export const fetchPost = async (postId: string | string[] | undefined) => {
   if (typeof postId === "string") {
-    const res = await fetch(`/api/post/${postId}?page=${page}`);
+    const res = await fetch(`/api/post/${postId}`);
     if (res.ok) {
       const post = (await res.json()).post as FeedPost[];
-
       if (post.length > 0) {
-        return { mainPost: post!.shift(), comments: post } as {
-          mainPost: FeedPost;
-          comments: FeedPost[];
-        };
+        return post[0];
       }
-      throw new Error("Invalid post to fetch");
+      return undefined;
     } else {
       throw new Error("Error fetching post!");
     }
   } else if (postId !== undefined) {
     throw new Error("Invalid post to fetch");
   }
+};
+
+export const fetchComments = async (
+  page: number,
+  date: string,
+  abortController: AbortController,
+  postId: any
+) => {
+  if (typeof postId === "string") {
+    const res = await fetch(`/api/post/${+postId}?page=${page}&date=${date}`, {
+      signal: abortController.signal,
+    });
+    const data = await res.json();
+    return data.post;
+  }
+  return;
 };
 
 export const createPost = async (
