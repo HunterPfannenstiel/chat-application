@@ -5,6 +5,7 @@ import PurpleButton from "../Icons/PurpleButton";
 import { UserDetails } from "@_types/user";
 import FollowButton from "../FollowButton/FollowButton";
 import EditButton from "../Icons/EditButton";
+import { useUserDetails } from "components/providers/User/User";
 
 interface ProfileProps {
   user: UserDetails;
@@ -24,20 +25,23 @@ const Profile: FunctionComponent<ProfileProps> = ({
   toggleEdit,
   updateFollowerCount,
 }) => {
+  const { userId } = useUserDetails();
   return (
     <section className={classes.profile}>
       <Banner imageUrl={user.userImage} />
       <div className={classes.user_details}>
-        {isUsersProfile && (
-          <EditButton className={classes.edit_button} onClick={toggleEdit} />
+        {(isUsersProfile || userId === 0) && (
+          <EditButton
+            className={classes.edit_button}
+            onClick={toggleEdit}
+            userId={userId}
+          />
         )}
         {!isUsersProfile && (
           <FollowButton
             handle={user.userHandle}
             updateFollowerCount={updateFollowerCount}
-            isFollowing={
-              user.isFollowing === undefined ? true : user.isFollowing
-            }
+            isFollowing={!!user.isFollowing}
             userId={user.userId!}
           />
         )}

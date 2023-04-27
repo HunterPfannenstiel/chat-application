@@ -1,7 +1,5 @@
 import { NextApiHandler } from "next";
-import { createError } from "./utils";
-import { getSession } from "next-auth/react";
-import { SessionToken } from "@_types/auth";
+import { createError, getUserSession } from "./utils";
 import { User } from "models/User";
 const handler: NextApiHandler = async (req, res) => {
   try {
@@ -11,7 +9,7 @@ const handler: NextApiHandler = async (req, res) => {
         const e = createError("Handle not provided", 400);
         throw e;
       }
-      const session = (await getSession({ req })) as SessionToken | null;
+      const session = await getUserSession(req, res);
       const analytics = await User.fetchAnalytics(handle, session?.user.userId);
       return res.status(200).json({ analytics });
     } else {
@@ -19,7 +17,8 @@ const handler: NextApiHandler = async (req, res) => {
     }
   } catch (error: any) {
     if (!error.statusCode) error.statusCode = 500;
-    return res.status(error.statusCode).json({ message: error.message });
+    if (error.redirect) error.redirect();
+    else return res.status(error.statusCode).json({ message: error.message });
   }
 };
 export default handler;

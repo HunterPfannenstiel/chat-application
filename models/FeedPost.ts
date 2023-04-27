@@ -11,13 +11,13 @@ import {
   getInitialPost,
   getPostComments,
 } from "utils/db/post-commands";
-import { DBFeed, UserFeed } from "@_types/user";
+import { DBFeed } from "@_types/user";
 import { PageProcedureParams } from "@_types/db";
 
 export class FeedPost {
   static fetch(
     postId: number,
-    userId: number,
+    userId?: number,
     params?: PageProcedureParams
   ): Promise<Post> {
     //Make query to database
@@ -26,7 +26,7 @@ export class FeedPost {
     if (!params) {
       return getInitialPost(postId, userId);
     }
-    return getPostComments(postId, userId, params);
+    return getPostComments(postId, params, userId);
   }
 
   static feedPage(

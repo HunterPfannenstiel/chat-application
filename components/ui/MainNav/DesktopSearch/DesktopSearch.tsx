@@ -1,16 +1,28 @@
 import { FunctionComponent } from "react";
 import classes from "./DesktopSearch.module.css";
 import SearchBar from "../SearchBar/SearchBar";
-import { useSearch } from "components/providers/Search/Search";
 import Connections from "@ui/Connections/Connections";
+import useUserSearch from "@hooks/user-search/useUserSearch";
 
 interface DesktopSearchProps {}
 
 const DesktopSearch: FunctionComponent<DesktopSearchProps> = () => {
-  const { users, setScrollEvent, updateFollowerCount } = useSearch();
+  const {
+    users,
+    setScrollEvent,
+    updateFollowerCount,
+    setSearchTerm,
+    instantFetch,
+    searchTerm,
+  } = useUserSearch();
+
   return (
     <div className={classes.search}>
-      <SearchBar />
+      <SearchBar
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        instantFetch={instantFetch}
+      />
       <Connections
         users={users}
         className={classes.users}

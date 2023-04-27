@@ -13,7 +13,7 @@ interface FeedPostProps {
   isUsersPost?: boolean;
   onEditPost?: () => void;
   userDetails?: UserInfo;
-  i?: number;
+  displayImages: (images: any[]) => void;
 }
 
 const FeedPost: FunctionComponent<FeedPostProps> = ({
@@ -21,22 +21,19 @@ const FeedPost: FunctionComponent<FeedPostProps> = ({
   isUsersPost,
   onEditPost,
   userDetails,
-  i,
+  displayImages,
 }) => {
   const router = useRouter();
   const viewComments = () => {
     router.push(`/post/${post.postId}`);
   };
   return (
-    <div
-      className={classes.feed_post}
-      style={{ "--delayFactor": i || 0 } as CSSProperties}
-    >
+    <div className={classes.feed_post}>
       <div className={classes.user_details}>
         <UserDetails
           imageUrl={userDetails?.userImage || post.userImage}
-          name={userDetails?.userName || post.userName}
-          handle={userDetails?.userHandle || post.userHandle}
+          name={post.userName || userDetails?.userName || ""}
+          handle={post.userHandle || userDetails?.userHandle || ""}
           postedDate={new Date(post.createdOn)}
         />
       </div>
@@ -45,6 +42,7 @@ const FeedPost: FunctionComponent<FeedPostProps> = ({
           text={post.content}
           images={post.images}
           onClick={viewComments}
+          displayImages={displayImages}
         />
         <Engagement
           likeCount={post.likeCount}

@@ -1,13 +1,18 @@
-import { ChangeEvent, FunctionComponent, useRef, useState } from "react";
+import { FunctionComponent } from "react";
 import classes from "./SearchBar.module.css";
 import ClearSearchIcon from "../../Resuable/Icons/ClearSearchIcon";
-import { useSearch } from "components/providers/Search/Search";
 
-interface SearchBarProps {}
+interface SearchBarProps {
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
+  instantFetch: (term: string) => void;
+}
 
-const SearchBar: FunctionComponent<SearchBarProps> = ({}) => {
-  const { searchTerm, setSearchTerm, instantFetch } = useSearch();
-
+const SearchBar: FunctionComponent<SearchBarProps> = ({
+  searchTerm,
+  setSearchTerm,
+  instantFetch,
+}) => {
   const clearSearch = () => {
     instantFetch("");
     setSearchTerm("");

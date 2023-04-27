@@ -6,6 +6,7 @@
     margin: auto;
     padding: 2rem;
     gap: 1rem;
+    animation: fade_in 200ms ease forwards;
 }
 
 .container h1 {
@@ -27,4 +28,13 @@
 
 .pfp {
     border: 2px solid black;
+}
+
+@keyframes fade_in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }

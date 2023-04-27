@@ -1,13 +1,13 @@
-import { SessionToken } from "@_types/auth";
 import { User } from "models/User";
 import { NextApiHandler } from "next";
-import { getSession } from "next-auth/react";
+
+import { getUserSession } from "./utils";
 const handler: NextApiHandler = async (req, res) => {
   try {
     if (req.method === "GET") {
       const { searchTerm, page, date } = req.query;
       const term = typeof searchTerm === "string" ? searchTerm : "";
-      const session = (await getSession({ req })) as SessionToken | null;
+      const session = await getUserSession(req, res);
       if (typeof page === "string" && typeof date === "string") {
         const users = await User.search(
           term,
@@ -23,7 +23,8 @@ const handler: NextApiHandler = async (req, res) => {
     }
   } catch (error: any) {
     if (!error.statusCode) error.statusCode = 500;
-    return res.status(error.statusCode).json({ message: error.message });
+    if (error.redirect) error.redirect();
+    else return res.status(error.statusCode).json({ message: error.message });
   }
 };
 export default handler;

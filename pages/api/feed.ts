@@ -1,12 +1,11 @@
 import { NextApiHandler } from "next";
-import { getSession } from "next-auth/react";
 import { FeedPost } from "models/FeedPost";
-import { SessionToken } from "@_types/auth";
+import { getUserSession } from "./utils";
 const handler: NextApiHandler = async (req, res) => {
   try {
     if (req.method === "GET") {
       //VERIFY JWT
-      const session = (await getSession({ req })) as SessionToken | null;
+      const session = await getUserSession(req, res);
 
       //GET USER
       //CHECK PAGINATION QUERY
@@ -40,7 +39,8 @@ const handler: NextApiHandler = async (req, res) => {
     }
   } catch (error: any) {
     if (!error.statusCode) error.statusCode = 500;
-    return res.status(error.statusCode).json({ message: error.message });
+    if (error.redirect) error.redirect();
+    else return res.status(error.statusCode).json({ message: error.message });
   }
 };
 export default handler;

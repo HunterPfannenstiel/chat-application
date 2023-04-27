@@ -17,7 +17,7 @@ export const generateDatetimeOffset = () => {
   } else {
     hours += addValue;
   }
-  const time = hours + ":" + locale.slice(locale.indexOf(":") + 1, 7);
+  const time = hours + ":" + locale.slice(locale.indexOf(":") + 1, 8);
   const day = date.toLocaleDateString().replace(/\//g, "-");
   let dateTimeOffset =
     day + " " + time + offsetSign + pad(offsetHours) + ":" + "00";

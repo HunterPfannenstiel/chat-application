@@ -42,10 +42,17 @@ const useUpdateUser = (
           bio: bio || prevState!.bio,
         };
         newUser.imageUrl = image?.imageUrl;
-        dispatchUser(updateDetails(newUser));
-        toggleModal();
         return newUser;
       });
+      dispatchUser(
+        updateDetails({
+          userHandle: handle,
+          userName: name,
+          bio,
+          imageUrl: image?.imageUrl,
+        })
+      );
+      toggleModal();
       if (handle) router.push(`/${handle}`);
     }
     if (!res.ok) {

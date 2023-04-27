@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import classes from "./CreatePostIcon.module.css";
+import { useUserDetails } from "components/providers/User/User";
 
 interface CreatePostIconProps {
   onClick?: () => void;
@@ -8,6 +9,8 @@ interface CreatePostIconProps {
 const CreatePostIcon: FunctionComponent<CreatePostIconProps> = ({
   onClick,
 }) => {
+  const { userId } = useUserDetails();
+  if (userId === 0) return <></>;
   return (
     <svg
       width="58"

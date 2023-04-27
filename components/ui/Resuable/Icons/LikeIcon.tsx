@@ -1,4 +1,5 @@
 import { FunctionComponent } from "react";
+import classes from "./LikeIcon.module.css";
 
 type LikeIconProps = {
   liked: boolean;
@@ -8,7 +9,13 @@ type LikeIconProps = {
 const LikeIcon: FunctionComponent<LikeIconProps> = ({ liked, fillColor }) => {
   if (liked)
     return (
-      <svg width="18" height="17" viewBox="0 0 18 17" cursor={"pointer"}>
+      <svg
+        width="18"
+        height="17"
+        viewBox="0 0 18 17"
+        cursor={"pointer"}
+        className={classes.liked}
+      >
         <path
           d="M9.00074 1.40615C11.1148 -0.533425 14.3817 -0.469048 16.4184 1.61583C18.4542 3.70164 18.5244 7.02347 16.6308 9.1902L8.99894 17L1.36888 9.1902C-0.524685 7.02347 -0.453586 3.69612 1.58128 1.61583C3.61974 -0.466289 6.88038 -0.536184 9.00074 1.40615Z"
           fill={fillColor ? fillColor : "#492AA1"}

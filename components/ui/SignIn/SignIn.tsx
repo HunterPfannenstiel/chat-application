@@ -5,6 +5,7 @@ import { BuiltInProviderType } from "next-auth/providers";
 import { useSIWE } from "@hooks/Web3/utils/exports";
 import { signIn } from "next-auth/react";
 import MetaMaskIcon from "@ui/Resuable/Icons/MetaMaskIcon";
+import { useWeb3 } from "components/providers/Web3/Web3";
 
 interface SignInProps {
   providers:
@@ -15,6 +16,7 @@ interface SignInProps {
 
 const SignIn: FunctionComponent<SignInProps> = ({ providers, icons }) => {
   const { signIn: SIWE } = useSIWE();
+  const { isInstalled } = useWeb3();
   const signInHandler = (provider: ClientSafeProvider) => {
     if (provider.name === "Web3") {
       SIWE();
@@ -25,19 +27,24 @@ const SignIn: FunctionComponent<SignInProps> = ({ providers, icons }) => {
   return (
     <section className={classes.sign_in}>
       <h1 className={classes.title}>SIGN IN</h1>
-      {Object.values(providers).map((provider, i) => (
-        <div key={provider.name}>
-          <button
-            onClick={signInHandler.bind(null, provider)}
-            className={classes.button}
-          >
-            <div>
-              <p>Sign in with {provider.name}</p>
-            </div>
-            {icons && icons?.length > i && icons[i]}
-          </button>
-        </div>
-      ))}
+      {Object.values(providers).map((provider, i) => {
+        if (provider.name === "Web3") {
+          if (!isInstalled) return <></>;
+        }
+        return (
+          <div key={provider.name}>
+            <button
+              onClick={signInHandler.bind(null, provider)}
+              className={classes.button}
+            >
+              <div>
+                <p>Sign in with {provider.name}</p>
+              </div>
+              {icons && icons?.length > i && icons[i]}
+            </button>
+          </div>
+        );
+      })}
     </section>
   );
 };

@@ -1,28 +1,18 @@
 import { SessionToken } from "@_types/auth";
 import { User } from "models/User";
 import { NextApiHandler } from "next";
-import { getSession } from "next-auth/react";
-import { sendErrorResponse } from "../utils";
-import { UserDetails } from "@_types/user";
+import { getUserSession } from "../utils";
+import { UserDetails, defaultUser } from "@_types/user";
 const handler: NextApiHandler = async (req, res) => {
   try {
     if (req.method === "GET") {
       const { handle } = req.query;
-      const user = (await getSession({ req })) as SessionToken | null;
+      const user = (await getUserSession(req, res)) as SessionToken | null;
       let userDetails: UserDetails;
       if (user?.user.userId) {
         userDetails = await User.fetchDetails(user.user.userId);
       } else {
-        userDetails = {
-          userHandle: "defaultuser",
-          userName: "DefaultUser",
-          userImage:
-            "https://res.cloudinary.com/dwg1i9w2u/image/upload/v1682219857/DefaultUser_ou2hrg.jpg",
-          followerCount: 0,
-          followingCount: 0,
-          userId: 0,
-          isSignedIn: false,
-        };
+        userDetails = defaultUser;
       }
       return res.status(200).json({ userDetails });
     } else {
@@ -30,7 +20,8 @@ const handler: NextApiHandler = async (req, res) => {
     }
   } catch (error: any) {
     if (!error.statusCode) error.statusCode = 500;
-    return sendErrorResponse(error, res);
+    if (error.redirect) error.redirect();
+    else return res.status(error.statusCode).json({ message: error.message });
   }
 };
 export default handler;

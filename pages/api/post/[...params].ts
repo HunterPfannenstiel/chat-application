@@ -6,7 +6,7 @@ const handler: NextApiHandler = async (req, res) => {
     if (req.method === "GET") {
       const { params, page, date } = req.query;
       if (params) {
-        const session = await getUserSession(req);
+        const session = await getUserSession(req, res);
         //params[0] = postId
         if (params.length === 1 && +params[0]) {
           const pageParams =
@@ -15,7 +15,7 @@ const handler: NextApiHandler = async (req, res) => {
               : undefined;
           const post = await FeedPost.fetch(
             +params[0],
-            session.user.userId,
+            session?.user.userId,
             pageParams
           );
 
@@ -38,7 +38,8 @@ const handler: NextApiHandler = async (req, res) => {
     }
   } catch (error: any) {
     if (!error.statusCode) error.statusCode = 500;
-    return res.status(error.statusCode).json({ message: error.message });
+    if (error.redirect) error.redirect();
+    else return res.status(error.statusCode).json({ message: error.message });
   }
 };
 export default handler;

@@ -10,8 +10,6 @@ import { User } from "models/User";
 import { getSession } from "next-auth/react";
 import { SessionToken } from "@_types/auth";
 import { deleteImage, uploadImage } from "utils/cloudinary";
-import { UserProfile } from "@_types/user/profile";
-import { UpdateUser } from "@_types/user";
 
 let imageParser = multer({
   fileFilter: (req, file, cb) => {
@@ -96,7 +94,7 @@ const handler: NextApiHandler = async (req, res) => {
   } else if (req.method === "PUT") {
     let publicId;
     try {
-      const session = await getUserSession(req);
+      const session = await getUserSession(req, res, true);
       await parseImage(req, res, imageParser, true);
       const fileReq = req as any;
       const { userName, userHandle, bio } = req.body;
@@ -122,7 +120,7 @@ const handler: NextApiHandler = async (req, res) => {
       }
 
       const oldImageId = await User.update(
-        session.user.userId,
+        session!.user.userId,
         {
           userName: userName === "null" ? null : userName,
           userHandle: userHandle === "null" ? null : userHandle,
@@ -139,7 +137,8 @@ const handler: NextApiHandler = async (req, res) => {
         console.log("deleted image", publicId);
         deleteImage(publicId);
       }
-      return sendErrorResponse(error, res);
+      if (error.redirect) error.redirect();
+      else return res.status(error.statusCode).json({ message: error.message });
     }
   } else {
     return res.status(400).json({ message: "Invalid method" });

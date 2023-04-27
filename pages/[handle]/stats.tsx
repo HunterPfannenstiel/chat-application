@@ -9,7 +9,7 @@ interface StatsPageProps {}
 const StatsPage: FunctionComponent<StatsPageProps> = () => {
   const { data, updateFollowerCount } = useStats();
   if (!data) {
-    return <>Loading</>;
+    return <></>;
   } else {
     return (
       <Stats

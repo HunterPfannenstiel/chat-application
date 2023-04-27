@@ -5,6 +5,7 @@ import Modal from "../Modal/Modal";
 import { ModalProps } from "@_types/ui";
 import Image from "next/image";
 import ImageButtons from "../Icons/ImageButtons/ImageButtons";
+import FadeImage from "../FadeImage/FadeImage";
 
 interface ImageViewProps {
   images: ImageProp[];
@@ -39,17 +40,19 @@ const ImageView: FunctionComponent<ImageViewProps> = ({
         </span>
       </p>
       <div className={classes.image_container}>
-        <Image
+        <FadeImage
           src={images[currImage].imageUrl}
           alt="Post Image"
           width={500}
           height={500}
         />
       </div>
-      <ImageButtons
-        onClickLeft={handleNextImage.bind(null, "left")}
-        onClickRight={handleNextImage.bind(null, "right")}
-      />
+      {images.length > 1 && (
+        <ImageButtons
+          onClickLeft={handleNextImage.bind(null, "left")}
+          onClickRight={handleNextImage.bind(null, "right")}
+        />
+      )}
     </Modal>
   );
 };

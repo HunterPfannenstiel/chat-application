@@ -26,7 +26,7 @@ const useProfile = () => {
     }
     return null;
   };
-  const { resetPageContent, pageContent, setScrollEvent } = usePageFetch(
+  const { pageContent, setScrollEvent } = usePageFetch(
     fetchPosts,
     true,
     10,

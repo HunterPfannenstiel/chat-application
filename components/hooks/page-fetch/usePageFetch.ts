@@ -1,5 +1,5 @@
 import { useLoading } from "components/providers/Loading/Loading";
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { generateDatetimeOffset, getScrollHandler } from "utils/page-fetch";
 
 const usePageFetch = (
@@ -70,7 +70,6 @@ const usePageFetch = (
             page.current += 1;
           }
           if (data.length < pageSize) {
-            console.log("LOCK");
             endOfContent.current = true;
           }
           setIsError(false);
@@ -99,7 +98,7 @@ const usePageFetch = (
         fetchDependency === "")
     ) {
       setIsLoading(true);
-
+      initialFetch.current = generateDatetimeOffset();
       const initializer = async () => {
         try {
           const data = await pageFetcher(
@@ -128,14 +127,13 @@ const usePageFetch = (
     };
   }, [fetchDependency]);
 
-  const resetPageContent = () => {
-    page.current = 1;
-    setPageContent([]);
+  const refetchInitial = () => {
+    initialFetch.current = generateDatetimeOffset();
   };
 
   return {
     setScrollEvent,
-    resetPageContent,
+    refetchInitial,
     pageContent,
     isLoading,
     isError,

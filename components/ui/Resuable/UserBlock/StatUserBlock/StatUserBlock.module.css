@@ -10,6 +10,7 @@
     max-width: 500px;
     min-width: 200px;
     width: 100%;
+    animation: fade_in 200ms ease forwards;
 }
 
 .user-block p {
@@ -24,4 +25,14 @@
 
 .name p:first-child {
     font-weight: bold;
+}
+
+
+@keyframes fade_in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }

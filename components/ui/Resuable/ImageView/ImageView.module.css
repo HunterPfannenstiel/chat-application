@@ -18,6 +18,7 @@
     height: 75%;
     max-width: 100%;
     width: auto;
+    margin-block: auto;
 }
 
 .image_container img{

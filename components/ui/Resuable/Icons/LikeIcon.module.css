@@ -1,0 +1,15 @@
+.liked {
+    animation: pop 500ms ease forwards;
+}
+
+@keyframes pop {
+    0% {
+        scale: 0;
+    }
+    50%{
+        scale: 2;
+    }
+    100%{
+        scale: 1;
+    }
+}

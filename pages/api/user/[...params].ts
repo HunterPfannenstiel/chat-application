@@ -1,15 +1,13 @@
 import { User } from "models/User";
 import { NextApiHandler } from "next";
 import { getUserSession } from "../utils";
-import { FeedPost } from "@_types/post/feed-post";
-import { getSession } from "next-auth/react";
 import { SessionToken } from "@_types/auth";
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === "GET") {
     const { params, page, date, category } = req.query;
     if (params && typeof page === "string" && typeof date === "string") {
       try {
-        const session = (await getSession({ req })) as SessionToken | null;
+        const session = (await getUserSession(req, res)) as SessionToken | null;
         if (params?.length === 1) {
           const posts = await User.fetchPosts(
             params[0],
@@ -42,7 +40,9 @@ const handler: NextApiHandler = async (req, res) => {
         }
       } catch (error: any) {
         if (!error.statusCode) error.statusCode = 500;
-        return res.status(error.statusCode).json({ message: error.message });
+        if (error.redirect) error.redirect();
+        else
+          return res.status(error.statusCode).json({ message: error.message });
       }
     }
   } else {

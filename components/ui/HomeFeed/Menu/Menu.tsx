@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import classes from "./Menu.module.css";
 import MobileMenu from "@ui/Resuable/MobileMenu/MobileMenu";
 import ProfileImage from "@ui/Resuable/Profile/ProfileImage/ProfileImage";
@@ -24,9 +24,14 @@ const Menu: FunctionComponent<MenuProps> = ({
   user,
   isSignedIn,
 }) => {
+  const [evalu, setEvalu] = useState(false);
   const router = useRouter();
-  const homeSelected = router.pathname === "/";
-  const profileSelected = router.pathname === "/[handle]";
+  const homeSelected = evalu && router.pathname === "/";
+  const profileSelected =
+    evalu && router.asPath.includes(`/${user.userHandle}`);
+  useEffect(() => {
+    setEvalu(true);
+  }, [router.pathname]);
   return (
     <MobileMenu
       title="Account"
@@ -43,6 +48,7 @@ const Menu: FunctionComponent<MenuProps> = ({
           <p className="handle">{`@${user.userHandle}`}</p>
         </Link>
         <Links
+          asPath={router.asPath}
           linkInfo={[
             {
               href: `/${user.userHandle}/following`,

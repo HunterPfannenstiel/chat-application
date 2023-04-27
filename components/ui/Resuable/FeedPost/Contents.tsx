@@ -10,26 +10,24 @@ interface ContentsProps {
   text: string;
   images?: PostImage[];
   onClick?: () => void;
+  displayImages: (images: any[]) => void;
 }
 
 const Contents: FunctionComponent<ContentsProps> = ({
   text,
   images,
   onClick,
+  displayImages,
 }) => {
-  const { showModal, playAnimation, toggle } = useAnimateModal(300);
   return (
     <div>
       <p onClick={onClick} className={classes.content}>
         {text}
       </p>
-      <ImageBox images={images} onClick={toggle} />
-      {showModal && (
-        <ImageView
-          images={images || []}
-          modalProps={{ playAnimation, toggle, animationTime: 300 }}
-        />
-      )}
+      <ImageBox
+        images={images}
+        onClick={displayImages.bind(null, images || [])}
+      />
     </div>
   );
 };

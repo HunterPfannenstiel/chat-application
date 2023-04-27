@@ -52,6 +52,10 @@ const UserProvider: FunctionComponent<{ children: ReactNode }> = ({
       fetchDetails();
     }
   }, [fetchUser]);
+
+  useEffect(() => {
+    setFollowUserAction(undefined);
+  }, [followUserAction]);
   return (
     <User.Provider
       value={{

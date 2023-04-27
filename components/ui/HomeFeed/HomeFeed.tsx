@@ -1,13 +1,6 @@
-import {
-  Dispatch,
-  FunctionComponent,
-  RefObject,
-  SetStateAction,
-  useState,
-} from "react";
+import { Dispatch, FunctionComponent, SetStateAction, useState } from "react";
 import FeedPostList from "@ui/Resuable/FeedPost/FeedPostList";
 import useAnimateModal from "@hooks/animation/useAnimateModal";
-import { UserFeed } from "@_types/user";
 import PostModal from "@ui/Resuable/PostModal/PostModal";
 import CreatePostIcon from "@ui/Resuable/Icons/CreatePostIcon";
 import { createPost } from "utils/actions";
@@ -16,8 +9,6 @@ import classes from "./HomeFeed.module.css";
 import { FeedPost } from "@_types/post/feed-post";
 import { SetScrollEvent } from "@hooks/page-fetch/types";
 import { useRouter } from "next/router";
-import { ParsedUrlQuery } from "querystring";
-import LoadingIcon from "@ui/Resuable/Loading/LoadingIcon";
 
 interface HomeFeedProps {
   posts: FeedPost[] | undefined;
@@ -34,19 +25,22 @@ const HomeFeed: FunctionComponent<HomeFeedProps> = ({
     showModal: showPost,
     playAnimation: playPost,
   } = useAnimateModal(300);
-  // const { query } = useRouter();
-  // useTensionScroll();
-  // let viewPosts: FeedPost[] = [];
-  // if (query.feed) viewPosts = newPosts;
-  // if (posts) viewPosts = [...viewPosts, ...posts];
+  const { query } = useRouter();
   return (
     <section>
-      <FeedPostList
-        scroll
-        setScrollEvent={setScrollEvent}
-        posts={posts}
-        emptyPostDisplay={<></>}
-      />
+      {posts && posts.length > 0 && (
+        <FeedPostList
+          scroll
+          setScrollEvent={setScrollEvent}
+          posts={posts}
+          emptyPostDisplay={<></>}
+          globalPosts={newPosts}
+          query={query}
+        />
+      )}
+      {posts?.length === 0 && (
+        <p className={classes.no_posts}>No posts to show here!</p>
+      )}
       {showPost && (
         <PostModal
           modalTitle="Create a Post!"
@@ -72,6 +66,8 @@ const handleCreatePost =
       const post = await createPost(content, images);
 
       setNewPosts((prevPosts) => {
+        post.likeCount = 0;
+        post.commentCount = 0;
         return [post, ...prevPosts];
       });
     } catch (error) {

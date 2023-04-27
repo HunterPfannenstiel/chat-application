@@ -26,3 +26,9 @@
     color: white;
     margin: 1rem auto;
 }
+
+@media (min-width: 40em){
+    .sign_in {
+        justify-content: unset;
+    }
+}

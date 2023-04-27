@@ -1,13 +1,16 @@
-import { SessionToken } from "@_types/auth";
 import { User } from "models/User";
 import { NextApiHandler } from "next";
-import { getSession } from "next-auth/react";
-import { createError, sendErrorResponse } from "../utils";
+import { createError, getUserSession } from "../utils";
+import { defaultUser } from "@_types/user";
 const handler: NextApiHandler = async (req, res) => {
   try {
     if (req.method === "GET") {
       const { handle } = req.query;
-      const session = (await getSession({ req })) as SessionToken | null;
+      const session = await getUserSession(req, res);
+      if (handle === "defaultuser")
+        return res
+          .status(200)
+          .json({ user: defaultUser, isUsersProfile: false });
       if (typeof handle === "string") {
         const user = await User.fetchByHandle(handle, session?.user.userId);
         return res
@@ -20,7 +23,8 @@ const handler: NextApiHandler = async (req, res) => {
     return res.status(200);
   } catch (error: any) {
     if (!error.statusCode) error.statusCode = 500;
-    return sendErrorResponse(error, res);
+    if (error.redirect) error.redirect();
+    else return res.status(error.statusCode).json({ message: error.message });
   }
 };
 export default handler;

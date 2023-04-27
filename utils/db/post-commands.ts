@@ -107,7 +107,7 @@ export const execUpdatePost = (
     return deletedImages;
   });
 
-export const getInitialPost = (postId: number, userId: number) =>
+export const getInitialPost = (postId: number, userId?: number) =>
   useDB(async (db) => {
     const request = createDatabaseRequest(db, [
       { paramName: "postId", value: postId, isInput: true },
@@ -124,8 +124,8 @@ export const getInitialPost = (postId: number, userId: number) =>
 
 export const getPostComments = (
   postId: number,
-  userId: number,
-  params: PageProcedureParams
+  params: PageProcedureParams,
+  userId?: number
 ) =>
   useDB(async (db) => {
     const request = createDatabaseRequest(

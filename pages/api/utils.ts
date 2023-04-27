@@ -69,10 +69,18 @@ export const verifySignature = async (
   }
 };
 
-type SignInError = Error & { statusCode: number | undefined };
-export const createError = (message: string, statusCode: number) => {
+type SignInError = Error & {
+  statusCode: number | undefined;
+  redirect: Function | undefined;
+};
+export const createError = (
+  message: string,
+  statusCode: number,
+  redirect?: Function
+) => {
   const error = new Error(message) as SignInError;
   error.statusCode = statusCode;
+  error.redirect = redirect;
   return error;
 };
 
@@ -99,18 +107,46 @@ export const parseImage = async (
   return req.files;
 };
 
-export const getUserSession = async (req: NextApiRequest) => {
+export const getUserSession = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  throwErr?: boolean
+) => {
   const session = (await getSession({ req })) as SessionToken | null;
-  if (!session) {
-    const e = createError("Please sign-in!", 400);
+  console.log("Throw err", throwErr);
+  if (!session && throwErr) {
+    console.log("Session throw err");
+    const e = createError("Please sign-in!", 400, () => {
+      console.log("INVOKE");
+      return res.redirect("/auth/signup");
+      // res.writeHead(307, { Location: "/auth/signin" });
+      // res.end();
+    });
     throw e;
-  }
-  if (!session.user.userId) {
+  } else if (!session?.user.userId && throwErr) {
+    console.log("Userid throw err");
     const e = createError(
       "Account not created, please create an account!",
-      400
+      400,
+      () => {
+        return res.redirect("/auth/signup");
+        console.log("INVOKE");
+        // res.writeHead(307, { Location: "/auth/signup" });
+        // res.end();
+      }
     );
     throw e;
   }
   return session;
+};
+
+export const defaultUser = {
+  userHandle: "defaultuser",
+  userName: "DefaultUser",
+  userImage:
+    "https://res.cloudinary.com/dwg1i9w2u/image/upload/v1682219857/DefaultUser_ou2hrg.jpg",
+  followerCount: 0,
+  followingCount: 0,
+  userId: 0,
+  isSignedIn: false,
 };

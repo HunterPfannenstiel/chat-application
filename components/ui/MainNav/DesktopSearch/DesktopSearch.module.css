@@ -1,13 +1,15 @@
-.search {
-    display: none;
-}
-
 @media (min-width: 40em) {
     .users {
-        max-height: 30vh !important;
+        max-height: 39vh !important;
         overflow: scroll;
     }
     .search {
         display: block;
+    }
+}
+
+@media (max-width: 73em) {
+    .search {
+        display: none;
     }
 }

@@ -1,10 +1,11 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useState } from "react";
 import classes from "./Engagement.module.css";
 import EComponent from "./EComponent";
 import LikeIcon from "@ui/Resuable/Icons/LikeIcon";
 import CommentIcon from "@ui/Resuable/Icons/CommentIcon";
 import { updatePostLike } from "utils/actions";
 import EditButton from "@ui/Resuable/Icons/EditButton";
+import Link from "next/link";
 
 interface EngagementProps {
   postId: number;
@@ -43,13 +44,13 @@ const Engagement: FunctionComponent<EngagementProps> = ({
         action={handleLike}
         icon={<LikeIcon liked={liked} />}
       />
-      <EComponent
-        count={commentCount}
-        action={() => {
-          console.log("IMPLMENT: BRING UP CREATE COMMENT PAGE");
-        }}
-        icon={<CommentIcon />}
-      />
+      <Link href={`/post/${postId}`}>
+        <EComponent
+          count={commentCount}
+          action={() => {}}
+          icon={<CommentIcon />}
+        />
+      </Link>
       {isUsersProfile && (
         <div className={classes.edit}>
           <EditButton onClick={editPost} />

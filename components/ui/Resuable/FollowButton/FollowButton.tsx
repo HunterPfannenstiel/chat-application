@@ -20,7 +20,8 @@ const FollowButton: FunctionComponent<FollowButtonProps> = ({
   updateFollowerCount,
   index,
 }) => {
-  const { dispatchUser, emitFollowAction, followUserAction } = useUserDetails();
+  const { dispatchUser, emitFollowAction, followUserAction, userHandle } =
+    useUserDetails();
   const [following, setFollowing] = useState(isFollowing);
   const buttonText = following ? "Unfollow" : "Follow";
   useEffect(() => {
@@ -32,7 +33,7 @@ const FollowButton: FunctionComponent<FollowButtonProps> = ({
 
   useEffect(() => {
     setFollowing(isFollowing);
-  }, [isFollowing]);
+  }, [handle]);
 
   const handleButtonClick = () => {
     let val = 1;
@@ -44,6 +45,7 @@ const FollowButton: FunctionComponent<FollowButtonProps> = ({
     dispatchUser(dispatchFollowing(val));
     emitFollowAction(handle, val);
   };
+  if (userHandle === handle || userHandle === "defaultuser") return <></>;
   return (
     <PurpleButton onClick={handleButtonClick} className={classes.button}>
       {buttonText}

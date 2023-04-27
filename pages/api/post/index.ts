@@ -1,8 +1,6 @@
-import { SessionToken } from "@_types/auth";
-import { ClientPost, CreatePost, ImageUpload, UpdatePost } from "@_types/post";
+import { ClientPost, ImageUpload } from "@_types/post";
 import FeedPost from "models/FeedPost";
 import { NextApiHandler } from "next";
-import { getSession } from "next-auth/react";
 import { createError, getUserSession, parseImage } from "../utils";
 import multer from "multer";
 import { deleteImage, uploadManyImages } from "utils/cloudinary";
@@ -26,7 +24,7 @@ const handler: NextApiHandler = async (req, res) => {
   let publicIds: string[] = [];
   try {
     if (req.method === "POST") {
-      const session = await getUserSession(req);
+      const session = await getUserSession(req, res, true);
       const files = await parseImage(req, res, imageParser, false);
       const { content, replyToPostId, communityId } = req.body as ClientPost;
       if (!content) {
@@ -39,7 +37,7 @@ const handler: NextApiHandler = async (req, res) => {
       publicIds = images.map((image) => image.publicId);
       const post = await FeedPost.create({
         content,
-        userId: session.user.userId,
+        userId: session!.user.userId,
         replyToPostId:
           replyToPostId === "undefined" ? undefined : replyToPostId,
         communityId: communityId === "undefined" ? undefined : communityId,
@@ -78,14 +76,14 @@ const handler: NextApiHandler = async (req, res) => {
         .status(201)
         .json({ message: "Updated post!", post: { content, images } });
     } else if (req.method === "DELETE") {
-      const session = await getUserSession(req);
+      const session = await getUserSession(req, res, true);
       const { postId } = req.body;
       if (!postId) {
         const e = createError("PostId not provided", 400);
         throw e;
       }
       const poster = await FeedPost.fetchPoster(postId);
-      if (+poster === session.user.userId) {
+      if (+poster === session!.user.userId) {
         await FeedPost.delete(postId);
       } else {
         const e = createError("You do not own this post!", 401);
@@ -102,7 +100,8 @@ const handler: NextApiHandler = async (req, res) => {
         console.log(`Delete ${id}`);
         deleteImage(id);
       });
-    return res.status(error.statusCode).json({ message: error.message });
+    if (error.redirect) error.redirect();
+    else return res.status(error.statusCode).json({ message: error.message });
   }
 };
 export default handler;

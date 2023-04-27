@@ -10,6 +10,7 @@
     max-width: 400px;
     min-width: 200px;
     width: 100%;
+    animation: fade_in 200ms ease forwards;
 }
 
 .user-block p {
@@ -31,9 +32,11 @@
 .link p {
     width: fit-content;
     margin: 0;
+    transition: all 300ms ease;
 }
 
 .link p:hover {
+    transition: all 300ms ease;
     color: var(--primary-purple);
 }
 
@@ -67,3 +70,13 @@
     align-self: flex-end;
     margin-left: auto;
 } */
+
+
+@keyframes fade_in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

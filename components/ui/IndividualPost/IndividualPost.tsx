@@ -1,4 +1,4 @@
-import { FunctionComponent, RefObject, useEffect, useState } from "react";
+import { FunctionComponent, useState } from "react";
 import classes from "./IndividualPost.module.css";
 import { FeedPost as FeedPosts } from "@_types/post/feed-post";
 import FeedPost from "@ui/Resuable/FeedPost/FeedPost";
@@ -6,9 +6,11 @@ import PostModal from "@ui/Resuable/PostModal/PostModal";
 import useAnimateModal from "@hooks/animation/useAnimateModal";
 import { ImageInfo } from "@ui/Resuable/PostModal/types";
 import { createPost } from "utils/actions";
-import CommentIcon from "@ui/Resuable/Icons/CommentIcon";
 import CreatePostIcon from "@ui/Resuable/Icons/CreatePostIcon";
 import { SetScrollEvent } from "@hooks/page-fetch/types";
+import ImageView from "@ui/Resuable/ImageView/ImageView";
+import PurpleButton from "@ui/Resuable/Icons/PurpleButton";
+import { useUserDetails } from "components/providers/User/User";
 
 interface IndividualPostProps {
   mainPost: FeedPosts | undefined;
@@ -23,35 +25,55 @@ const IndividualPost: FunctionComponent<IndividualPostProps> = ({
   setScorllEvent,
   updateCommentCount,
 }) => {
+  const { userId } = useUserDetails();
   const [newComments, setNewComments] = useState<FeedPosts[]>([]);
   const { showModal, playAnimation, toggle } = useAnimateModal(300);
+  const imageMoal = useAnimateModal(300);
   let replyCount = newComments.length;
   if (commentPosts?.length) {
     replyCount += commentPosts.length;
   }
-
   const addNewComment = (comment: FeedPost) => {
-    setNewComments((prevState) => [...prevState, comment]);
+    setNewComments((prevState) => [comment, ...prevState]);
+  };
+  const [images, setImages] = useState<any[]>([]);
+  const displayImages = (images: any[]) => {
+    setImages(images);
+    if (images.length > 0) toggle();
   };
   return (
     <>
       <ul className={classes.container} ref={setScorllEvent}>
         {mainPost && (
           <div className={classes.main_container}>
-            <FeedPost post={mainPost} />
+            <FeedPost post={mainPost} displayImages={displayImages} />
             <div className={classes.add_comment}>
-              <button onClick={toggle}>Post a Reply</button>
+              {userId !== 0 && (
+                <PurpleButton onClick={toggle}>Post a Reply</PurpleButton>
+              )}
             </div>
             <p className={classes.count}>
               Replies: <span>{replyCount}</span>
             </p>
           </div>
         )}
-        {commentPosts?.map((post) => {
-          return <FeedPost post={post} key={post.postId} />;
-        })}
         {newComments.map((post) => {
-          return <FeedPost post={post} key={post.postId} />;
+          return (
+            <FeedPost
+              post={post}
+              key={post.postId}
+              displayImages={displayImages}
+            />
+          );
+        })}
+        {commentPosts?.map((post) => {
+          return (
+            <FeedPost
+              post={post}
+              key={post.postId}
+              displayImages={displayImages}
+            />
+          );
         })}
       </ul>
       <CreatePostIcon onClick={toggle} />
@@ -65,6 +87,16 @@ const IndividualPost: FunctionComponent<IndividualPostProps> = ({
             updateCommentCount
           )}
           buttonText="Add Comment"
+        />
+      )}
+      {showModal && images.length > 0 && (
+        <ImageView
+          images={images || []}
+          modalProps={{
+            playAnimation: imageMoal.playAnimation,
+            toggle: imageMoal.toggle,
+            animationTime: 300,
+          }}
         />
       )}
     </>

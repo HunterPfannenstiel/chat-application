@@ -1,3 +1,17 @@
+.link {
+    border-bottom: 1px solid white;
+}
+
+.link:hover {
+    border-bottom: 1px solid var(--primary-purple);
+    transition: all 200ms ease;
+}
+
+.selected {
+    border-bottom: 1px solid var(--primary-purple);
+    transition: all 200ms ease;
+}
+
 .text span {
     padding-right: .25rem;
     font-weight: bold;

@@ -31,10 +31,9 @@ const useFollow = (param: "followers" | "following") => {
   );
 
   const updateFollowerCount = (amount: number, userIndex?: number) => {
-    console.log("update follower count!", { amount, userIndex });
     setPageContent((prevState) => {
-      if (prevState && userIndex) {
-        const copyState = { ...prevState };
+      if (prevState && (userIndex || userIndex === 0)) {
+        const copyState = [...prevState];
         copyState[userIndex].followerCount += amount;
         return copyState;
       }

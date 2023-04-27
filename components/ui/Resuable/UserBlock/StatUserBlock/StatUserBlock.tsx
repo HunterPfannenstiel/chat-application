@@ -20,7 +20,6 @@ const StatUserBlock: FunctionComponent<StatUserBlockProps> = ({
   buttonText,
   button,
 }) => {
-  console.log(user);
   return (
     <div className={classes["user-block"]}>
       <div className={classes["pfp-name-container"]}>

@@ -9,6 +9,8 @@ import SearchBar from "./SearchBar/SearchBar";
 import { useRouter } from "next/router";
 import DesktopSearch from "./DesktopSearch/DesktopSearch";
 import FadeImage from "@ui/Resuable/FadeImage/FadeImage";
+import useUserSearch from "@hooks/user-search/useUserSearch";
+import Search from "@ui/Search/Search";
 
 interface MainNavProps {
   children: ReactNode;
@@ -20,6 +22,7 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
   const { toggle, showModal, playAnimation } = useAnimateModal(300);
   const [win, setWin] = useState<Window & typeof globalThis>();
   const user = useUserDetails();
+  const search = useUserSearch();
   // useEffect(() => {
   //   if (navPages.includes(pathname)) setRender(true);
   //   else setRender(false);
@@ -29,10 +32,11 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
   useEffect(() => {
     setWin(window);
   }, []);
-
+  const renderSide = !nonNavPages.includes(pathname);
+  const searchPage = pathname.includes("/search");
   return (
     <main>
-      {render && (
+      {render && renderSide && (
         <div className={classes.background}>
           <nav className={classes.nav}>
             <ProfileImage
@@ -41,26 +45,41 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
               onClick={toggle}
               className={classes.image}
             />
-            {(pathname.includes("/search") && <SearchBar />) || <FeedNav />}
+            {(pathname.includes("/search") && (
+              <SearchBar
+                searchTerm={search.searchTerm}
+                setSearchTerm={search.setSearchTerm}
+                instantFetch={search.instantFetch}
+              />
+            )) || <FeedNav />}
           </nav>
         </div>
       )}
       <div className={classes.page_content}>
-        <Menu
-          showModal={showModal}
-          playAnimation={playAnimation}
-          user={user}
-          toggleModal={toggle}
-          isSignedIn={!!user.isSignedIn}
-        />
-
-        <div className={classes.children}>{children}</div>
-        {!pathname.includes("/search") && <DesktopSearch />}
+        {renderSide && (
+          <Menu
+            showModal={showModal}
+            playAnimation={playAnimation}
+            user={user}
+            toggleModal={toggle}
+            isSignedIn={!!user.isSignedIn}
+          />
+        )}
+        {!renderSide && <div></div>}
+        {searchPage && (
+          <Search
+            updateFollowerCount={search.updateFollowerCount}
+            users={search.users}
+            setScrollEvent={search.setScrollEvent}
+          />
+        )}
+        {!searchPage && <div className={classes.children}>{children}</div>}
+        {!searchPage && renderSide && <DesktopSearch />}
       </div>
     </main>
   );
 };
 
-const nonNavPages = ["/login"];
+const nonNavPages = ["/auth/signin", "/auth/signup"];
 
 export default MainNav;

@@ -5,3 +5,10 @@
     align-items: center;
     justify-content: center;
 }
+
+@media (max-width: 73em) {
+    .search {
+        padding-right: 1rem;
+    }
+}
+

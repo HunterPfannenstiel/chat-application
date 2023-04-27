@@ -1,10 +1,9 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import classes from "./UserPosts.module.css";
 import FeedPostList from "@ui/Resuable/FeedPost/FeedPostList";
 import { FeedPost } from "@_types/post/feed-post";
 import useAnimateModal from "@hooks/animation/useAnimateModal";
 import PostModal from "@ui/Resuable/PostModal/PostModal";
-import type { Image, UpdatePost } from "@_types/post";
 import { ImageInfo } from "@ui/Resuable/PostModal/types";
 import { createFormData } from "utils/form";
 import { UserInfo } from "@_types/user";
@@ -36,6 +35,7 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
     deleteImages: boolean
   ) => {
     const initialContent = userPosts[editPostIndex];
+    console.log(initialContent);
     if (
       deleteImages ||
       content !== initialContent.content ||
@@ -64,7 +64,6 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
           }
           copyState[editPostIndex].content = content;
           copyState[editPostIndex].images = newImages;
-
           return copyState;
         });
       } else {
@@ -73,11 +72,19 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
     }
   };
 
+  useEffect(() => {
+    setUserPosts(posts);
+  }, [posts]);
+
   return (
     <>
       <FeedPostList
-        posts={posts}
-        emptyPostDisplay={<p>No posts to show here!</p>}
+        posts={userPosts}
+        emptyPostDisplay={
+          <p style={{ textAlign: "center", marginTop: "1rem" }}>
+            No posts to show here!
+          </p>
+        }
         isUsersFeed={query.category === "likes" ? false : isUsersProfile}
         onEditPost={onEditPost}
         userDetails={query.category === "likes" ? undefined : user}

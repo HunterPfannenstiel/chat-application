@@ -2,6 +2,7 @@ import { ChangeEvent, FunctionComponent } from "react";
 import classes from "./ImageInput.module.css";
 import PlusIcon from "@ui/Resuable/Icons/PlusIcon";
 import AddImageIcon from "../Icons/AddImageIcon";
+import Image from "next/image";
 
 interface ImageInputProps {
   onImageSelected: (image: { blob: Blob; imageUrl: string }) => void;
@@ -50,7 +51,15 @@ const ImageInput: FunctionComponent<ImageInputProps> = ({
             <AddImageIcon />
           </div>
         </label>
-        {imageUrl && <img src={imageUrl} className={classes.image} />}
+        {imageUrl && (
+          <Image
+            src={imageUrl}
+            className={classes.image}
+            alt=""
+            width={200}
+            height={200}
+          />
+        )}
       </div>
     </fieldset>
   );

@@ -3,7 +3,6 @@
     gap: 1rem;
     padding-block: 0.5rem;
     color: var(--secondary-purple);
-    align-self: last baseline;
     padding-bottom: 0;
 }
 
@@ -23,3 +22,14 @@
     font-weight: bold;
 }
 
+@media (max-width: 73em) {
+    .links {
+        padding-left: 33%
+    }
+}
+
+@media (max-width: 40em) {
+    .links {
+        padding-left: 0%;
+    }
+}

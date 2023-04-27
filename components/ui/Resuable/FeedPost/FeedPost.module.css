@@ -1,6 +1,4 @@
 .feed_post {
-    /* padding: 0.5rem 1.5rem; */
-    --delayFactor: 1;
     position: relative;
     max-width: 550px;
     min-width: 200px;

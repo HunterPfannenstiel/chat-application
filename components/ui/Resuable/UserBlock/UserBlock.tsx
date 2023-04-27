@@ -18,7 +18,6 @@ const UserBlock: FunctionComponent<UserBlockProps> = ({
   button,
 }) => {
   const router = useRouter();
-
   return (
     <div className={classes["user-block"]}>
       <div className={classes["pfp-name-container"]}>

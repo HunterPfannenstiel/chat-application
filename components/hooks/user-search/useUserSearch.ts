@@ -1,21 +1,16 @@
-import { ConnectionsDetails, UserDetails } from "@_types/user";
+import { UserDetails } from "@_types/user";
 import usePageFetch from "@hooks/page-fetch/usePageFetch";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 const useUserSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [fetchSearchTerm, setFetchSearchTerm] = useState("");
-  // const { data, isLoading, isError } = useQuery({
-  //   queryKey: ["search", fetchSearchTerm],
-  //   queryFn: fetchUsers.bind(null, fetchSearchTerm),
-  // });
-  const { pageContent, isError, isLoading, setScrollEvent, setPageContent } =
-    usePageFetch(fetchUsers, true, 11, fetchSearchTerm);
+  const pageFetch = usePageFetch(fetchUsers, true, 11, fetchSearchTerm);
   useEffect(() => {
     let timer: NodeJS.Timeout;
     timer = setTimeout(() => {
       if (searchTerm !== fetchSearchTerm) {
+        console.log("fetch");
         setFetchSearchTerm(searchTerm);
       }
     }, 1000);
@@ -26,7 +21,7 @@ const useUserSearch = () => {
   }, [searchTerm]);
 
   const updateFollowerCount = (amount: number, userIndex?: number) => {
-    setPageContent((prevState) => {
+    pageFetch.setPageContent((prevState) => {
       if (prevState && (userIndex || userIndex === 0)) {
         const copyState = [...prevState];
         copyState[userIndex].followerCount += amount;
@@ -39,10 +34,10 @@ const useUserSearch = () => {
     setSearchTerm,
     searchTerm,
     instantFetch: setFetchSearchTerm,
-    users: pageContent || [],
-    isLoading,
-    isError,
-    setScrollEvent,
+    users: pageFetch.pageContent || [],
+    isLoading: pageFetch.isLoading,
+    isError: pageFetch.isError,
+    setScrollEvent: pageFetch.setScrollEvent,
     updateFollowerCount,
   };
 };
@@ -53,10 +48,6 @@ const fetchUsers = async (
   controller: AbortController,
   searchTerm: string
 ) => {
-  // if (searchTerm === "") {
-  //   console.log("Top users");
-  //   return [];
-  // }
   const res = await fetch(
     `/api/search?searchTerm=${searchTerm}&page=${page}&date=${date}`,
     { signal: controller.signal }
