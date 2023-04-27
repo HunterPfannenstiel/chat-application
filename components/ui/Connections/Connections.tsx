@@ -10,6 +10,7 @@ interface ConnectionsProps {
   heading?: string;
   className?: string;
   setScrollEvent?: SetScrollEvent;
+  updateFollowerCount: (amount: number, userIndex?: number) => void;
 }
 
 const Connections: FunctionComponent<ConnectionsProps> = ({
@@ -17,6 +18,7 @@ const Connections: FunctionComponent<ConnectionsProps> = ({
   heading,
   className,
   setScrollEvent,
+  updateFollowerCount,
 }) => {
   return (
     <>
@@ -25,13 +27,16 @@ const Connections: FunctionComponent<ConnectionsProps> = ({
         className={`${classes.blocks} ${className ? className : ""}`}
         ref={setScrollEvent}
       >
-        {users.map((user) => {
+        {users.map((user, i) => {
           return (
             <UserBlock
               key={user.userHandle}
               user={user}
               button={
                 <FollowButton
+                  handle={user.userHandle}
+                  updateFollowerCount={updateFollowerCount}
+                  index={i}
                   userId={user.userId || 0}
                   isFollowing={!!user.isFollowing}
                 />

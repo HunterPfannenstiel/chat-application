@@ -32,6 +32,7 @@ const useProfile = () => {
     10,
     router.query
   );
+
   return { posts: pageContent, setScrollEvent };
 };
 

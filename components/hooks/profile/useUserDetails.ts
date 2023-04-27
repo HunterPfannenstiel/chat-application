@@ -26,7 +26,17 @@ const useUserDetails = () => {
     }
   }, [handle]);
 
-  return { user, isUsersProfile, setUser };
+  const updateFollowerCount = (amount: number, userIndex?: number) => {
+    setUser((prevState) => {
+      if (prevState) {
+        const copyState = { ...prevState };
+        copyState.followerCount += amount;
+        return copyState;
+      }
+    });
+  };
+
+  return { user, isUsersProfile, setUser, updateFollowerCount };
 };
 
 export default useUserDetails;

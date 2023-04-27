@@ -19,6 +19,10 @@
     animation: animateOut var(--animationTime) ease forwards;
 }
 
+.hide {
+    display: none;
+}
+
 .title {
     display: flex;
     align-items: center;
@@ -36,6 +40,11 @@
         height: 90%;
         border-radius: 16px;
         max-width: 300px;
+        transform: translateX(0%);
+    }
+
+    .hide {
+        display: unset;
     }
 }
 

@@ -11,10 +11,12 @@ interface StatUserBlockProps {
   user: UserDetails;
   buttonText?: string;
   button?: ReactNode;
+  updateFollowerCount: (amount: number, userIndex?: number) => void;
 }
 
 const StatUserBlock: FunctionComponent<StatUserBlockProps> = ({
   user,
+  updateFollowerCount,
   buttonText,
   button,
 }) => {
@@ -34,6 +36,8 @@ const StatUserBlock: FunctionComponent<StatUserBlockProps> = ({
           <p>{`@${user.userHandle}`}</p>
         </div>
         <FollowButton
+          handle={user.userHandle}
+          updateFollowerCount={updateFollowerCount}
           isFollowing={user.isFollowing || false}
           userId={user.userId!}
         />

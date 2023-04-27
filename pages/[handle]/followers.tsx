@@ -4,10 +4,11 @@ import { FunctionComponent } from "react";
 import classes from "./FollowersPage.module.css";
 
 const FollowersPage: FunctionComponent = () => {
-  const { data, setScrollEvent } = useFollow("followers");
+  const { data, setScrollEvent, updateFollowerCount } = useFollow("followers");
   if (data) {
     return (
       <Connections
+        updateFollowerCount={updateFollowerCount}
         users={data}
         heading="Followers"
         setScrollEvent={setScrollEvent}

@@ -12,61 +12,58 @@ import FollowButton from "@ui/Resuable/FollowButton/FollowButton";
 import StatUserBlock from "@ui/Resuable/UserBlock/StatUserBlock/StatUserBlock";
 
 interface StatsProps {
-	userDetails: UserDetails;
-	likesReceived: number;
-	likesGiven: number;
-	postsMade: number;
-	repliesReceived: number;
+  userDetails: UserDetails;
+  likesReceived: number;
+  likesGiven: number;
+  postsMade: number;
+  repliesReceived: number;
+  updateFollowerCount: (amount: number, userIndex?: number) => void;
 }
 
 const Stats: FunctionComponent<StatsProps> = ({
-	userDetails,
-	likesReceived,
-	likesGiven,
-	postsMade,
-	repliesReceived,
+  userDetails,
+  likesReceived,
+  likesGiven,
+  postsMade,
+  repliesReceived,
+  updateFollowerCount,
 }) => {
-	const router = useRouter();
+  const router = useRouter();
 
-	return (
-		<div className={classes.container}>
-			<StatUserBlock
-				user={userDetails}
-				button={
-					<FollowButton
-						userId={userDetails.userId || 0}
-						isFollowing={!!userDetails.isFollowing}
-					/>
-				}
-			/>
-			<StatBlock
-				headings={[
-					"Following",
-					"Followers",
-					"Likes Given",
-					"Likes Received",
-					"Posts Created",
-					"Replies Received",
-				]}
-				counts={[
-					userDetails.followingCount,
-					userDetails.followerCount,
-					likesGiven,
-					likesReceived,
-					postsMade,
-					repliesReceived,
-				]}
-				imageIcons={[
-					<FollowerIcon filled={true}/>,
-					<FollowerIcon />,
-					<LikeIcon liked={true} />,
-					<LikeIcon liked={false} />,
-					<CommentIcon filled={true} />,
-					<CommentIcon  />,
-				]}
-			/>
-		</div>
-	);
+  return (
+    <div className={classes.container}>
+      <StatUserBlock
+        user={userDetails}
+        updateFollowerCount={updateFollowerCount}
+      />
+      <StatBlock
+        headings={[
+          "Following",
+          "Followers",
+          "Likes Given",
+          "Likes Received",
+          "Posts Created",
+          "Replies Received",
+        ]}
+        counts={[
+          userDetails.followingCount,
+          userDetails.followerCount,
+          likesGiven,
+          likesReceived,
+          postsMade,
+          repliesReceived,
+        ]}
+        imageIcons={[
+          <FollowerIcon filled={true} key={1} />,
+          <FollowerIcon key={2} />,
+          <LikeIcon liked={true} key={3} />,
+          <LikeIcon liked={false} key={4} />,
+          <CommentIcon filled={true} key={5} />,
+          <CommentIcon key={6} />,
+        ]}
+      />
+    </div>
+  );
 };
 
 export default Stats;

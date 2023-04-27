@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import classes from "./FollowButton.module.css";
 import PurpleButton from "../Icons/PurpleButton";
 import { useUserDetails } from "components/providers/User/User";
@@ -8,15 +8,32 @@ import { updateFollowing } from "utils/actions";
 interface FollowButtonProps {
   isFollowing: boolean;
   userId: number;
+  handle: string;
+  updateFollowerCount: (amount: number, userIndex?: number) => void;
+  index?: number;
 }
 
 const FollowButton: FunctionComponent<FollowButtonProps> = ({
   isFollowing,
   userId,
+  handle,
+  updateFollowerCount,
+  index,
 }) => {
-  const { dispatchUser } = useUserDetails();
+  const { dispatchUser, emitFollowAction, followUserAction } = useUserDetails();
   const [following, setFollowing] = useState(isFollowing);
   const buttonText = following ? "Unfollow" : "Follow";
+  useEffect(() => {
+    if (followUserAction?.handle && followUserAction.handle === handle) {
+      setFollowing((prevState) => !prevState);
+      updateFollowerCount(followUserAction.val, index);
+    }
+  }, [followUserAction]);
+
+  useEffect(() => {
+    setFollowing(isFollowing);
+  }, [isFollowing]);
+
   const handleButtonClick = () => {
     let val = 1;
     if (following) {
@@ -24,8 +41,8 @@ const FollowButton: FunctionComponent<FollowButtonProps> = ({
       val = -1;
     } else updateFollowing(userId, "follow");
 
-    setFollowing((prevState) => !prevState);
     dispatchUser(dispatchFollowing(val));
+    emitFollowAction(handle, val);
   };
   return (
     <PurpleButton onClick={handleButtonClick} className={classes.button}>

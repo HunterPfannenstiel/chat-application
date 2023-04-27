@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from "react";
+import { FunctionComponent, ReactNode, useState } from "react";
 import Banner from "./Banner";
 import classes from "./index.module.css";
 import PurpleButton from "../Icons/PurpleButton";
@@ -13,6 +13,7 @@ interface ProfileProps {
   isUsersProfile: boolean;
   isFollowing?: boolean;
   toggleEdit: () => void;
+  updateFollowerCount: (amount: number, userIndex?: number) => void;
 }
 
 const Profile: FunctionComponent<ProfileProps> = ({
@@ -21,6 +22,7 @@ const Profile: FunctionComponent<ProfileProps> = ({
   aggregateData,
   isUsersProfile,
   toggleEdit,
+  updateFollowerCount,
 }) => {
   return (
     <section className={classes.profile}>
@@ -31,6 +33,8 @@ const Profile: FunctionComponent<ProfileProps> = ({
         )}
         {!isUsersProfile && (
           <FollowButton
+            handle={user.userHandle}
+            updateFollowerCount={updateFollowerCount}
             isFollowing={
               user.isFollowing === undefined ? true : user.isFollowing
             }

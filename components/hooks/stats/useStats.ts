@@ -10,7 +10,13 @@ const useStats = () => {
     queryFn: fetcher.bind(null, handle),
   });
 
-  return { data, isLoading, isError };
+  const updateFollowerCount = (amount: number, userIndex?: number) => {
+    if (data) {
+      data.followerCount += amount;
+    }
+  };
+
+  return { data, isLoading, isError, updateFollowerCount };
 };
 
 const fetcher = async (handle: string | string[] | undefined) => {

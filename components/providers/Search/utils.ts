@@ -8,5 +8,6 @@ export const getInitialSearch = () => {
     searchTerm: "",
     instantFetch: (term: string) => {},
     setScrollEvent: (e: HTMLElement | null) => {},
+    updateFollowerCount: (amount: number, userIndex?: number) => {},
   };
 };

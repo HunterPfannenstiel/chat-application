@@ -22,37 +22,37 @@ const MobileMenu: FunctionComponent<MobileMenuProps> = ({
   toggleModal,
   animationTime,
 }) => {
+  let modalClassName = "";
   let className = classes.menu;
   if (playAnimation) {
     className += " " + classes.close;
   } else if (showModal) {
     className += " " + classes.open;
+  } else {
+    modalClassName = classes.hide;
   }
-  if (showModal) {
-    return (
-      <div>
-        <Background
-          toggle={toggleModal}
-          animateOut={playAnimation}
-          animationTime={animationTime}
-        />
-        <section
-          className={className}
-          style={
-            {
-              backgroundColor,
-              "--animationTime": animationTime + "ms",
-            } as CSSProperties
-          }
-        >
-          <CloseIcon onClose={toggleModal} />
-          <div className={classes.title}>{title && <h2>{title}</h2>}</div>
-          {children}
-        </section>
-      </div>
-    );
-  }
-  return <></>;
+  return (
+    <div className={modalClassName}>
+      <Background
+        toggle={toggleModal}
+        animateOut={playAnimation}
+        animationTime={animationTime}
+      />
+      <section
+        className={className}
+        style={
+          {
+            backgroundColor,
+            "--animationTime": animationTime + "ms",
+          } as CSSProperties
+        }
+      >
+        <CloseIcon onClose={toggleModal} />
+        <div className={classes.title}>{title && <h2>{title}</h2>}</div>
+        {children}
+      </section>
+    </div>
+  );
 };
 
 export default MobileMenu;

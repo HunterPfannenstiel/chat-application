@@ -10,7 +10,7 @@ const useUserSearch = () => {
   //   queryKey: ["search", fetchSearchTerm],
   //   queryFn: fetchUsers.bind(null, fetchSearchTerm),
   // });
-  const { pageContent, isError, isLoading, setScrollEvent, resetPageContent } =
+  const { pageContent, isError, isLoading, setScrollEvent, setPageContent } =
     usePageFetch(fetchUsers, true, 11, fetchSearchTerm);
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -25,6 +25,16 @@ const useUserSearch = () => {
     };
   }, [searchTerm]);
 
+  const updateFollowerCount = (amount: number, userIndex?: number) => {
+    setPageContent((prevState) => {
+      if (prevState && (userIndex || userIndex === 0)) {
+        const copyState = [...prevState];
+        copyState[userIndex].followerCount += amount;
+        return copyState;
+      }
+    });
+  };
+
   return {
     setSearchTerm,
     searchTerm,
@@ -33,6 +43,7 @@ const useUserSearch = () => {
     isLoading,
     isError,
     setScrollEvent,
+    updateFollowerCount,
   };
 };
 

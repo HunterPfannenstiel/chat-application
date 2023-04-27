@@ -31,6 +31,13 @@ const UserProvider: FunctionComponent<{ children: ReactNode }> = ({
   const [user, dispatchUser] = useReducer(userReducer, getInitialUser());
   const [isLoading, setIsLoading] = useState(true);
   const [fetchUser, setFetchUser] = useState(true);
+  const [followUserAction, setFollowUserAction] = useState<{
+    handle: string;
+    val: number;
+  }>();
+  const emitFollowAction = (handle: string, val: number) => {
+    setFollowUserAction({ handle, val });
+  };
   useEffect(() => {
     if (fetchUser) {
       setFetchUser(false);
@@ -46,7 +53,15 @@ const UserProvider: FunctionComponent<{ children: ReactNode }> = ({
     }
   }, [fetchUser]);
   return (
-    <User.Provider value={{ ...user, isLoading, dispatchUser }}>
+    <User.Provider
+      value={{
+        ...user,
+        isLoading,
+        dispatchUser,
+        emitFollowAction,
+        followUserAction,
+      }}
+    >
       {children}
     </User.Provider>
   );

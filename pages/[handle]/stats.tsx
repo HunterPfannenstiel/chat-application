@@ -7,12 +7,13 @@ import useStats from "@hooks/stats/useStats";
 interface StatsPageProps {}
 
 const StatsPage: FunctionComponent<StatsPageProps> = () => {
-  const { data } = useStats();
+  const { data, updateFollowerCount } = useStats();
   if (!data) {
     return <>Loading</>;
   } else {
     return (
       <Stats
+        updateFollowerCount={updateFollowerCount}
         userDetails={{
           userHandle: data.userHandle,
           userName: data.userName,

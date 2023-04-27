@@ -7,7 +7,7 @@ import Connections from "@ui/Connections/Connections";
 interface DesktopSearchProps {}
 
 const DesktopSearch: FunctionComponent<DesktopSearchProps> = () => {
-  const { users, setScrollEvent } = useSearch();
+  const { users, setScrollEvent, updateFollowerCount } = useSearch();
   return (
     <div className={classes.search}>
       <SearchBar />
@@ -15,6 +15,7 @@ const DesktopSearch: FunctionComponent<DesktopSearchProps> = () => {
         users={users}
         className={classes.users}
         setScrollEvent={setScrollEvent}
+        updateFollowerCount={updateFollowerCount}
       />
     </div>
   );

@@ -5,7 +5,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { verifySignature } from "../utils";
 import jwt from "jsonwebtoken";
 import { SigningChallenge } from "@_types/api/verify";
-import { useDB } from "utils/db/helpers";
+import { useDB as UseDB } from "utils/db/helpers";
 import { getUserId } from "utils/db/user-commands";
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
@@ -126,7 +126,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
 }
 
 const fetchUserId = async (id: string, isWeb3: boolean) => {
-  const userId = await useDB(getUserId(id, isWeb3));
+  const userId = await UseDB(getUserId(id, isWeb3));
   return userId;
 };
 

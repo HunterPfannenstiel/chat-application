@@ -133,7 +133,14 @@ const usePageFetch = (
     setPageContent([]);
   };
 
-  return { setScrollEvent, resetPageContent, pageContent, isLoading, isError };
+  return {
+    setScrollEvent,
+    resetPageContent,
+    pageContent,
+    isLoading,
+    isError,
+    setPageContent,
+  };
 };
 
 export default usePageFetch;

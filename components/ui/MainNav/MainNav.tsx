@@ -26,11 +26,6 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
   //   if (showModal) toggle();
   // }, [pathname]);
 
-  let showSideBar = render;
-  if (render) {
-    if (win && win.innerWidth < 640) showSideBar = showModal;
-  }
-
   useEffect(() => {
     setWin(window);
   }, []);
@@ -50,16 +45,15 @@ const MainNav: FunctionComponent<MainNavProps> = ({ children }) => {
           </nav>
         </div>
       )}
-      <div className={`${showSideBar ? classes.page_content : ""}`}>
-        {render && (
-          <Menu
-            showModal={showSideBar}
-            playAnimation={playAnimation}
-            user={user}
-            toggleModal={toggle}
-            isSignedIn={!!user.isSignedIn}
-          />
-        )}
+      <div className={classes.page_content}>
+        <Menu
+          showModal={showModal}
+          playAnimation={playAnimation}
+          user={user}
+          toggleModal={toggle}
+          isSignedIn={!!user.isSignedIn}
+        />
+
         <div className={classes.children}>{children}</div>
         {!pathname.includes("/search") && <DesktopSearch />}
       </div>

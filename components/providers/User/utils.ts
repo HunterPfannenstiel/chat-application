@@ -4,6 +4,8 @@ import { Dispatch } from "react";
 export type UserContext = UserDetails & {
   isLoading: boolean;
   dispatchUser: Dispatch<(state: UserDetails) => UserDetails>;
+  emitFollowAction: (handle: string, val: number) => void;
+  followUserAction: { handle: string; val: number } | undefined;
 };
 
 export type UserDelegate<T> = (
@@ -19,6 +21,8 @@ export const getInitialContext = (): UserContext => {
     followingCount: 0,
     isLoading: true,
     dispatchUser: () => {},
+    emitFollowAction: (handle: string, val: number) => {},
+    followUserAction: undefined,
   };
 };
 

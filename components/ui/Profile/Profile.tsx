@@ -22,12 +22,15 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({
   setScrollEvent,
 }) => {
   const { playAnimation, showModal, toggle } = useAnimateModal(300);
-  const { user, isUsersProfile, setUser } = useUserDetails();
+  const { user, isUsersProfile, setUser, updateFollowerCount } =
+    useUserDetails();
   const handleForm = useUpdateUser(setUser, toggle);
+
   if (user) {
     return (
       <section className={classes.profile} ref={setScrollEvent}>
         <Profile
+          updateFollowerCount={updateFollowerCount}
           user={user}
           isUsersProfile={!!isUsersProfile}
           toggleEdit={toggle}
