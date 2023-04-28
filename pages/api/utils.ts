@@ -113,11 +113,9 @@ export const getUserSession = async (
   throwErr?: boolean
 ) => {
   const session = (await getSession({ req })) as SessionToken | null;
-  console.log("Throw err", throwErr);
   if (!session && throwErr) {
     console.log("Session throw err");
     const e = createError("Please sign-in!", 400, () => {
-      console.log("INVOKE");
       return res.redirect("/auth/signup");
       // res.writeHead(307, { Location: "/auth/signin" });
       // res.end();
@@ -130,7 +128,6 @@ export const getUserSession = async (
       400,
       () => {
         return res.redirect("/auth/signup");
-        console.log("INVOKE");
         // res.writeHead(307, { Location: "/auth/signup" });
         // res.end();
       }

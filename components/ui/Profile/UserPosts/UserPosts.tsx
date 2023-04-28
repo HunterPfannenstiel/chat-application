@@ -35,7 +35,6 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
     deleteImages: boolean
   ) => {
     const initialContent = userPosts[editPostIndex];
-    console.log(initialContent);
     if (
       deleteImages ||
       content !== initialContent.content ||

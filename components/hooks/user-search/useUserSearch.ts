@@ -10,7 +10,6 @@ const useUserSearch = () => {
     let timer: NodeJS.Timeout;
     timer = setTimeout(() => {
       if (searchTerm !== fetchSearchTerm) {
-        console.log("fetch");
         setFetchSearchTerm(searchTerm);
       }
     }, 1000);
