@@ -12,7 +12,6 @@ const EditButton: FunctionComponent<EditButtonProps> = ({
   className,
   userId,
 }) => {
-  console.log("edit button");
   if (userId === 0) {
     return <div style={{ paddingTop: "2rem" }} />;
   }

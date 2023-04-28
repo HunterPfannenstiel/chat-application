@@ -1,11 +1,23 @@
-import sql from "mssql/msnodesqlv8";
+import sql from "mssql";
 import { ConnectionPool } from "mssql";
+
+const connectionString =
+  process.env.NODE_ENV === "production"
+    ? process.env.DB_CONNECTION
+    : "Driver={ODBC Driver 17 for SQL Server};Server=(localdb)\\MSSQLLocalDb;Database=ChatApplication;Trusted_Connection=yes;";
+console.log("Conn string", process.env.DB_CONNECTION);
 const sqlConfig = {
-  connectionString:
-    "Driver={ODBC Driver 17 for SQL Server};Server=(localdb)\\MSSQLLocalDb;Database=ChatApplication;Trusted_Connection=yes;",
-  server: "(localdb)\\MSSQLLocalDb",
+  connectionString: process.env.DB_CONNECTION,
+  server: "chat-application-db.database.windows.net",
   driver: "msnodesqlv8",
+  database: "master",
+  user: "monkmonk",
+  password: "Knomknom!",
+  options: {
+    encrypt: true,
+  },
 };
+//"(localdb)\\MSSQLLocalDb"
 
 const query = "SELECT ethereumAddress FROM Chat.[User]";
 export const getDB = async () => {
