@@ -117,6 +117,7 @@ const createCommentHandler =
     if (!comment.images) comment.images = [];
     newComment({
       ...comment,
+      replyToPostId: undefined,
       likeCount: 0,
       commentCount: 0,
       images: images.map((image) => {

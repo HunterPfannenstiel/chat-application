@@ -6,6 +6,7 @@ import CommentIcon from "@ui/Resuable/Icons/CommentIcon";
 import { updatePostLike } from "utils/actions";
 import EditButton from "@ui/Resuable/Icons/EditButton";
 import Link from "next/link";
+import ReplyIcon from "@ui/Resuable/Icons/ReplyIcon";
 
 interface EngagementProps {
   postId: number;
@@ -14,6 +15,7 @@ interface EngagementProps {
   isLiked: boolean;
   isUsersProfile?: boolean;
   editPost?: () => void;
+  replyToPostId?: number;
 }
 
 const Engagement: FunctionComponent<EngagementProps> = ({
@@ -23,6 +25,7 @@ const Engagement: FunctionComponent<EngagementProps> = ({
   isLiked,
   isUsersProfile,
   editPost,
+  replyToPostId,
 }) => {
   const [liked, setLiked] = useState(isLiked);
   const [likes, setLikes] = useState(likeCount);
@@ -59,6 +62,7 @@ const Engagement: FunctionComponent<EngagementProps> = ({
           icon={<CommentIcon />}
         />
       </Link>
+      <ReplyIcon replyToPostId={replyToPostId} />
       {isUsersProfile && (
         <div className={classes.edit}>
           <EditButton onClick={editPost} />

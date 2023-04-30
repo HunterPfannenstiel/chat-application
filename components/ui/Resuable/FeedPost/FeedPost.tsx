@@ -51,6 +51,7 @@ const FeedPost: FunctionComponent<FeedPostProps> = ({
           postId={post.postId}
           isUsersProfile={isUsersPost}
           editPost={onEditPost}
+          replyToPostId={post.replyToPostId}
         />
       </div>
     </div>
