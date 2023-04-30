@@ -13,12 +13,13 @@ const usePageFetch = (
   pageSize: number,
   fetchDependency?: any,
   initialPageNumber?: number,
-  percentTillFetch = 20
+  percentTillFetch = 50
 ) => {
   const page = useRef(initialPageNumber || 0);
   const [fetchPage, setFetchPage] = useState(false);
   const [pageContent, setPageContent] = useState<any[]>();
-  const [isLoading, setIsLoading] = useState(isInitialFetcher);
+  const [isInitialLoading, setIsInitialLoading] = useState(isInitialFetcher);
+  const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const scrollHandler = useRef<any>(null);
   const isFetching = useRef(false);
@@ -97,7 +98,7 @@ const usePageFetch = (
         !!fetchDependency ||
         fetchDependency === "")
     ) {
-      setIsLoading(true);
+      setIsInitialLoading(true);
       initialFetch.current = generateDatetimeOffset();
       const initializer = async () => {
         try {
@@ -116,7 +117,7 @@ const usePageFetch = (
             setIsError(true);
           }
         } finally {
-          setIsLoading(false);
+          setIsInitialLoading(false);
         }
       };
       initializer();
@@ -138,6 +139,7 @@ const usePageFetch = (
     isLoading,
     isError,
     setPageContent,
+    isInitialLoading,
   };
 };
 

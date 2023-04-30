@@ -24,6 +24,7 @@
     border-radius: 9px;
     padding-inline: 8px;
     font-family: inherit;
+    font-size: 1rem;
 }
 
 .create_account {
@@ -31,13 +32,14 @@
     text-align: center;
 }
 
-.create_account button{
+.create_account button {
     padding: 1em 5em;
-    border: none;
-    border-radius: 9px;
+    border-radius: 12px;
     font-size: 1rem;
     background-color: var(--primary-purple);
     color: white;
+    border: 1px solid white;
+    width: 50%;
 }
 
 .valid {

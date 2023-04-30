@@ -5,7 +5,7 @@ import Search from "@ui/Search/Search";
 interface SearchPageProps {}
 
 const SearchPage: FunctionComponent<SearchPageProps> = () => {
-  //Because of how page fetching works and updating a relevant content instantly, we will handle /search in the main nav component
+  //Because of how page fetching works and updating relevant content instantly, we will handle /search in the main nav component
   return <></>;
 };
 

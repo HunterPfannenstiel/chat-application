@@ -26,14 +26,14 @@ const useProfile = () => {
     }
     return null;
   };
-  const { pageContent, setScrollEvent } = usePageFetch(
+  const { pageContent, setScrollEvent, isInitialLoading } = usePageFetch(
     fetchPosts,
     true,
     10,
     router.query
   );
 
-  return { posts: pageContent, setScrollEvent };
+  return { posts: pageContent, setScrollEvent, isLoading: isInitialLoading };
 };
 
 export default useProfile;

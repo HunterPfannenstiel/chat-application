@@ -18,6 +18,7 @@ interface FeedPostListProps {
   scroll?: boolean;
   globalPosts?: FeedPostT[];
   query?: ParsedUrlQuery;
+  isLoading?: boolean;
 }
 
 const FeedPostList: FunctionComponent<FeedPostListProps> = ({
@@ -28,8 +29,7 @@ const FeedPostList: FunctionComponent<FeedPostListProps> = ({
   userDetails,
   setScrollEvent,
   scroll,
-  globalPosts,
-  query,
+  isLoading,
 }) => {
   const { playAnimation, toggle, showModal } = useAnimateModal(300);
   const [images, setImages] = useState<any[]>([]);
@@ -43,19 +43,21 @@ const FeedPostList: FunctionComponent<FeedPostListProps> = ({
         className={`${classes.posts} ${scroll ? classes.scroll : ""}`}
         ref={setScrollEvent}
       >
-        {posts.map((post, i) => {
-          return (
-            <FeedPost
-              key={post.postId}
-              post={post}
-              isUsersPost={isUsersFeed}
-              onEditPost={onEditPost?.bind(null, i)}
-              userDetails={userDetails}
-              displayImages={displayImages}
-            />
-          );
-        })}
-        {showModal && images.length > 0 && (
+        {isLoading && <></>}
+        {!isLoading &&
+          posts.map((post, i) => {
+            return (
+              <FeedPost
+                key={post.postId}
+                post={post}
+                isUsersPost={isUsersFeed}
+                onEditPost={onEditPost?.bind(null, i)}
+                userDetails={userDetails}
+                displayImages={displayImages}
+              />
+            );
+          })}
+        {!isLoading && showModal && images.length > 0 && (
           <ImageView
             images={images || []}
             modalProps={{ playAnimation, toggle, animationTime: 300 }}

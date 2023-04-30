@@ -1,7 +1,7 @@
-import { FunctionComponent, HTMLAttributes, ReactNode } from "react";
+import { ButtonHTMLAttributes, FunctionComponent, ReactNode } from "react";
 import classes from "./PurpleButton.module.css";
 
-interface PurpleButtonProps extends HTMLAttributes<HTMLButtonElement> {
+interface PurpleButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   className?: string;
 }

@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import classes from "./Engagement.module.css";
 import EComponent from "./EComponent";
 import LikeIcon from "@ui/Resuable/Icons/LikeIcon";
@@ -36,6 +36,14 @@ const Engagement: FunctionComponent<EngagementProps> = ({
     }
     setLiked((prevState) => !prevState);
   };
+
+  useEffect(() => {
+    setLikes(likeCount);
+  }, [likeCount]);
+
+  useEffect(() => {
+    setLiked(isLiked);
+  }, [isLiked]);
 
   return (
     <div className={classes.engagement}>

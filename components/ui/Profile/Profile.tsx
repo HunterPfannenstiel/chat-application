@@ -15,16 +15,18 @@ import LoadingIcon from "@ui/Resuable/Loading/LoadingIcon";
 interface ProfilePageProps {
   posts: FeedPost[];
   setScrollEvent: SetScrollEvent;
+  isPostLoading: boolean;
 }
 
 const ProfilePage: FunctionComponent<ProfilePageProps> = ({
   posts,
   setScrollEvent,
+  isPostLoading,
 }) => {
   const { playAnimation, showModal, toggle } = useAnimateModal(300);
   const { user, isUsersProfile, setUser, updateFollowerCount } =
     useUserDetails();
-  const handleForm = useUpdateUser(setUser, toggle);
+  const handleForm = useUpdateUser(setUser);
 
   if (user) {
     return (
@@ -53,6 +55,7 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({
         />
         <ProfileNav handle={user.userHandle} />
         <UserPosts
+          isLoading={isPostLoading}
           posts={posts}
           isUsersProfile={!!isUsersProfile}
           user={{

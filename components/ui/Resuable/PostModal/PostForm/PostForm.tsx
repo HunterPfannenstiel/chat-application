@@ -4,6 +4,7 @@ import { ImageInfo } from "../types";
 import ImageDisplay from "../ImageDisplay";
 import ImageSelect from "../ImageSelect";
 import { Image } from "@_types/post";
+import PurpleButton from "@ui/Resuable/Icons/PurpleButton";
 
 interface PostFormProps {
   handlePost: (e: FormEvent<HTMLFormElement>) => void;
@@ -54,9 +55,7 @@ const PostForm: FunctionComponent<PostFormProps> = ({
       )}
 
       <ImageSelect images={images} setImages={setImages} />
-      <button className={classes.button} type="submit">
-        {buttonText}
-      </button>
+      <PurpleButton className={classes.button}>{buttonText}</PurpleButton>
     </form>
   );
 };

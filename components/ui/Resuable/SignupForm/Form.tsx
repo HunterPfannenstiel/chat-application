@@ -3,6 +3,8 @@ import classes from "./Form.module.css";
 import Fieldset from "./Fieldset";
 import ImageInput from "./ImageInput";
 import useValidHandle from "@hooks/profile/useValidHandle";
+import { useLoading } from "components/providers/Loading/Loading";
+import PurpleButton from "../Icons/PurpleButton";
 
 export type FormImage = { blob: Blob | null; imageUrl: string };
 
@@ -15,16 +17,19 @@ interface FormProps {
   ) => Promise<void>;
   initialInput?: { name: string; handle: string; bio: string; image: string };
   buttonDisplay: string;
+  modalToggle?: () => void;
 }
 const Form: FunctionComponent<FormProps> = ({
   handler,
   initialInput,
   buttonDisplay,
+  modalToggle,
 }) => {
   const [image, setImage] = useState<FormImage | undefined>({
     blob: null,
     imageUrl: initialInput?.image || "",
   });
+  const { toggle } = useLoading();
   const { isValid, setHandle } = useValidHandle(initialInput?.handle);
   const [lockButton, setLockButton] = useState(false);
   const handleForm = async (e: FormEvent<HTMLElement>) => {
@@ -42,7 +47,10 @@ const Form: FunctionComponent<FormProps> = ({
           bio = initialInput.bio !== bio ? bio : undefined;
         }
         try {
+          toggle();
           await handler(name, handle, bio, image);
+          await toggle();
+          modalToggle && modalToggle();
         } catch (error) {
           throw error;
         } finally {
@@ -102,9 +110,9 @@ const Form: FunctionComponent<FormProps> = ({
         </fieldset>
       </div>
       <div className={classes.create_account}>
-        <button type="submit" disabled={lockButton}>
+        <PurpleButton type="submit" disabled={lockButton}>
           {buttonDisplay}
-        </button>
+        </PurpleButton>
       </div>
     </form>
   );

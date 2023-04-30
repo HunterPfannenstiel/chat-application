@@ -1,6 +1,5 @@
 import { UserDetails } from "@_types/user";
 import { FormImage } from "@ui/Resuable/SignupForm/Form";
-import { useLoading } from "components/providers/Loading/Loading";
 import { useUserDetails } from "components/providers/User/User";
 import { updateDetails } from "components/providers/User/utils";
 import { useRouter } from "next/router";
@@ -8,10 +7,8 @@ import { Dispatch, SetStateAction } from "react";
 import { createFormData } from "utils/form";
 
 const useUpdateUser = (
-  setUpdatedUser: Dispatch<SetStateAction<UserDetails | undefined>>,
-  toggleModal: () => void
+  setUpdatedUser: Dispatch<SetStateAction<UserDetails | undefined>>
 ) => {
-  const { toggle } = useLoading(); //Loading context
   const { dispatchUser } = useUserDetails(); //User context
   const router = useRouter();
   const handleForm = async (
@@ -26,7 +23,6 @@ const useUpdateUser = (
       bio: bio || null,
       image: image?.blob || null,
     });
-    toggle();
     const res = await fetch("/api/user/create", {
       method: "PUT",
       body: formData,
@@ -52,13 +48,11 @@ const useUpdateUser = (
           imageUrl: image?.imageUrl,
         })
       );
-      toggleModal();
       if (handle) router.push(`/${handle}`);
     }
     if (!res.ok) {
       console.log("Update user error!");
     }
-    toggle();
   };
   return handleForm;
 };

@@ -30,6 +30,7 @@ const EditModal: FunctionComponent<EditModalProps> = ({
       className={classes.modal}
     >
       <Form
+        modalToggle={toggle}
         handler={handleForm}
         initialInput={{
           name: userInfo.userName,

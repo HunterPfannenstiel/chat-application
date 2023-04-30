@@ -7,11 +7,17 @@ import LoadingIcon from "@ui/Resuable/Loading/LoadingIcon";
 interface ProfilePageProps {}
 
 const ProfilePage: FunctionComponent<ProfilePageProps> = () => {
-  const { posts, setScrollEvent } = useProfile();
+  const { posts, setScrollEvent, isLoading } = useProfile();
   if (!posts) {
     return <></>;
   } else {
-    return <Profile posts={posts} setScrollEvent={setScrollEvent} />;
+    return (
+      <Profile
+        posts={posts}
+        setScrollEvent={setScrollEvent}
+        isPostLoading={isLoading}
+      />
+    );
   }
 };
 

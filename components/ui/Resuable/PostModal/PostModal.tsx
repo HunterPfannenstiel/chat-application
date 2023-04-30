@@ -30,9 +30,12 @@ const PostModal: FunctionComponent<PostModalProps> = ({
   const imageViewModal = useAnimateModal(300);
   const createPost = async (e: FormEvent<HTMLFormElement>) => {
     try {
+      toggle();
       await post.handlePost(e);
+      await toggle();
       modalProps.toggle();
     } catch {
+      toggle();
       console.log("ERROR");
     }
   };

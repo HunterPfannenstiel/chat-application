@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import classes from "./IndividualPost.module.css";
 import { FeedPost as FeedPosts } from "@_types/post/feed-post";
 import FeedPost from "@ui/Resuable/FeedPost/FeedPost";
@@ -28,7 +28,7 @@ const IndividualPost: FunctionComponent<IndividualPostProps> = ({
   const { userId } = useUserDetails();
   const [newComments, setNewComments] = useState<FeedPosts[]>([]);
   const { showModal, playAnimation, toggle } = useAnimateModal(300);
-  const imageMoal = useAnimateModal(300);
+  const imageModal = useAnimateModal(300);
   let replyCount = newComments.length;
   if (commentPosts?.length) {
     replyCount += commentPosts.length;
@@ -39,8 +39,11 @@ const IndividualPost: FunctionComponent<IndividualPostProps> = ({
   const [images, setImages] = useState<any[]>([]);
   const displayImages = (images: any[]) => {
     setImages(images);
-    if (images.length > 0) toggle();
+    if (images.length > 0) imageModal.toggle();
   };
+  useEffect(() => {
+    setNewComments([]);
+  }, [mainPost?.postId]);
   return (
     <>
       <ul className={classes.container} ref={setScorllEvent}>
@@ -89,12 +92,12 @@ const IndividualPost: FunctionComponent<IndividualPostProps> = ({
           buttonText="Add Comment"
         />
       )}
-      {showModal && images.length > 0 && (
+      {imageModal.showModal && images.length > 0 && (
         <ImageView
           images={images || []}
           modalProps={{
-            playAnimation: imageMoal.playAnimation,
-            toggle: imageMoal.toggle,
+            playAnimation: imageModal.playAnimation,
+            toggle: imageModal.toggle,
             animationTime: 300,
           }}
         />

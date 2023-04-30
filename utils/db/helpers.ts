@@ -1,10 +1,7 @@
 import sql from "mssql/msnodesqlv8";
-import { CreatePost } from "@_types/post";
 import { ConnectionPool } from "mssql/msnodesqlv8";
 import { DBDelegate, PageProcedureParams, ProcedureParam } from "@_types/db";
 import { getDB } from "./connect";
-
-//@userId INT, @content NVARCHAR(280), @replyToPostId INT, @communityId INT, @isPinned BIT, @images IMAGES READONLY, @postId INT OUTPUT
 
 export const createDatabaseRequest = (
   db: ConnectionPool,

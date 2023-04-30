@@ -30,7 +30,7 @@
 
 .button {
     background-color: var(--primary-purple);
-    border: none;
+    border: 1px solid white;
     border-radius: 8px;
     width: 100%;
     padding-block: 1em;

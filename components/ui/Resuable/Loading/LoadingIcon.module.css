@@ -1,51 +1,118 @@
-.loading {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    transform: translateX(-50%);
+.wrapper {
+    --openTime: 1.5s;
+    --closeTime: 1.5s;
+    position: fixed;
+    bottom: 50%;
     left: 50%;
-    background-color: var(--primary-purple);
-    border-radius: 50%;
-    border-top-right-radius: 0;
-    animation: pop_in 1s ease forwards, spin 1s linear infinite;
+    transform: translate(-50%, -50%);
     transform-origin: left;
+    pointer-events: none;
     z-index: 10;
 }
 
 .animate_out {
-    animation: pop_out 1s ease forwards, spin 1s linear infinite;
+    animation: scale_out calc((var(--closeTime)/2) - 150ms) ease-in calc(var(--closeTime)/2 + 150ms) forwards;
 }
 
-@keyframes spin {
-    0%{
-        rotate: 0deg
-    }
-    100%{
-        rotate: 360deg
+.container {
+    position: relative;
+    width: 210px;
+    height: 17px;
+    margin: 0;
+    overflow: hidden;
+}
+
+.container,
+.container div{
+    border-radius: 23px;
+}
+
+.background {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #D9D9D9;
+    animation: background_in calc(var(--openTime)/2) ease-out forwards;
+    transform: translateX(100%);
+}
+
+.finish_background {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #D9D9D9;
+    transform: translateX(100%);
+}
+
+.animate_out .finish_background {
+    animation: complete 150ms linear forwards;
+}
+
+.loading_bar {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #5335CA;
+    animation: loading_in 10s ease-out calc(var(--openTime)/2) forwards;
+    transform: translateX(-100%);
+}
+
+.finish_loader {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #5335CA;
+    transform: translateX(-100%);
+}
+
+.animate_out .finish_loader {
+    animation: complete calc(var(--closeTime)/2) ease-out 150ms forwards;
+}
+
+@media (min-width: 40em) {
+    .container {
+        width: 250px;
+        height: 25px;
     }
 }
 
-@keyframes pop_in {
-    0%{
-        bottom: -50%;
 
-    }
-    75%{
-        bottom: 55%;
-    }
-    95%{
-        bottom: 49%;
-    }
-    100%{
-        bottom: 50%;
+@keyframes background_in {
+    to {
+        transform: translateX(0%);
     }
 }
 
-@keyframes pop_out {
-    0%{
-        bottom: 50%;
+@keyframes loading_in {
+    10% {
+        transform: translateX(-35%);
     }
-    100%{
-        bottom: -50%;
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes scale_out {
+    0%{
+        scale: 1
+    }
+    70%{
+        scale: 1.1
+    }
+    100% {
+        scale: 0
+    }
+}
+
+@keyframes fly_out {
+    to {
+        bottom: 100%;
+    }
+}
+
+/* Completion Frames */
+@keyframes complete {
+    to {
+        transform: translateX(0%);
     }
 }

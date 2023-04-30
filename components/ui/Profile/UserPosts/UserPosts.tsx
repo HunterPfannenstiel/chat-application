@@ -1,5 +1,4 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import classes from "./UserPosts.module.css";
 import FeedPostList from "@ui/Resuable/FeedPost/FeedPostList";
 import { FeedPost } from "@_types/post/feed-post";
 import useAnimateModal from "@hooks/animation/useAnimateModal";
@@ -13,12 +12,14 @@ interface UserPostsProps {
   posts: FeedPost[];
   isUsersProfile: boolean;
   user: UserInfo;
+  isLoading: boolean;
 }
 
 const UserPosts: FunctionComponent<UserPostsProps> = ({
   posts,
   isUsersProfile,
   user,
+  isLoading,
 }) => {
   const { query } = useRouter();
   const { showModal, playAnimation, toggle } = useAnimateModal(300);
@@ -78,6 +79,7 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
   return (
     <>
       <FeedPostList
+        isLoading={isLoading}
         posts={userPosts}
         emptyPostDisplay={
           <p style={{ textAlign: "center", marginTop: "1rem" }}>

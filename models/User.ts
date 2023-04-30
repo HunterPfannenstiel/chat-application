@@ -23,7 +23,6 @@ export class User {
     params: PageProcedureParams,
     category?: string
   ) {
-    //Query for profile with 'userId'
     return fetchUserPosts(handle, params, category);
   }
 
