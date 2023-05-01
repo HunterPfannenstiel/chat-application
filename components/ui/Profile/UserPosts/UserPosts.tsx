@@ -21,6 +21,7 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
   user,
   isLoading,
 }) => {
+  console.log("param posts", posts);
   const { query } = useRouter();
   const { showModal, playAnimation, toggle } = useAnimateModal(300);
   const [userPosts, setUserPosts] = useState(posts);
@@ -73,6 +74,7 @@ const UserPosts: FunctionComponent<UserPostsProps> = ({
   };
 
   useEffect(() => {
+    console.log("effect posts", posts);
     setUserPosts(posts);
   }, [posts]);
 

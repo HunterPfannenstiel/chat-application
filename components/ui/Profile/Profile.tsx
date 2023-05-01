@@ -28,6 +28,7 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = ({
     useUserDetails();
   const handleForm = useUpdateUser(setUser);
 
+  if (isPostLoading) return <></>;
   if (user) {
     return (
       <section className={classes.profile} ref={setScrollEvent}>

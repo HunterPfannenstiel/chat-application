@@ -11,6 +11,7 @@ const ProfilePage: FunctionComponent<ProfilePageProps> = () => {
   if (!posts) {
     return <></>;
   } else {
+    console.log("top posts", posts);
     return (
       <Profile
         posts={posts}
